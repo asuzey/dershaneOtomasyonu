@@ -77,10 +77,6 @@ namespace dershaneOtomasyonu
 
                         // Yeni kaydın ID'sini al
                         object idResult = command.ExecuteScalar();
-                        // burada command.executescalar fonksiyonunu çalıştırınca idResult değişkenine son kaydın id değerini attık
-                        // OUTPUT INSERTED.kullaniciid Buradaki output keywordü bizim executescalar ile döndürülüyor
-                        // biz dönecek olan değere INSERTED.kullaniciid yazdık yani eklenen kaydın kullaniciid değeri
-                        // sonuç itibariyle eklenen kaydın id'sini ekleme işleminde yakalayıp döndürmüş olduk ve burdan sonrası doğru çalıştı
 
                         if (idResult != null && idResult != DBNull.Value)
                         {
