@@ -30,7 +30,7 @@ namespace dershaneOtomasyonu
 
         private void bunifuButton1_Click(object sender, EventArgs e)
         {
-            bunifuPanel2.Visible = true;
+            TogglePanel(bunifuPanel2);
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -39,6 +39,13 @@ namespace dershaneOtomasyonu
             bunifuPanel3.Visible = false;
 
             LoadLogData();
+
+        }
+
+        private void TogglePanel(Panel panel)
+        {
+            // Panel görünürse gizle, değilse göster
+            panel.Visible = !panel.Visible;
         }
 
         private string GetIPAddress()
@@ -108,7 +115,7 @@ namespace dershaneOtomasyonu
 
         private void bunifuButton4_Click(object sender, EventArgs e)
         {
-            bunifuPanel3.Visible = true;
+            TogglePanel(bunifuPanel3);
         }
 
         private int GetNewKullaniciId(SqlConnection connection)
