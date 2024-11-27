@@ -50,7 +50,6 @@
             bunifuLabel1 = new Bunifu.UI.WinForms.BunifuLabel();
             bunifuLabel2 = new Bunifu.UI.WinForms.BunifuLabel();
             bunifuPanel2 = new Bunifu.UI.WinForms.BunifuPanel();
-            bunifuPanel3 = new Bunifu.UI.WinForms.BunifuPanel();
             label9 = new Label();
             textBox3 = new TextBox();
             bunifuButton5 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
@@ -61,13 +60,14 @@
             label7 = new Label();
             label6 = new Label();
             label5 = new Label();
+            bunifuPanel3 = new Bunifu.UI.WinForms.BunifuPanel();
             dataGridView1 = new DataGridView();
             bunifuPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             bunifuGradientPanel1.SuspendLayout();
             bunifuPanel2.SuspendLayout();
-            bunifuPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            bunifuPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -518,7 +518,7 @@
             bunifuGradientPanel1.Margin = new Padding(4);
             bunifuGradientPanel1.Name = "bunifuGradientPanel1";
             bunifuGradientPanel1.Quality = 10;
-            bunifuGradientPanel1.Size = new Size(1054, 73);
+            bunifuGradientPanel1.Size = new Size(1053, 73);
             bunifuGradientPanel1.TabIndex = 11;
             // 
             // label1
@@ -602,7 +602,6 @@
             bunifuPanel2.BorderColor = Color.Transparent;
             bunifuPanel2.BorderRadius = 3;
             bunifuPanel2.BorderThickness = 1;
-            bunifuPanel2.Controls.Add(bunifuPanel3);
             bunifuPanel2.Controls.Add(label9);
             bunifuPanel2.Controls.Add(textBox3);
             bunifuPanel2.Controls.Add(bunifuButton5);
@@ -618,21 +617,6 @@
             bunifuPanel2.ShowBorders = true;
             bunifuPanel2.Size = new Size(1047, 634);
             bunifuPanel2.TabIndex = 17;
-            // 
-            // bunifuPanel3
-            // 
-            bunifuPanel3.BackgroundColor = Color.White;
-            bunifuPanel3.BackgroundImage = (Image)resources.GetObject("bunifuPanel3.BackgroundImage");
-            bunifuPanel3.BackgroundImageLayout = ImageLayout.Stretch;
-            bunifuPanel3.BorderColor = Color.Transparent;
-            bunifuPanel3.BorderRadius = 3;
-            bunifuPanel3.BorderThickness = 1;
-            bunifuPanel3.Controls.Add(dataGridView1);
-            bunifuPanel3.Location = new Point(3, 0);
-            bunifuPanel3.Name = "bunifuPanel3";
-            bunifuPanel3.ShowBorders = true;
-            bunifuPanel3.Size = new Size(1041, 622);
-            bunifuPanel3.TabIndex = 11;
             // 
             // label9
             // 
@@ -808,12 +792,27 @@
             label5.TabIndex = 0;
             label5.Text = "Kullanıcı Ekleme";
             // 
+            // bunifuPanel3
+            // 
+            bunifuPanel3.BackgroundColor = Color.White;
+            bunifuPanel3.BackgroundImage = (Image)resources.GetObject("bunifuPanel3.BackgroundImage");
+            bunifuPanel3.BackgroundImageLayout = ImageLayout.Stretch;
+            bunifuPanel3.BorderColor = Color.Transparent;
+            bunifuPanel3.BorderRadius = 3;
+            bunifuPanel3.BorderThickness = 1;
+            bunifuPanel3.Controls.Add(dataGridView1);
+            bunifuPanel3.Location = new Point(241, 80);
+            bunifuPanel3.Name = "bunifuPanel3";
+            bunifuPanel3.ShowBorders = true;
+            bunifuPanel3.Size = new Size(1047, 634);
+            bunifuPanel3.TabIndex = 11;
+            // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(19, 23);
+            dataGridView1.Location = new Point(3, 23);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(992, 578);
+            dataGridView1.Size = new Size(1031, 599);
             dataGridView1.TabIndex = 0;
             // 
             // Form2
@@ -821,7 +820,8 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(1288, 714);
+            ClientSize = new Size(1287, 714);
+            Controls.Add(bunifuPanel3);
             Controls.Add(bunifuPanel2);
             Controls.Add(bunifuLabel2);
             Controls.Add(bunifuLabel1);
@@ -845,8 +845,8 @@
             bunifuGradientPanel1.PerformLayout();
             bunifuPanel2.ResumeLayout(false);
             bunifuPanel2.PerformLayout();
-            bunifuPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            bunifuPanel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();

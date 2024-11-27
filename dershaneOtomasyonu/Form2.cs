@@ -30,7 +30,8 @@ namespace dershaneOtomasyonu
 
         private void bunifuButton1_Click(object sender, EventArgs e)
         {
-            TogglePanel(bunifuPanel2);
+            Console.WriteLine("Button 1 clicked");
+            TogglePanel(bunifuPanel2, bunifuPanel3); // Show panel2 and hide panel3
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -42,10 +43,19 @@ namespace dershaneOtomasyonu
 
         }
 
-        private void TogglePanel(Panel panel)
+        private void TogglePanel(Panel panelToShow, Panel panelToHide)
         {
-            // Panel görünürse gizle, değilse göster
-            panel.Visible = !panel.Visible;
+            // If the panel to show is currently visible, hide it
+            // Otherwise, hide the other panel and show the one you want
+            if (panelToShow.Visible)
+            {
+                panelToShow.Visible = false;
+            }
+            else
+            {
+                panelToHide.Visible = false; // Hide the other panel
+                panelToShow.Visible = true;   // Show the desired panel
+            }
         }
 
         private string GetIPAddress()
@@ -115,7 +125,9 @@ namespace dershaneOtomasyonu
 
         private void bunifuButton4_Click(object sender, EventArgs e)
         {
-            TogglePanel(bunifuPanel3);
+            Console.WriteLine("Button 4 clicked");
+            TogglePanel(bunifuPanel3, bunifuPanel2); // Show panel3 and hide panel2
+            //bunifuPanel3.Visible = !bunifuPanel3.Visible; // Just toggle panel3
         }
 
         private int GetNewKullaniciId(SqlConnection connection)
