@@ -1,4 +1,5 @@
-﻿using System;
+﻿using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,24 +11,27 @@ using System.Windows.Forms;
 
 namespace dershaneOtomasyonu
 {
-    public partial class Form3 : Form
+    public partial class OgrenciEkrani : Form
     {
-        public Form3()
+        private readonly IKullaniciRepository _kullaniciRepository;
+
+        public OgrenciEkrani(IKullaniciRepository kullaniciRepository)
         {
             InitializeComponent();
+            _kullaniciRepository = kullaniciRepository;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void CikisYap_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            Form1 form1 = new Form1(); // form3e geçiş
-            form1.Show(); // form3ü açıyor
+            GirisEkrani OgrenciEkrani = new GirisEkrani(_kullaniciRepository); // form3e geçiş
+            OgrenciEkrani.Show(); // form3ü açıyor
             this.Hide(); // form1i gizleyecek
-            form1.FormClosed += (s, args) => this.Close();
+            OgrenciEkrani.FormClosed += (s, args) => this.Close();
+        }
+
+        private void OgrenciEkrani_Load(object sender, EventArgs e)
+        {
+            kullaniciadogr.Text = GlobalData.KullaniciAd;
         }
     }
 }

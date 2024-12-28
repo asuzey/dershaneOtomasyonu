@@ -10,34 +10,38 @@ using System.Windows.Forms;
 using System.Configuration;
 using Microsoft.Data.SqlClient;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 
 namespace dershaneOtomasyonu
 {
-    public partial class Form2 : Form
+    public partial class AdminEkrani : Form
     {
-        public Form2()
+        private readonly IKullaniciRepository _kullaniciRepository;
+
+        public AdminEkrani(IKullaniciRepository kullaniciRepository)
         {
             InitializeComponent();
+            _kullaniciRepository = kullaniciRepository;
         }
 
-        private void button9_Click(object sender, EventArgs e)
+        private void CikisYap_Click(object sender, EventArgs e)
         {
-            Form1 form1 = new Form1(); // form2 ye geçiş
-            form1.Show(); // form2yi açıyor
+            GirisEkrani GirisEkrani = new GirisEkrani(_kullaniciRepository); // form2 ye geçiş
+            GirisEkrani.Show(); // form2yi açıyor
             this.Hide(); // form1i gizleyecek
-            form1.FormClosed += (s, args) => this.Close();
+            GirisEkrani.FormClosed += (s, args) => this.Close();
         }
 
-        private void bunifuButton1_Click(object sender, EventArgs e)
+        private void btnKullaniciEklePanel_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Button 1 clicked");
-            TogglePanel(bunifuPanel2, bunifuPanel3); // Show panel2 and hide panel3
+            // Console.WriteLine("Button 1 clicked"); debugger ile hata kontrolü için kullandığım bir kod 
+            TogglePanel(panelKullaniciEkle, panelLog); // Show panel2 and hide panel3
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void AdminEkrani_Load(object sender, EventArgs e)
         {
-            bunifuPanel2.Visible = false;
-            bunifuPanel3.Visible = false;
+            panelKullaniciEkle.Visible = false;
+            panelLog.Visible = false;
 
             LoadLogData();
 
@@ -65,12 +69,12 @@ namespace dershaneOtomasyonu
             return ip ?? "IP Bulunamadı";
         }
 
-        private void bunifuButton5_Click(object sender, EventArgs e)
+        private void btnKullaniciEkle_Click(object sender, EventArgs e)// kullancıı ekle
         {
             // TextBox'lardan veri alın
-            string kullaniciAd = textBox1.Text;
-            string sifre = textBox2.Text;
-            string rol = textBox3.Text;
+            string kullaniciAd = txtAd.Text;
+            string sifre = txtSifre.Text;
+            string rol = cbRol.Text;
 
             // Veritabanı bağlantı dizesi
             string connectionString = ConfigurationManager.ConnectionStrings["DershaneDB"].ConnectionString;
@@ -123,11 +127,11 @@ namespace dershaneOtomasyonu
 
         }
 
-        private void bunifuButton4_Click(object sender, EventArgs e)
+        private void btnLogPanel_Click(object sender, EventArgs e) // burası
         {
-            Console.WriteLine("Button 4 clicked");
-            TogglePanel(bunifuPanel3, bunifuPanel2); // Show panel3 and hide panel2
+            TogglePanel(panelLog, panelKullaniciEkle); // Show panel3 and hide panel2
             //bunifuPanel3.Visible = !bunifuPanel3.Visible; // Just toggle panel3
+            LoadLogData();
         }
 
         private int GetNewKullaniciId(SqlConnection connection)

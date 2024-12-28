@@ -29,16 +29,15 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form4));
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges7 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges8 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges9 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges10 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges11 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges12 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
-            bunifuPanel2 = new Bunifu.UI.WinForms.BunifuPanel();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges1 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges2 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges3 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges4 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges5 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges6 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             bunifuGradientPanel1 = new Bunifu.UI.WinForms.BunifuGradientPanel();
             label1 = new Label();
-            button9 = new Button();
+            CikisYap = new Button();
             bunifuPanel1 = new Bunifu.UI.WinForms.BunifuPanel();
             bunifuButton6 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             bunifuButton5 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
@@ -48,24 +47,14 @@
             bunifuButton1 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             label2 = new Label();
             pictureBox1 = new PictureBox();
+            bunifuPanel2 = new Bunifu.UI.WinForms.BunifuPanel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            label3 = new Label();
             bunifuGradientPanel1.SuspendLayout();
             bunifuPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            bunifuPanel2.SuspendLayout();
             SuspendLayout();
-            // 
-            // bunifuPanel2
-            // 
-            bunifuPanel2.BackgroundColor = Color.Transparent;
-            bunifuPanel2.BackgroundImage = (Image)resources.GetObject("bunifuPanel2.BackgroundImage");
-            bunifuPanel2.BackgroundImageLayout = ImageLayout.Stretch;
-            bunifuPanel2.BorderColor = Color.Transparent;
-            bunifuPanel2.BorderRadius = 3;
-            bunifuPanel2.BorderThickness = 1;
-            bunifuPanel2.Location = new Point(234, 67);
-            bunifuPanel2.Name = "bunifuPanel2";
-            bunifuPanel2.ShowBorders = true;
-            bunifuPanel2.Size = new Size(1052, 647);
-            bunifuPanel2.TabIndex = 18;
             // 
             // bunifuGradientPanel1
             // 
@@ -74,7 +63,7 @@
             bunifuGradientPanel1.BackgroundImageLayout = ImageLayout.Stretch;
             bunifuGradientPanel1.BorderRadius = 1;
             bunifuGradientPanel1.Controls.Add(label1);
-            bunifuGradientPanel1.Controls.Add(button9);
+            bunifuGradientPanel1.Controls.Add(CikisYap);
             bunifuGradientPanel1.Dock = DockStyle.Top;
             bunifuGradientPanel1.GradientBottomLeft = Color.FromArgb(30, 24, 97);
             bunifuGradientPanel1.GradientBottomRight = SystemColors.Desktop;
@@ -84,7 +73,7 @@
             bunifuGradientPanel1.Margin = new Padding(4);
             bunifuGradientPanel1.Name = "bunifuGradientPanel1";
             bunifuGradientPanel1.Quality = 10;
-            bunifuGradientPanel1.Size = new Size(1054, 73);
+            bunifuGradientPanel1.Size = new Size(1077, 73);
             bunifuGradientPanel1.TabIndex = 17;
             // 
             // label1
@@ -98,24 +87,24 @@
             label1.TabIndex = 10;
             label1.Text = "Personel Paneli";
             // 
-            // button9
+            // CikisYap
             // 
-            button9.BackColor = Color.Transparent;
-            button9.BackgroundImageLayout = ImageLayout.Zoom;
-            button9.Cursor = Cursors.Hand;
-            button9.FlatAppearance.BorderColor = SystemColors.Window;
-            button9.FlatAppearance.BorderSize = 0;
-            button9.FlatStyle = FlatStyle.Flat;
-            button9.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            button9.ForeColor = SystemColors.Window;
-            button9.Location = new Point(925, 13);
-            button9.Margin = new Padding(4);
-            button9.Name = "button9";
-            button9.Size = new Size(116, 47);
-            button9.TabIndex = 9;
-            button9.Text = "Çıkış Yap";
-            button9.UseVisualStyleBackColor = false;
-            button9.Click += button9_Click;
+            CikisYap.BackColor = Color.Transparent;
+            CikisYap.BackgroundImageLayout = ImageLayout.Zoom;
+            CikisYap.Cursor = Cursors.Hand;
+            CikisYap.FlatAppearance.BorderColor = SystemColors.Window;
+            CikisYap.FlatAppearance.BorderSize = 0;
+            CikisYap.FlatStyle = FlatStyle.Flat;
+            CikisYap.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            CikisYap.ForeColor = SystemColors.Window;
+            CikisYap.Location = new Point(925, 13);
+            CikisYap.Margin = new Padding(4);
+            CikisYap.Name = "CikisYap";
+            CikisYap.Size = new Size(116, 47);
+            CikisYap.TabIndex = 9;
+            CikisYap.Text = "Çıkış Yap";
+            CikisYap.UseVisualStyleBackColor = false;
+            CikisYap.Click += CikisYap_Click;
             // 
             // bunifuPanel1
             // 
@@ -138,7 +127,7 @@
             bunifuPanel1.Margin = new Padding(4);
             bunifuPanel1.Name = "bunifuPanel1";
             bunifuPanel1.ShowBorders = true;
-            bunifuPanel1.Size = new Size(234, 714);
+            bunifuPanel1.Size = new Size(234, 725);
             bunifuPanel1.TabIndex = 16;
             // 
             // bunifuButton6
@@ -159,11 +148,11 @@
             bunifuButton6.ButtonTextMarginLeft = 0;
             bunifuButton6.ColorContrastOnClick = 45;
             bunifuButton6.ColorContrastOnHover = 45;
-            borderEdges7.BottomLeft = true;
-            borderEdges7.BottomRight = true;
-            borderEdges7.TopLeft = true;
-            borderEdges7.TopRight = true;
-            bunifuButton6.CustomizableEdges = borderEdges7;
+            borderEdges1.BottomLeft = true;
+            borderEdges1.BottomRight = true;
+            borderEdges1.TopLeft = true;
+            borderEdges1.TopRight = true;
+            bunifuButton6.CustomizableEdges = borderEdges1;
             bunifuButton6.DialogResult = DialogResult.None;
             bunifuButton6.DisabledBorderColor = Color.FromArgb(191, 191, 191);
             bunifuButton6.DisabledFillColor = Color.Empty;
@@ -249,11 +238,11 @@
             bunifuButton5.ButtonTextMarginLeft = 0;
             bunifuButton5.ColorContrastOnClick = 45;
             bunifuButton5.ColorContrastOnHover = 45;
-            borderEdges8.BottomLeft = true;
-            borderEdges8.BottomRight = true;
-            borderEdges8.TopLeft = true;
-            borderEdges8.TopRight = true;
-            bunifuButton5.CustomizableEdges = borderEdges8;
+            borderEdges2.BottomLeft = true;
+            borderEdges2.BottomRight = true;
+            borderEdges2.TopLeft = true;
+            borderEdges2.TopRight = true;
+            bunifuButton5.CustomizableEdges = borderEdges2;
             bunifuButton5.DialogResult = DialogResult.None;
             bunifuButton5.DisabledBorderColor = Color.FromArgb(191, 191, 191);
             bunifuButton5.DisabledFillColor = Color.Empty;
@@ -339,11 +328,11 @@
             bunifuButton4.ButtonTextMarginLeft = 0;
             bunifuButton4.ColorContrastOnClick = 45;
             bunifuButton4.ColorContrastOnHover = 45;
-            borderEdges9.BottomLeft = true;
-            borderEdges9.BottomRight = true;
-            borderEdges9.TopLeft = true;
-            borderEdges9.TopRight = true;
-            bunifuButton4.CustomizableEdges = borderEdges9;
+            borderEdges3.BottomLeft = true;
+            borderEdges3.BottomRight = true;
+            borderEdges3.TopLeft = true;
+            borderEdges3.TopRight = true;
+            bunifuButton4.CustomizableEdges = borderEdges3;
             bunifuButton4.DialogResult = DialogResult.None;
             bunifuButton4.DisabledBorderColor = Color.FromArgb(191, 191, 191);
             bunifuButton4.DisabledFillColor = Color.Empty;
@@ -429,11 +418,11 @@
             bunifuButton3.ButtonTextMarginLeft = 0;
             bunifuButton3.ColorContrastOnClick = 45;
             bunifuButton3.ColorContrastOnHover = 45;
-            borderEdges10.BottomLeft = true;
-            borderEdges10.BottomRight = true;
-            borderEdges10.TopLeft = true;
-            borderEdges10.TopRight = true;
-            bunifuButton3.CustomizableEdges = borderEdges10;
+            borderEdges4.BottomLeft = true;
+            borderEdges4.BottomRight = true;
+            borderEdges4.TopLeft = true;
+            borderEdges4.TopRight = true;
+            bunifuButton3.CustomizableEdges = borderEdges4;
             bunifuButton3.DialogResult = DialogResult.None;
             bunifuButton3.DisabledBorderColor = Color.FromArgb(191, 191, 191);
             bunifuButton3.DisabledFillColor = Color.Empty;
@@ -519,11 +508,11 @@
             bunifuButton2.ButtonTextMarginLeft = 0;
             bunifuButton2.ColorContrastOnClick = 45;
             bunifuButton2.ColorContrastOnHover = 45;
-            borderEdges11.BottomLeft = true;
-            borderEdges11.BottomRight = true;
-            borderEdges11.TopLeft = true;
-            borderEdges11.TopRight = true;
-            bunifuButton2.CustomizableEdges = borderEdges11;
+            borderEdges5.BottomLeft = true;
+            borderEdges5.BottomRight = true;
+            borderEdges5.TopLeft = true;
+            borderEdges5.TopRight = true;
+            bunifuButton2.CustomizableEdges = borderEdges5;
             bunifuButton2.DialogResult = DialogResult.None;
             bunifuButton2.DisabledBorderColor = Color.FromArgb(191, 191, 191);
             bunifuButton2.DisabledFillColor = Color.Empty;
@@ -609,11 +598,11 @@
             bunifuButton1.ButtonTextMarginLeft = 0;
             bunifuButton1.ColorContrastOnClick = 45;
             bunifuButton1.ColorContrastOnHover = 45;
-            borderEdges12.BottomLeft = true;
-            borderEdges12.BottomRight = true;
-            borderEdges12.TopLeft = true;
-            borderEdges12.TopRight = true;
-            bunifuButton1.CustomizableEdges = borderEdges12;
+            borderEdges6.BottomLeft = true;
+            borderEdges6.BottomRight = true;
+            borderEdges6.TopLeft = true;
+            borderEdges6.TopRight = true;
+            bunifuButton1.CustomizableEdges = borderEdges6;
             bunifuButton1.DialogResult = DialogResult.None;
             bunifuButton1.DisabledBorderColor = Color.FromArgb(191, 191, 191);
             bunifuButton1.DisabledFillColor = Color.Empty;
@@ -704,30 +693,66 @@
             pictureBox1.TabIndex = 12;
             pictureBox1.TabStop = false;
             // 
+            // bunifuPanel2
+            // 
+            bunifuPanel2.BackgroundColor = Color.Transparent;
+            bunifuPanel2.BackgroundImage = (Image)resources.GetObject("bunifuPanel2.BackgroundImage");
+            bunifuPanel2.BackgroundImageLayout = ImageLayout.Stretch;
+            bunifuPanel2.BorderColor = Color.Transparent;
+            bunifuPanel2.BorderRadius = 3;
+            bunifuPanel2.BorderThickness = 1;
+            bunifuPanel2.Controls.Add(label3);
+            bunifuPanel2.Controls.Add(flowLayoutPanel1);
+            bunifuPanel2.Location = new Point(240, 80);
+            bunifuPanel2.Name = "bunifuPanel2";
+            bunifuPanel2.ShowBorders = true;
+            bunifuPanel2.Size = new Size(1050, 640);
+            bunifuPanel2.TabIndex = 18;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Location = new Point(3, 48);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(200, 585);
+            flowLayoutPanel1.TabIndex = 0;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.BackColor = Color.Transparent;
+            label3.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label3.ForeColor = SystemColors.InactiveCaptionText;
+            label3.Location = new Point(68, 23);
+            label3.Name = "label3";
+            label3.Size = new Size(65, 22);
+            label3.TabIndex = 19;
+            label3.Text = "Sınıflar";
+            // 
             // Form4
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1288, 714);
+            ClientSize = new Size(1311, 725);
             Controls.Add(bunifuPanel2);
             Controls.Add(bunifuGradientPanel1);
             Controls.Add(bunifuPanel1);
             Name = "Form4";
             Text = "Form4";
+            Load += Form4_Load;
             bunifuGradientPanel1.ResumeLayout(false);
             bunifuGradientPanel1.PerformLayout();
             bunifuPanel1.ResumeLayout(false);
             bunifuPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            bunifuPanel2.ResumeLayout(false);
+            bunifuPanel2.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private Bunifu.UI.WinForms.BunifuPanel bunifuPanel2;
         private Bunifu.UI.WinForms.BunifuGradientPanel bunifuGradientPanel1;
         private Label label1;
-        private Button button9;
+        private Button CikisYap;
         private Bunifu.UI.WinForms.BunifuPanel bunifuPanel1;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton bunifuButton6;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton bunifuButton5;
@@ -737,5 +762,8 @@
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton bunifuButton1;
         private Label label2;
         private PictureBox pictureBox1;
+        private Bunifu.UI.WinForms.BunifuPanel bunifuPanel2;
+        private Label label3;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
