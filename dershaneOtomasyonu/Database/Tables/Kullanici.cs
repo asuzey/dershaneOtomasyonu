@@ -28,5 +28,4 @@ namespace dershaneOtomasyonu.Database.Tables
         public ICollection<Gorusme> GorusmelerOlusturucu { get; set; } // Kullanıcının oluşturduğu görüşmeler
         public ICollection<Gorusme> GorusmelerKatilimci { get; set; } // Kullanıcının katıldığı görüşmeler
     }
-
 }

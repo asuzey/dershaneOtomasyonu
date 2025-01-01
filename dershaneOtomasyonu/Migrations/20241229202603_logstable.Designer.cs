@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dershaneOtomasyonu.Database;
 
@@ -11,9 +12,11 @@ using dershaneOtomasyonu.Database;
 namespace dershaneOtomasyonu.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241229202603_logstable")]
+    partial class logstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,7 +246,7 @@ namespace dershaneOtomasyonu.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("KullaniciId")
+                    b.Property<int>("KullaniciId")
                         .HasColumnType("int");
 
                     b.Property<string>("Level")
@@ -456,7 +459,8 @@ namespace dershaneOtomasyonu.Migrations
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Kullanici")
                         .WithMany()
                         .HasForeignKey("KullaniciId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Kullanici");
                 });

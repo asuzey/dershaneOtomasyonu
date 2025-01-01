@@ -1,5 +1,6 @@
 ﻿using dershaneOtomasyonu.Database.Tables;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -27,6 +28,7 @@ namespace dershaneOtomasyonu.Database
         public DbSet<DersKayit> DersKayitlari { get; set; }
         public DbSet<Yoklama> Yoklamalar { get; set; }
         public DbSet<Gorusme> Gorusmeler { get; set; }
+        public DbSet<LogEntry> Logs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -67,6 +69,12 @@ namespace dershaneOtomasyonu.Database
                 .HasForeignKey(y => y.KullaniciId)
                 .OnDelete(DeleteBehavior.Restrict); // Kaskadlı silmeyi önle
 
+            modelBuilder.Entity<LogEntry>()
+                .HasOne(le => le.Kullanici)
+                .WithMany()
+                .HasForeignKey(le => le.KullaniciId)
+                .OnDelete(DeleteBehavior.Restrict); // Cascade yerine Restrict kullan
+
             // Kullanıcı-Sınıf ilişkisi
             modelBuilder.Entity<KullaniciSinif>()
                 .HasKey(ks => new { ks.KullaniciId, ks.SinifId });
@@ -83,8 +91,24 @@ namespace dershaneOtomasyonu.Database
             modelBuilder.Entity<Yoklama>()
                 .HasKey(y => new { y.DersKayitId, y.KullaniciId });
 
+
+
             base.OnModelCreating(modelBuilder);
         }
     }
 
+
+    public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    {
+        public AppDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+            // Bağlantı dizesini belirleyin
+            var connectionString = ConfigurationManager.ConnectionStrings["DershaneDB"].ConnectionString;
+            optionsBuilder.UseSqlServer(connectionString);
+
+            return new AppDbContext(optionsBuilder.Options);
+        }
+    }
 }

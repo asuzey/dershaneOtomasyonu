@@ -1,10 +1,19 @@
 using dershaneOtomasyonu.Database;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
 using dershaneOtomasyonu.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Configuration;
+using System.Text;
+using dershaneOtomasyonu.Helpers;
+using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
+using FluentValidation;
+using FluentValidation.Validators;
+
 
 namespace dershaneOtomasyonu
 {
@@ -16,16 +25,9 @@ namespace dershaneOtomasyonu
         [STAThread]
         static void Main()
         {
-            // Servis koleksiyonunu oluþtur
             var services = ConfigureServices();
-
-            // Servis saðlayýcýyý oluþtur
             var serviceProvider = services.BuildServiceProvider();
-
-            // Uygulama yapýlandýrmasýný baþlat
             ApplicationConfiguration.Initialize();
-
-            // Dependency Injection ile giriþ ekranýný baþlat
             var girisEkrani = serviceProvider.GetRequiredService<GirisEkrani>();
             Application.Run(girisEkrani);
         }
@@ -42,6 +44,12 @@ namespace dershaneOtomasyonu
             // Repository'leri kaydet
             services.AddScoped<IKullaniciRepository, KullaniciRepository>();
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<ILogger, Logger>();
+            services.AddScoped<ILogRepository, LogRepository>();
+            services.AddScoped<ISinifRepository, SinifRepository>();
+            services.AddScoped<IDerslerRepository, DerslerRepository>();
+            services.AddScoped<IKullaniciDersRepository, KullaniciDersRepository>();
+
 
             // Servislere formu ekle
             services.AddScoped<GirisEkrani>();

@@ -14,6 +14,7 @@ namespace dershaneOtomasyonu.Repositories
         Task UpdateAsync(T entity);
         Task DeleteAsync(int id);
         IQueryable<T> Query(); // Sorgulama işlemleri için
+        // Task GetLogsByUserId(int id);
     }
 
 }
