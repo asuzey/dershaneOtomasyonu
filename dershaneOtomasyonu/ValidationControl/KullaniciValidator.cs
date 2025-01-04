@@ -14,10 +14,6 @@ public class KullaniciValidator : AbstractValidator<Kullanici>
             .NotEmpty().WithMessage("Kullanıcı adı boş olamaz.")
             .Length(3, 50).WithMessage("Kullanıcı adı 3 ile 50 karakter arasında olmalıdır.");
 
-             /* RuleFor(k => k.Sifre)
-            .NotEmpty().WithMessage("Şifre boş olamaz.")
-            .MinimumLength(6).WithMessage("Şifre en az 6 karakter olmalıdır."); */
-
         RuleFor(k => k.Adi)
             .NotEmpty().WithMessage("Adı boş olamaz.")
             .MaximumLength(50).WithMessage("Adı 50 karakterden uzun olamaz.");
@@ -35,9 +31,9 @@ public class KullaniciValidator : AbstractValidator<Kullanici>
             .NotEmpty().WithMessage("Email boş olamaz.")
             .EmailAddress().WithMessage("Geçerli bir email adresi giriniz.");
 
-             /*RuleFor(k => k.Telefon)
+        RuleFor(k => k.Telefon)
             .NotEmpty().WithMessage("Telefon numarası boş olamaz.")
-            .Matches(@"^\d{10,15}$").WithMessage("Geçerli bir telefon numarası giriniz.");*/
+            .Length(9).WithMessage("Geçerli bir telefon numarası giriniz.");
 
         RuleFor(k => k.DogumTarihi)
             .NotEmpty().WithMessage("Doğum tarihi boş olamaz.")

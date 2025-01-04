@@ -13,6 +13,7 @@ namespace dershaneOtomasyonu.Database.Tables
         public string KullaniciAdi { get; set; }
         public string Sifre { get; set; }
         public int RoleId { get; set; }
+        public int? SinifId { get; set; }
         public string Adi { get; set; }
         public string Soyadi { get; set; }
         public string Tcno { get; set; }
@@ -23,8 +24,10 @@ namespace dershaneOtomasyonu.Database.Tables
 
         // Navigation Properties
         public Role Role { get; set; } // Kullanıcıların Rolü
+        public Sinif Sinif { get; set; } // Kullanıcıların Sınıfı
         public ICollection<DersKayit> DersKayitlari { get; set; } // Kullanıcının ders kayıtları
         public ICollection<Yoklama> Yoklamalar { get; set; } // Kullanıcının yoklamaları
+        public ICollection<KullaniciDosya> Dosyalar { get; set; } // Kullanıcının dosyaları
         public ICollection<Gorusme> GorusmelerOlusturucu { get; set; } // Kullanıcının oluşturduğu görüşmeler
         public ICollection<Gorusme> GorusmelerKatilimci { get; set; } // Kullanıcının katıldığı görüşmeler
     }

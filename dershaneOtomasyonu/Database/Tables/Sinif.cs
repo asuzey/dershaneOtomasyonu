@@ -11,7 +11,6 @@ namespace dershaneOtomasyonu.Database.Tables
         public int Id { get; set; }
         public string Kodu { get; set; }
 
-        public ICollection<KullaniciSinif> KullaniciSiniflari { get; set; }
     }
 
 }

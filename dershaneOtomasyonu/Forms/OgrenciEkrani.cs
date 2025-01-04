@@ -3,6 +3,7 @@ using dershaneOtomasyonu.Helpers;
 using dershaneOtomasyonu.Repositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
@@ -24,6 +25,8 @@ namespace dershaneOtomasyonu
         private readonly IBaseRepository<Role> _roleRepository;
         private readonly ILogger _logger;
         private readonly IBaseRepository<LogEntry> _baseLogRepository;
+        private readonly IBaseRepository<Dosya> _baseDosyaRepository;
+        private readonly IKullaniciDosyaRepository _kullaniciDosyaRepository;
         private readonly ILogRepository _logRepository;
         private readonly ISinifRepository _sinifRepository;
         private readonly IDerslerRepository _derslerRepository;
@@ -38,7 +41,10 @@ namespace dershaneOtomasyonu
             ILogRepository logRepository,
             ISinifRepository sinifRepository,
             IDerslerRepository derslerRepository,
-            IKullaniciDersRepository kullaniciDersRepository)
+            IKullaniciDersRepository kullaniciDersRepository,
+            IBaseRepository<Dosya> baseDosyaRepository,
+            IKullaniciDosyaRepository kullaniciDosyaRepository)
+
         {
             InitializeComponent();
             _kullaniciRepository = kullaniciRepository;
@@ -49,11 +55,13 @@ namespace dershaneOtomasyonu
             _sinifRepository = sinifRepository;
             _derslerRepository = derslerRepository;
             _kullaniciDersRepository = kullaniciDersRepository;
+            _baseDosyaRepository = baseDosyaRepository;
+            _kullaniciDosyaRepository = kullaniciDosyaRepository;
         }
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani OgrenciEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository); // form3e geçiş
+            GirisEkrani OgrenciEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository); // form3e geçiş
             OgrenciEkrani.Show(); // form3ü açıyor
             this.Hide(); // form1i gizleyecek
             OgrenciEkrani.FormClosed += (s, args) => this.Close();

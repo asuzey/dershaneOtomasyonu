@@ -63,6 +63,21 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositorie
             }
             return kullanicilar;
         }
+
+        public async Task<List<Kullanici>> GetAllStudentsAsync()
+        {
+            var role = await _context.Roller.FirstOrDefaultAsync(x => x.RolAdi == "Öğrenci");
+            List<Kullanici> kullanicilar;
+            if (role != null)
+            {
+                kullanicilar = await _context.Kullanicilar.Where(x => x.RoleId == role.Id).ToListAsync();
+            }
+            else
+            {
+                kullanicilar = new List<Kullanici>();
+            }
+            return kullanicilar;
+        }
     }
 
 }

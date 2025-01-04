@@ -23,6 +23,8 @@ using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositorie
 using System.Security.Cryptography;
 using FluentValidation.Results;
 using FluentValidation;
+using Bunifu.UI.WinForms;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
 
 namespace dershaneOtomasyonu
 {
@@ -32,6 +34,8 @@ namespace dershaneOtomasyonu
         private readonly IBaseRepository<Role> _roleRepository;
         private readonly ILogger _logger;
         private readonly IBaseRepository<LogEntry> _baseLogRepository;
+        private readonly IBaseRepository<Dosya> _baseDosyaRepository;
+        private readonly IKullaniciDosyaRepository _kullaniciDosyaRepository;
         private readonly ILogRepository _logRepository;
         private readonly ISinifRepository _sinifRepository;
         private readonly IDerslerRepository _derslerRepository;
@@ -45,7 +49,9 @@ namespace dershaneOtomasyonu
             ILogRepository logRepository,
             ISinifRepository sinifRepository,
             IDerslerRepository derslerRepository,
-            IKullaniciDersRepository kullaniciDersRepository)
+            IKullaniciDersRepository kullaniciDersRepository,
+            IBaseRepository<Dosya> baseDosyaRepository,
+            IKullaniciDosyaRepository kullaniciDosyaRepository)
         {
             InitializeComponent();
             _kullaniciRepository = kullaniciRepository;
@@ -56,11 +62,16 @@ namespace dershaneOtomasyonu
             _sinifRepository = sinifRepository;
             _derslerRepository = derslerRepository;
             _kullaniciDersRepository = kullaniciDersRepository;
+            _baseDosyaRepository = baseDosyaRepository;
+            _kullaniciDosyaRepository = kullaniciDosyaRepository;
+            panels = [panelKullaniciEkle, panelLog, panelKullaniciVeri, panelSifreislem, panelDersAtama, panelDersveSinif, panelSinifAtama];
         }
+
+        public static BunifuPanel[] panels;
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository); // form2 ye geçiş
+            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository); // form2 ye geçiş
             GirisEkrani.Show(); // form2yi açıyor
             this.Hide(); // form1i gizleyecek
             GirisEkrani.FormClosed += (s, args) => this.Close();
@@ -69,42 +80,36 @@ namespace dershaneOtomasyonu
         private void btnKullaniciEklePanel_Click(object sender, EventArgs e)
         {
             // Console.WriteLine("Button 1 clicked"); debugger ile hata kontrolü için kullandığım bir kod 
-            TogglePanel(panelKullaniciEkle, panelLog); // Show panel2 and hide panel3
+            TogglePanel(panelKullaniciEkle); // Show panel2 and hide panel3
         }
 
         private async void AdminEkrani_Load(object sender, EventArgs e)
         {
-            panelKullaniciEkle.Visible = false;
-            panelLog.Visible = false;
-            panelKullaniciVeri.Visible = false;
-            panelSifreislem.Visible = false;
-            panelSinifAtama.Visible = false;
-            panelDersveSinif.Visible = false;
-            panelDersAtama.Visible = false;
             var roles = await _roleRepository.GetAllAsync();
             cbRol.DataSource = roles;
             cbRol.DisplayMember = "RolAdi";
             cbRol.ValueMember = "Id";
         }
 
-        private void TogglePanel(Panel panelToShow, Panel panelToHide)
+        private void TogglePanel(BunifuPanel panelToToggle)
         {
-            // If the panel to show is currently visible, hide it
-            // Otherwise, hide the other panel and show the one you want
-            if (panelToShow.Visible)
+            foreach (var panel in panels)
             {
-                panelToShow.Visible = false;
-            }
-            else
-            {
-                panelToHide.Visible = false; // Hide the other panel
-                panelToShow.Visible = true;   // Show the desired panel
+                if (panel == panelToToggle)
+                {
+                    // Seçili panelin görünürlük durumunu tersine çevirir
+                    panel.Visible = !panel.Visible;
+                }
+                else
+                {
+                    // Diğer panelleri gizler
+                    panel.Visible = false;
+                }
             }
         }
 
         private async void btnKullaniciEkle_Click(object sender, EventArgs e)// kullancıı ekle
         {
-            // Kullanıcı ekleme işlemi
             var password = GenerateRandomPassword();
             var yeniKullanici = new Kullanici();
             yeniKullanici.KullaniciAdi = txt_kullaniciad.Text;
@@ -117,8 +122,6 @@ namespace dershaneOtomasyonu
             yeniKullanici.Telefon = txt_telno.Text;
             yeniKullanici.Email = txt_email.Text;
             yeniKullanici.Adres = txt_adres.Text;
-            await _kullaniciRepository.AddAsync(yeniKullanici);
-            MessageBox.Show("Kullanıcı başarıyla eklendi!");
 
             // Validator kullanımı
             var validator = new KullaniciValidator();
@@ -130,6 +133,10 @@ namespace dershaneOtomasyonu
                 MessageBox.Show(errors, "Doğrulama Hataları", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            // Kullanıcı ekleme işlemi
+            await _kullaniciRepository.AddAsync(yeniKullanici);
+            MessageBox.Show("Kullanıcı başarıyla eklendi!");
 
             // Mail kodları
             GmailMailer mailer = new GmailMailer();
@@ -165,8 +172,7 @@ namespace dershaneOtomasyonu
 
         private void btnLogPanel_Click(object sender, EventArgs e) // burası
         {
-            TogglePanel(panelLog, panelKullaniciEkle); // Show panel3 and hide panel2
-            //bunifuPanel3.Visible = !bunifuPanel3.Visible; // Just toggle panel3
+            TogglePanel(panelLog); // Show panel3 and hide panel2
             LoadLogData();
         }
 
@@ -179,7 +185,7 @@ namespace dershaneOtomasyonu
 
         private async void btnKullaniciVeriPanel_Click(object sender, EventArgs e)
         {
-            panelKullaniciVeri.Visible = !panelKullaniciVeri.Visible;
+            TogglePanel(panelKullaniciVeri);
             var kullaniciList = await _kullaniciRepository.GetAllAsDtoAsync();
             kullaniciVeri.DataSource = kullaniciList;
         }
@@ -214,12 +220,12 @@ namespace dershaneOtomasyonu
 
         private void btnSifrePanel_Click(object sender, EventArgs e)
         {
-            panelSifreislem.Visible = !panelSifreislem.Visible;
+            TogglePanel(panelSifreislem);
         }
 
         private async void BtnDersatamaPanel_Click(object sender, EventArgs e)
         {
-            panelDersAtama.Visible = !panelDersAtama.Visible;
+            TogglePanel(panelDersAtama);
             // Öğretmenleri çekelim
             var ogretmenler = await _kullaniciRepository.GetAllTeachersAsync();
             var dersler = await _derslerRepository.GetAllAsync();
@@ -239,7 +245,7 @@ namespace dershaneOtomasyonu
 
         private async void BtnDersolusturPanel_Click(object sender, EventArgs e)
         {
-            panelDersveSinif.Visible = !panelDersveSinif.Visible;
+            TogglePanel(panelDersveSinif);
             await LoadDersler();
             await LoadSiniflar();
         }
@@ -271,6 +277,32 @@ namespace dershaneOtomasyonu
             atanmisDersDataGridView.Columns[1].Visible = false;
         }
 
+        private async Task LoadAtanmisOgrenciler(int sinifId)
+        {
+            var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
+            var sinifinOgrencileri = ogrenciler.Where(o => o.SinifId == sinifId).ToList();
+            SinifinOgrDataGridView.DataSource = sinifinOgrencileri;
+            foreach (DataGridViewColumn column in SinifinOgrDataGridView.Columns)
+            {
+                column.Visible = false;
+            }
+            SinifinOgrDataGridView.Columns[5].Visible = true;
+            SinifinOgrDataGridView.Columns[6].Visible = true;
+        }
+
+        private async Task LoadAtanmamisOgrenciler()
+        {
+            var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
+            var sinifsizOgrenciler = ogrenciler.Where(o => o.SinifId == null).ToList();
+            sinifsizlarDataGridView.DataSource = sinifsizOgrenciler;
+            foreach (DataGridViewColumn column in sinifsizlarDataGridView.Columns)
+            {
+                column.Visible = false;
+            }
+            sinifsizlarDataGridView.Columns[5].Visible = true;
+            sinifsizlarDataGridView.Columns[6].Visible = true;
+        }
+
         private async void btnDersEkle_Click(object sender, EventArgs e)
         {
             var newders = new Ders();
@@ -288,10 +320,15 @@ namespace dershaneOtomasyonu
             LoadSiniflar();
         }
 
-        private void BtnSinifPanel_Click(object sender, EventArgs e)
+        private async void BtnSinifPanel_Click(object sender, EventArgs e)
         {
-            panelSinifAtama.Visible = !panelSinifAtama.Visible;
-            // Sınıflara öğrenci atama işleminde kaldık.
+
+            var siniflar = await _sinifRepository.GetAllAsync();
+            siniflarDataGridView.DataSource = siniflar;
+            siniflarDataGridView.Columns[0].Visible = false;
+
+            await LoadAtanmamisOgrenciler();
+            TogglePanel(panelSinifAtama);
         }
 
         private async void Btn_AtamaYap_Click(object sender, EventArgs e)
@@ -345,6 +382,67 @@ namespace dershaneOtomasyonu
         {
             var dersAdi = atanmisDersDataGridView.CurrentRow != null ? atanmisDersDataGridView.CurrentRow.Cells[2].Value.ToString() : null;
             seciliders.Text = dersAdi;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            foreach (var panel in panels)
+            {
+                panel.Visible = false;
+            }
+        }
+
+        private async void siniflarDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            var sinifId = 0;
+            if (siniflarDataGridView.CurrentRow != null) sinifId = Convert.ToInt32(siniflarDataGridView.CurrentRow.Cells[0].Value);
+            if (sinifId != 0) await LoadAtanmisOgrenciler(sinifId);
+
+        }
+
+        private async void BtnAtamaYap_Click(object sender, EventArgs e)
+        {
+            if (siniflarDataGridView.CurrentRow == null || sinifsizlarDataGridView.CurrentRow == null)
+            {
+                MessageBox.Show("Lütfen hem sınıf hemde sınıfsız öğrenciler tablosundan kayıt seçiniz.");
+                return;
+            }
+
+            var sinifId = Convert.ToInt32(siniflarDataGridView.CurrentRow.Cells[0].Value);
+            var ogrenciId = Convert.ToInt32(sinifsizlarDataGridView.CurrentRow.Cells[0].Value);
+            var ogrenci = await _kullaniciRepository.GetByIdAsync(ogrenciId);
+            if (ogrenci != null)
+            {
+                ogrenci.SinifId = sinifId;
+                await _kullaniciRepository.UpdateAsync(ogrenci);
+                await LoadAtanmisOgrenciler(sinifId);
+                await LoadAtanmamisOgrenciler();
+            }
+        }
+
+        private void SinifinOgrDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            var ogrenciAdi = SinifinOgrDataGridView.CurrentRow != null ? SinifinOgrDataGridView.CurrentRow.Cells[5].Value.ToString() + " " + SinifinOgrDataGridView.CurrentRow.Cells[6].Value.ToString() : null;
+            seciliogrenci.Text = ogrenciAdi;
+        }
+
+        private async void BtnAtamaKaldir_Click(object sender, EventArgs e)
+        {
+            if (SinifinOgrDataGridView.CurrentRow == null && siniflarDataGridView.CurrentRow == null)
+            {
+                MessageBox.Show("Lütfen hem sınıfın öğrencileri ve sınıflar tablosundan kayıt seçiniz.");
+                return;
+            }
+            var ogrId = Convert.ToInt32(SinifinOgrDataGridView.CurrentRow.Cells[0].Value);
+            var sinifId = Convert.ToInt32(siniflarDataGridView.CurrentRow.Cells[0].Value);
+            var ogrenci = await _kullaniciRepository.GetByIdAsync(ogrId);
+            if (ogrenci != null)
+            {
+                ogrenci.SinifId = null;
+                await _kullaniciRepository.UpdateAsync(ogrenci);
+                await LoadAtanmisOgrenciler(sinifId);
+                await LoadAtanmamisOgrenciler();
+            }
         }
     }
 }

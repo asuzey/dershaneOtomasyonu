@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dershaneOtomasyonu.Database;
 
@@ -11,9 +12,11 @@ using dershaneOtomasyonu.Database;
 namespace dershaneOtomasyonu.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250102195704_kullanicisinif-delete")]
+    partial class kullanicisinifdelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,27 +103,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.HasIndex("SinifId");
 
                     b.ToTable("DersKayitlari");
-                });
-
-            modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.Dosya", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Dosyalar");
                 });
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.Gorusme", b =>
@@ -225,21 +207,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.HasIndex("DersId");
 
                     b.ToTable("KullaniciDersleri");
-                });
-
-            modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.KullaniciDosya", b =>
-                {
-                    b.Property<int>("DosyaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("KullaniciId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DosyaId", "KullaniciId");
-
-                    b.HasIndex("KullaniciId");
-
-                    b.ToTable("KullaniciDosyalari");
                 });
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.KullaniciNot", b =>
@@ -445,25 +412,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.Navigation("Kullanici");
                 });
 
-            modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.KullaniciDosya", b =>
-                {
-                    b.HasOne("dershaneOtomasyonu.Database.Tables.Dosya", "Dosya")
-                        .WithMany()
-                        .HasForeignKey("DosyaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Kullanici")
-                        .WithMany("Dosyalar")
-                        .HasForeignKey("KullaniciId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Dosya");
-
-                    b.Navigation("Kullanici");
-                });
-
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.KullaniciNot", b =>
                 {
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Kullanici")
@@ -525,8 +473,6 @@ namespace dershaneOtomasyonu.Migrations
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.Kullanici", b =>
                 {
                     b.Navigation("DersKayitlari");
-
-                    b.Navigation("Dosyalar");
 
                     b.Navigation("GorusmelerKatilimci");
 

@@ -1,8 +1,10 @@
-﻿using dershaneOtomasyonu.Database.Tables;
+﻿using Bunifu.UI.WinForms;
+using dershaneOtomasyonu.Database.Tables;
 using dershaneOtomasyonu.Helpers;
 using dershaneOtomasyonu.Repositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
@@ -24,21 +26,25 @@ namespace dershaneOtomasyonu
         private readonly IBaseRepository<Role> _roleRepository;
         private readonly ILogger _logger;
         private readonly IBaseRepository<LogEntry> _baseLogRepository;
+        private readonly IBaseRepository<Dosya> _baseDosyaRepository;
+        private readonly IKullaniciDosyaRepository _kullaniciDosyaRepository;
         private readonly ILogRepository _logRepository;
         private readonly ISinifRepository _sinifRepository;
         private readonly IDerslerRepository _derslerRepository;
         private readonly IKullaniciDersRepository _kullaniciDersRepository;
+        private readonly FileService _fileService;
 
-
-
-        public PersonelEkrani(ILogger logger, 
-            IKullaniciRepository kullaniciRepository, 
+        public PersonelEkrani(ILogger logger,
+            IKullaniciRepository kullaniciRepository,
             IBaseRepository<Role> roleRepository,
             IBaseRepository<LogEntry> baseLogRepository,
             ILogRepository logRepository,
             ISinifRepository sinifRepository,
             IDerslerRepository derslerRepository,
-            IKullaniciDersRepository kullaniciDersRepository)
+            IKullaniciDersRepository kullaniciDersRepository,
+            IBaseRepository<Dosya> baseDosyaRepository,
+            IKullaniciDosyaRepository kullaniciDosyaRepository)
+
         {
             InitializeComponent();
             _kullaniciRepository = kullaniciRepository;
@@ -49,11 +55,49 @@ namespace dershaneOtomasyonu
             _sinifRepository = sinifRepository;
             _derslerRepository = derslerRepository;
             _kullaniciDersRepository = kullaniciDersRepository;
+            _baseDosyaRepository = baseDosyaRepository;
+            _kullaniciDosyaRepository = kullaniciDosyaRepository;
+            panels = [Panel_SiniflarVeOgrenciler, panelDosyaGonderme, panelDersBaslat];
+            _fileService = new FileService();
+
         }
+        public static BunifuPanel[] panels;
+
+        private void InitializeDataGridView()
+        {
+            // Dosya Adı sütunu
+            DosyaDataGridView.ColumnCount = 1;
+            DosyaDataGridView.Columns[0].Name = "Dosya Adı";
+            DosyaDataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            // Silme butonu
+            DataGridViewButtonColumn deleteButtonColumn = new DataGridViewButtonColumn
+            {
+                Name = "Sil",
+                Text = "❌",
+                UseColumnTextForButtonValue = true,
+                Width = 50
+            };
+            DosyaDataGridView.Columns.Add(deleteButtonColumn);
+
+            // İndirme butonu
+            DataGridViewButtonColumn downloadButtonColumn = new DataGridViewButtonColumn
+            {
+                Name = "İndir",
+                Text = "⬇️",
+                UseColumnTextForButtonValue = true,
+                Width = 50
+            };
+            DosyaDataGridView.Columns.Add(downloadButtonColumn);
+
+            DosyaDataGridView.CellClick -= DosyaDataGridView_CellClick; // Önce eski bağlantıyı kaldır
+            DosyaDataGridView.CellClick += DosyaDataGridView_CellClick;
+        }
+
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani form1 = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository); // form4e geçiş
+            GirisEkrani form1 = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository); // form4e geçiş
             form1.Show(); // form4ü açıyor
             this.Hide(); // form1i gizleyecek
             form1.FormClosed += (s, args) => this.Close();
@@ -63,5 +107,304 @@ namespace dershaneOtomasyonu
         {
 
         }
+
+        private async void Btn_SiniflarVeOgrenciler_Click(object sender, EventArgs e)
+        {
+            var siniflar = await _sinifRepository.GetAllAsync();
+            siniflarDataGridView.DataSource = siniflar;
+            siniflarDataGridView.Columns[0].Visible = false;
+            TogglePanel(Panel_SiniflarVeOgrenciler);
+        }
+
+        private async Task LoadAtanmisOgrenciler(int sinifId)
+        {
+            var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
+            var sinifinOgrencileri = ogrenciler.Where(o => o.SinifId == sinifId).ToList();
+            sinifinOgrencileriDataGridView.DataSource = sinifinOgrencileri;
+            foreach (DataGridViewColumn column in sinifinOgrencileriDataGridView.Columns)
+            {
+                column.Visible = false;
+            }
+            sinifinOgrencileriDataGridView.Columns[5].Visible = true;
+            sinifinOgrencileriDataGridView.Columns[6].Visible = true;
+        }
+
+        private async Task LoadSinifinOgrencileriToDersBaslat(int sinifId)
+        {
+            var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
+            var sinifinOgrencileri = ogrenciler.Where(o => o.SinifId == sinifId).ToList();
+            chattingOgrDataGridView.DataSource = sinifinOgrencileri;
+            foreach (DataGridViewColumn column in chattingOgrDataGridView.Columns)
+            {
+                column.Visible = false;
+            }
+            chattingOgrDataGridView.Columns[5].Visible = true;
+            chattingOgrDataGridView.Columns[6].Visible = true;
+        }
+
+        private void TogglePanel(BunifuPanel panelToToggle)
+        {
+            foreach (var panel in panels)
+            {
+                if (panel == panelToToggle)
+                {
+                    // Seçili panelin görünürlük durumunu tersine çevirir
+                    panel.Visible = !panel.Visible;
+                }
+                else
+                {
+                    // Diğer panelleri gizler
+                    panel.Visible = false;
+                }
+            }
+        }
+
+        private async void siniflarDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            var sinifId = 0;
+            if (siniflarDataGridView.CurrentRow != null) sinifId = Convert.ToInt32(siniflarDataGridView.CurrentRow.Cells[0].Value);
+            if (sinifId != 0) await LoadAtanmisOgrenciler(sinifId);
+        }
+
+        private async void Btn_YeniDosyaYukle_Click(object sender, EventArgs e)
+        {
+            bool isClassSelected;
+            if (SiniflarDosyaDataGridView1.CurrentRow == null)
+                isClassSelected = false;
+            else
+                isClassSelected = true;
+
+            if (!isClassSelected)
+            {
+                DialogResult userChoice = MessageBox.Show(
+                    "Seçili dosya tüm sınıflarla paylaşılacaktır. Devam edilsin mi?",
+                    "Dosya Seçimi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (userChoice == DialogResult.Yes)
+                {
+                    await OpenFileSelection();
+                }
+            }
+            else
+            {
+                var selectedClass = SiniflarDosyaDataGridView1.CurrentRow.Cells[1].Value.ToString();
+                DialogResult userChoice = MessageBox.Show(
+                    $"Seçili dosya {selectedClass} sınıfı ile paylaşılacaktır. Devam edilsin mi?",
+                    "Dosya Seçimi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+                if (userChoice == DialogResult.Yes)
+                {
+                    await OpenFileSelection();
+                }
+            }
+
+        }
+
+        async Task OpenFileSelection()
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string timestamp = DateTime.Now.ToString("ddMMyyyyHHmmssfff");
+                    bool success = _fileService.UploadFile(openFileDialog.FileName, timestamp);
+                    if (success)
+                    {
+                        string originalFileName = openFileDialog.FileName;
+                        string timestampedFileName = $"{Path.GetFileNameWithoutExtension(originalFileName)}_{timestamp}{Path.GetExtension(originalFileName)}";
+                        var newFile = new Dosya
+                        {
+                            FileName = timestampedFileName,
+                            FilePath = @"C:\Users\Public\FileServer"
+                        };
+                        await _baseDosyaRepository.AddAsync(newFile);
+                        var assignment = new KullaniciDosya();
+                        assignment.KullaniciId = GlobalData.Kullanici!.Id;
+                        assignment.DosyaId = newFile.Id;
+                        await _kullaniciDosyaRepository.AddAsync(assignment);
+                        var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
+                        var selectedClass = SiniflarDosyaDataGridView1.CurrentRow != null ? SiniflarDosyaDataGridView1.CurrentRow.Cells[0] : null;
+
+                        if (selectedClass == null)
+                        {
+                            foreach (var ogrenci in ogrenciler)
+                            {
+                                var newAssignment = new KullaniciDosya();
+                                newAssignment.KullaniciId = ogrenci.Id;
+                                newAssignment.DosyaId = newFile.Id;
+                                await _kullaniciDosyaRepository.AddAsync(newAssignment);
+                            }
+                        }
+                        else
+                        {
+                            var selectedOgrenciler = ogrenciler.Where(o => o.SinifId == (int)selectedClass.Value).ToList();
+                            foreach (var ogrenci in selectedOgrenciler)
+                            {
+                                var newAssignment = new KullaniciDosya();
+                                newAssignment.KullaniciId = ogrenci.Id;
+                                newAssignment.DosyaId = newFile.Id;
+                                await _kullaniciDosyaRepository.AddAsync(newAssignment);
+                            }
+                        }
+                        MessageBox.Show("Dosya başarıyla yüklendi.");
+                        RefreshFileList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Dosya yükleme başarısız.");
+                    }
+                }
+            }
+        }
+
+        private void DosyaDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                string fileName = DosyaDataGridView.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+                if (e.ColumnIndex == DosyaDataGridView.Columns["Sil"].Index)
+                {
+                    // Silme işlemi
+                    var result = MessageBox.Show($"{fileName} dosyasını silmek istediğinizden emin misiniz?",
+                                                 "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        bool success = _fileService.DeleteFile(fileName);
+                        if (success)
+                        {
+                            MessageBox.Show("Dosya başarıyla silindi.");
+                            RefreshFileList();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Dosya silme başarısız.");
+                        }
+                    }
+                }
+                else if (e.ColumnIndex == DosyaDataGridView.Columns["İndir"].Index)
+                {
+                    // İndirme işlemi
+                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                    {
+                        saveFileDialog.FileName = fileName;
+
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string savePath = saveFileDialog.FileName; // Seçilen dosya yolu
+                            bool success = _fileService.DownloadFile(fileName, savePath);
+                            if (success)
+                            {
+                                MessageBox.Show($"Dosya başarıyla indirildi.\nKaydedilen yer: {savePath}", "Sistem Mesajı");
+                            }
+                            else
+                            {
+                                MessageBox.Show("Dosya indirme başarısız.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private async void RefreshFileList()
+        {
+            try
+            {
+                DosyaDataGridView.Rows.Clear();
+                var files = _fileService.ListFiles();
+
+                var assignedFiles = await _kullaniciDosyaRepository.GetAllByKullaniciIdAsync(GlobalData.Kullanici!.Id);
+                foreach (var file in files)
+                {
+                    foreach (var assignedFile in assignedFiles)
+                    {
+                        if (file == assignedFile.Dosya.FileName)
+                        {
+                            DosyaDataGridView.Rows.Add(file);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Dosya listesi alınırken hata oluştu: {ex.Message}");
+            }
+        }
+
+        private async void BtnNotGondermePanel_Click(object sender, EventArgs e)
+        {
+            await LoadClassrooms();
+            InitializeDataGridView();
+            RefreshFileList();
+            TogglePanel(panelDosyaGonderme);
+        }
+
+        private async Task LoadClassrooms()
+        {
+            var siniflar = await _sinifRepository.GetAllAsync();
+            SiniflarDosyaDataGridView1.DataSource = siniflar;
+            SiniflarDosyaDataGridView1.Columns[0].Visible = false;
+        }
+
+        private void bunifuButton1_Click(object sender, EventArgs e)
+        {
+            SiniflarDosyaDataGridView1.ClearSelection(); // Seçimi temizle
+            SiniflarDosyaDataGridView1.CurrentCell = null; // CurrentRow'u etkisiz yapar
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            foreach (var panel in panels)
+            {
+                panel.Visible = false;
+            }
+        }
+
+        private async void btnDersBaslatmaPanel_Click(object sender, EventArgs e)
+        {
+            var siniflar = await _sinifRepository.GetAllAsync();
+            chattingSinifDataGridView.DataSource = siniflar;
+            chattingSinifDataGridView.Columns[0].Visible = false;
+            TogglePanel(panelDersBaslat);
+        }
+
+        private async void chattingSinifDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            var sinifId = 0;
+            if (chattingSinifDataGridView.CurrentRow != null) sinifId = Convert.ToInt32(chattingSinifDataGridView.CurrentRow.Cells[0].Value);
+            if (sinifId != 0) await LoadSinifinOgrencileriToDersBaslat(sinifId);
+        }
+
+        private void btnDersBaslat_Click(object sender, EventArgs e)
+        {
+            if (chattingOgrDataGridView.Rows.Count == 0)
+            {
+                MessageBox.Show("Lütfen öğrencilerin bulunduğu bir sınıf seçiniz.", "Ders Başlatma İşlemi");
+                return;
+            }
+            DialogResult userChoice = MessageBox.Show(
+                    "Ders başlatılacaktır, devam edilsin mi?",
+                    "Ders Başlatma İşlemi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+            if (userChoice == DialogResult.Yes)
+            {
+                // ders başlar
+                MessageBox.Show("Ders başlatıldı.");
+            }
+        }
     }
+
+
+
+
 }

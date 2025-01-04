@@ -16,5 +16,6 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositorie
         Task<IEnumerable<Kullanici>> GetByRoleIdAsync(int roleId);
         Task<List<KullaniciDto>> GetAllAsDtoAsync();
         Task<List<Kullanici>> GetAllTeachersAsync();
+        Task<List<Kullanici>> GetAllStudentsAsync();
     }
 }

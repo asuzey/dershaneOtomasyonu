@@ -19,7 +19,6 @@ namespace dershaneOtomasyonu.Database
         public DbSet<Kullanici> Kullanicilar { get; set; }
         public DbSet<Role> Roller { get; set; }
         public DbSet<Sinif> Siniflar { get; set; }
-        public DbSet<KullaniciSinif> KullaniciSiniflari { get; set; }
         public DbSet<Ders> Dersler { get; set; }
         public DbSet<KullaniciDers> KullaniciDersleri { get; set; }
         public DbSet<Not> Notlar { get; set; }
@@ -27,6 +26,8 @@ namespace dershaneOtomasyonu.Database
         public DbSet<Degerlendirme> Degerlendirmeler { get; set; }
         public DbSet<DersKayit> DersKayitlari { get; set; }
         public DbSet<Yoklama> Yoklamalar { get; set; }
+        public DbSet<Dosya> Dosyalar { get; set; }
+        public DbSet<KullaniciDosya> KullaniciDosyalari { get; set; }
         public DbSet<Gorusme> Gorusmeler { get; set; }
         public DbSet<LogEntry> Logs { get; set; }
 
@@ -75,10 +76,6 @@ namespace dershaneOtomasyonu.Database
                 .HasForeignKey(le => le.KullaniciId)
                 .OnDelete(DeleteBehavior.Restrict); // Cascade yerine Restrict kullan
 
-            // Kullanıcı-Sınıf ilişkisi
-            modelBuilder.Entity<KullaniciSinif>()
-                .HasKey(ks => new { ks.KullaniciId, ks.SinifId });
-
             // Kullanıcı-Ders ilişkisi
             modelBuilder.Entity<KullaniciDers>()
                 .HasKey(kd => new { kd.KullaniciId, kd.DersId });
@@ -90,6 +87,10 @@ namespace dershaneOtomasyonu.Database
             // Yoklamalar
             modelBuilder.Entity<Yoklama>()
                 .HasKey(y => new { y.DersKayitId, y.KullaniciId });
+            
+            // Kullanici Dosyalari
+            modelBuilder.Entity<KullaniciDosya>()
+                .HasKey(y => new { y.DosyaId, y.KullaniciId });
 
 
 

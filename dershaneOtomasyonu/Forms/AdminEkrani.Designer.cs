@@ -114,7 +114,6 @@
             panelKullaniciVeri = new Bunifu.UI.WinForms.BunifuPanel();
             label16 = new Label();
             kullaniciVeri = new DataGridView();
-            panelSifreislem = new Panel();
             label20 = new Label();
             label19 = new Label();
             btnSifirla = new Bunifu.UI.WinForms.BunifuButton.BunifuButton2();
@@ -122,6 +121,7 @@
             label18 = new Label();
             label17 = new Label();
             panelSinifAtama = new Bunifu.UI.WinForms.BunifuPanel();
+            seciliogrenci = new Label();
             label29 = new Label();
             label30 = new Label();
             label31 = new Label();
@@ -156,6 +156,7 @@
             DerslerDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             label23 = new Label();
             OgretmenlerDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
+            panelSifreislem = new Bunifu.UI.WinForms.BunifuPanel();
             bunifuPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             bunifuGradientPanel1.SuspendLayout();
@@ -165,7 +166,6 @@
             ((System.ComponentModel.ISupportInitialize)grid_logs).BeginInit();
             panelKullaniciVeri.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)kullaniciVeri).BeginInit();
-            panelSifreislem.SuspendLayout();
             panelSinifAtama.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)SinifinOgrDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)sinifsizlarDataGridView).BeginInit();
@@ -179,6 +179,7 @@
             ((System.ComponentModel.ISupportInitialize)atanmisDersDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)DerslerDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)OgretmenlerDataGridView).BeginInit();
+            panelSifreislem.SuspendLayout();
             SuspendLayout();
             // 
             // CikisYap
@@ -222,7 +223,7 @@
             bunifuPanel1.Margin = new Padding(4);
             bunifuPanel1.Name = "bunifuPanel1";
             bunifuPanel1.ShowBorders = true;
-            bunifuPanel1.Size = new Size(234, 720);
+            bunifuPanel1.Size = new Size(234, 721);
             bunifuPanel1.TabIndex = 10;
             // 
             // BtnSinifPanel
@@ -884,6 +885,7 @@
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.Transparent;
+            pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(72, 18);
             pictureBox1.Name = "pictureBox1";
@@ -891,6 +893,7 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 12;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // bunifuGradientPanel1
             // 
@@ -909,7 +912,7 @@
             bunifuGradientPanel1.Margin = new Padding(4);
             bunifuGradientPanel1.Name = "bunifuGradientPanel1";
             bunifuGradientPanel1.Quality = 10;
-            bunifuGradientPanel1.Size = new Size(1061, 73);
+            bunifuGradientPanel1.Size = new Size(1060, 73);
             bunifuGradientPanel1.TabIndex = 11;
             // 
             // label1
@@ -1019,6 +1022,7 @@
             panelKullaniciEkle.ShowBorders = true;
             panelKullaniciEkle.Size = new Size(1047, 634);
             panelKullaniciEkle.TabIndex = 17;
+            panelKullaniciEkle.Visible = false;
             // 
             // txt_adres
             // 
@@ -1318,10 +1322,12 @@
             panelLog.ShowBorders = true;
             panelLog.Size = new Size(1047, 634);
             panelLog.TabIndex = 11;
+            panelLog.Visible = false;
             // 
             // label10
             // 
             label10.AutoSize = true;
+            label10.BackColor = Color.Transparent;
             label10.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label10.Location = new Point(349, 11);
             label10.Name = "label10";
@@ -1352,10 +1358,12 @@
             panelKullaniciVeri.ShowBorders = true;
             panelKullaniciVeri.Size = new Size(1047, 634);
             panelKullaniciVeri.TabIndex = 12;
+            panelKullaniciVeri.Visible = false;
             // 
             // label16
             // 
             label16.AutoSize = true;
+            label16.BackColor = Color.Transparent;
             label16.Font = new Font("Century Gothic", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label16.Location = new Point(307, 11);
             label16.Name = "label16";
@@ -1371,23 +1379,11 @@
             kullaniciVeri.Size = new Size(1031, 577);
             kullaniciVeri.TabIndex = 0;
             // 
-            // panelSifreislem
-            // 
-            panelSifreislem.Controls.Add(label20);
-            panelSifreislem.Controls.Add(label19);
-            panelSifreislem.Controls.Add(btnSifirla);
-            panelSifreislem.Controls.Add(txtMail);
-            panelSifreislem.Controls.Add(label18);
-            panelSifreislem.Controls.Add(label17);
-            panelSifreislem.Location = new Point(241, 80);
-            panelSifreislem.Name = "panelSifreislem";
-            panelSifreislem.Size = new Size(1047, 634);
-            panelSifreislem.TabIndex = 18;
-            // 
             // label20
             // 
+            label20.BackColor = Color.Transparent;
             label20.ImeMode = ImeMode.NoControl;
-            label20.Location = new Point(264, 493);
+            label20.Location = new Point(252, 479);
             label20.Name = "label20";
             label20.Size = new Size(511, 71);
             label20.TabIndex = 17;
@@ -1396,7 +1392,8 @@
             // label19
             // 
             label19.AutoSize = true;
-            label19.Location = new Point(456, 443);
+            label19.BackColor = Color.Transparent;
+            label19.Location = new Point(444, 429);
             label19.Name = "label19";
             label19.Size = new Size(122, 20);
             label19.TabIndex = 15;
@@ -1448,7 +1445,7 @@
             btnSifirla.IdleIconLeftImage = null;
             btnSifirla.IdleIconRightImage = null;
             btnSifirla.IndicateFocus = false;
-            btnSifirla.Location = new Point(424, 320);
+            btnSifirla.Location = new Point(412, 306);
             btnSifirla.Name = "btnSifirla";
             btnSifirla.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             btnSifirla.OnDisabledState.BorderRadius = 30;
@@ -1493,7 +1490,7 @@
             // 
             // txtMail
             // 
-            txtMail.Location = new Point(313, 221);
+            txtMail.Location = new Point(301, 207);
             txtMail.Name = "txtMail";
             txtMail.Size = new Size(413, 26);
             txtMail.TabIndex = 13;
@@ -1501,8 +1498,9 @@
             // label18
             // 
             label18.AutoSize = true;
+            label18.BackColor = Color.Transparent;
             label18.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            label18.Location = new Point(307, 175);
+            label18.Location = new Point(295, 161);
             label18.Name = "label18";
             label18.Size = new Size(419, 22);
             label18.TabIndex = 12;
@@ -1514,7 +1512,7 @@
             label17.BackColor = Color.Transparent;
             label17.Font = new Font("Century Gothic", 18F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label17.ForeColor = SystemColors.InfoText;
-            label17.Location = new Point(436, 51);
+            label17.Location = new Point(424, 37);
             label17.Name = "label17";
             label17.Size = new Size(166, 30);
             label17.TabIndex = 11;
@@ -1528,6 +1526,7 @@
             panelSinifAtama.BorderColor = Color.Transparent;
             panelSinifAtama.BorderRadius = 3;
             panelSinifAtama.BorderThickness = 1;
+            panelSinifAtama.Controls.Add(seciliogrenci);
             panelSinifAtama.Controls.Add(label29);
             panelSinifAtama.Controls.Add(label30);
             panelSinifAtama.Controls.Add(label31);
@@ -1543,6 +1542,18 @@
             panelSinifAtama.ShowBorders = true;
             panelSinifAtama.Size = new Size(1047, 634);
             panelSinifAtama.TabIndex = 12;
+            panelSinifAtama.Visible = false;
+            // 
+            // seciliogrenci
+            // 
+            seciliogrenci.AutoSize = true;
+            seciliogrenci.BackColor = Color.Transparent;
+            seciliogrenci.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            seciliogrenci.ForeColor = SystemColors.MenuText;
+            seciliogrenci.Location = new Point(832, 476);
+            seciliogrenci.Name = "seciliogrenci";
+            seciliogrenci.Size = new Size(0, 22);
+            seciliogrenci.TabIndex = 39;
             // 
             // label29
             // 
@@ -1562,7 +1573,7 @@
             label30.BackColor = Color.Transparent;
             label30.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label30.ForeColor = SystemColors.MenuText;
-            label30.Location = new Point(846, 492);
+            label30.Location = new Point(802, 476);
             label30.Name = "label30";
             label30.Size = new Size(0, 22);
             label30.TabIndex = 37;
@@ -1573,7 +1584,7 @@
             label31.BackColor = Color.Transparent;
             label31.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label31.ForeColor = SystemColors.MenuText;
-            label31.Location = new Point(739, 492);
+            label31.Location = new Point(695, 476);
             label31.Name = "label31";
             label31.Size = new Size(137, 22);
             label31.TabIndex = 36;
@@ -1627,7 +1638,7 @@
             BtnAtamaKaldir.IdleIconLeftImage = null;
             BtnAtamaKaldir.IdleIconRightImage = null;
             BtnAtamaKaldir.IndicateFocus = false;
-            BtnAtamaKaldir.Location = new Point(771, 561);
+            BtnAtamaKaldir.Location = new Point(757, 545);
             BtnAtamaKaldir.Name = "BtnAtamaKaldir";
             BtnAtamaKaldir.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             BtnAtamaKaldir.OnDisabledState.BorderRadius = 1;
@@ -1668,6 +1679,7 @@
             BtnAtamaKaldir.TextMarginLeft = 0;
             BtnAtamaKaldir.TextPadding = new Padding(0);
             BtnAtamaKaldir.UseDefaultRadiusAndThickness = true;
+            BtnAtamaKaldir.Click += BtnAtamaKaldir_Click;
             // 
             // SinifinOgrDataGridView
             // 
@@ -1728,6 +1740,7 @@
             SinifinOgrDataGridView.Size = new Size(593, 182);
             SinifinOgrDataGridView.TabIndex = 34;
             SinifinOgrDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            SinifinOgrDataGridView.MouseClick += SinifinOgrDataGridView_MouseClick;
             // 
             // BtnAtamaYap
             // 
@@ -1818,6 +1831,7 @@
             BtnAtamaYap.TextMarginLeft = 0;
             BtnAtamaYap.TextPadding = new Padding(0);
             BtnAtamaYap.UseDefaultRadiusAndThickness = true;
+            BtnAtamaYap.Click += BtnAtamaYap_Click;
             // 
             // label32
             // 
@@ -1962,6 +1976,7 @@
             siniflarDataGridView.Size = new Size(490, 282);
             siniflarDataGridView.TabIndex = 29;
             siniflarDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            siniflarDataGridView.MouseClick += siniflarDataGridView_MouseClick;
             // 
             // panelDersveSinif
             // 
@@ -1980,6 +1995,7 @@
             panelDersveSinif.ShowBorders = true;
             panelDersveSinif.Size = new Size(1047, 634);
             panelDersveSinif.TabIndex = 13;
+            panelDersveSinif.Visible = false;
             // 
             // olusanSinifDataGridView2
             // 
@@ -2404,6 +2420,7 @@
             panelDersAtama.ShowBorders = true;
             panelDersAtama.Size = new Size(1047, 634);
             panelDersAtama.TabIndex = 13;
+            panelDersAtama.Visible = false;
             // 
             // label28
             // 
@@ -2828,19 +2845,40 @@
             OgretmenlerDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
             OgretmenlerDataGridView.SelectionChanged += OgretmenlerDataGridView_SelectionChanged;
             // 
+            // panelSifreislem
+            // 
+            panelSifreislem.BackgroundColor = Color.White;
+            panelSifreislem.BackgroundImage = (Image)resources.GetObject("panelSifreislem.BackgroundImage");
+            panelSifreislem.BackgroundImageLayout = ImageLayout.Stretch;
+            panelSifreislem.BorderColor = Color.Transparent;
+            panelSifreislem.BorderRadius = 3;
+            panelSifreislem.BorderThickness = 1;
+            panelSifreislem.Controls.Add(label20);
+            panelSifreislem.Controls.Add(label17);
+            panelSifreislem.Controls.Add(label19);
+            panelSifreislem.Controls.Add(label18);
+            panelSifreislem.Controls.Add(btnSifirla);
+            panelSifreislem.Controls.Add(txtMail);
+            panelSifreislem.Location = new Point(241, 80);
+            panelSifreislem.Name = "panelSifreislem";
+            panelSifreislem.ShowBorders = true;
+            panelSifreislem.Size = new Size(1047, 634);
+            panelSifreislem.TabIndex = 19;
+            panelSifreislem.Visible = false;
+            // 
             // AdminEkrani
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(1295, 720);
-            Controls.Add(panelDersAtama);
-            Controls.Add(panelDersveSinif);
+            ClientSize = new Size(1294, 721);
             Controls.Add(panelSinifAtama);
-            Controls.Add(panelLog);
-            Controls.Add(panelKullaniciEkle);
-            Controls.Add(panelSifreislem);
+            Controls.Add(panelDersAtama);
             Controls.Add(panelKullaniciVeri);
+            Controls.Add(panelLog);
+            Controls.Add(panelSifreislem);
+            Controls.Add(panelDersveSinif);
+            Controls.Add(panelKullaniciEkle);
             Controls.Add(bunifuLabel2);
             Controls.Add(bunifuLabel1);
             Controls.Add(label3);
@@ -2870,8 +2908,6 @@
             panelKullaniciVeri.ResumeLayout(false);
             panelKullaniciVeri.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)kullaniciVeri).EndInit();
-            panelSifreislem.ResumeLayout(false);
-            panelSifreislem.PerformLayout();
             panelSinifAtama.ResumeLayout(false);
             panelSinifAtama.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)SinifinOgrDataGridView).EndInit();
@@ -2889,6 +2925,8 @@
             ((System.ComponentModel.ISupportInitialize)atanmisDersDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)DerslerDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)OgretmenlerDataGridView).EndInit();
+            panelSifreislem.ResumeLayout(false);
+            panelSifreislem.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -2939,7 +2977,6 @@
         private Bunifu.UI.WinForms.BunifuPanel panelKullaniciVeri;
         private Label label16;
         private DataGridView kullaniciVeri;
-        private Panel panelSifreislem;
         private TextBox txtMail;
         private Label label18;
         private Label label17;
@@ -2982,5 +3019,7 @@
         private Bunifu.UI.WinForms.BunifuDataGridView sinifsizlarDataGridView;
         private Label label33;
         private Bunifu.UI.WinForms.BunifuDataGridView siniflarDataGridView;
+        private Bunifu.UI.WinForms.BunifuPanel panelSifreislem;
+        private Label seciliogrenci;
     }
 }
