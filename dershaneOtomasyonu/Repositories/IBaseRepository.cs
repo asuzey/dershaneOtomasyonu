@@ -11,7 +11,7 @@ namespace dershaneOtomasyonu.Repositories
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync();
         Task AddAsync(T entity);
-        Task UpdateAsync(T entity);
+        Task<T> UpdateAsync(T entity);
         Task DeleteAsync(int id);
         IQueryable<T> Query(); // Sorgulama işlemleri için
         // Task GetLogsByUserId(int id);

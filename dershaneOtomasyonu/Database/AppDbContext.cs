@@ -56,6 +56,18 @@ namespace dershaneOtomasyonu.Database
                 .HasForeignKey(g => g.OlusturucuId)
                 .OnDelete(DeleteBehavior.Restrict); // Çift yönlü cascade önlemek için
 
+            modelBuilder.Entity<Degerlendirme>()
+                .HasOne(g => g.Creator)
+                .WithMany(k => k.OgretmenDegerlendirmeleri)
+                .HasForeignKey(g => g.CreatorId)
+                .OnDelete(DeleteBehavior.Restrict); // Çift yönlü cascade önlemek için
+
+            modelBuilder.Entity<Degerlendirme>()
+                .HasOne(g => g.Kullanici)
+                .WithMany(k => k.OgrenciDegerlendirmeleri)
+                .HasForeignKey(g => g.KullaniciId)
+                .OnDelete(DeleteBehavior.Restrict); // Çift yönlü cascade önlemek için
+
             // DersKayitlari ilişkisi
             modelBuilder.Entity<Yoklama>()
                 .HasOne(y => y.DersKayit)

@@ -13,6 +13,7 @@ namespace dershaneOtomasyonu.Database.Tables
         public string Mesajlar { get; set; }
         public int KatilimciId { get; set; }
         public int OlusturucuId { get; set; }
+        public bool Durum { get; set; } // Durum (Aktif/Deaktif)
 
         public Kullanici Katilimci { get; set; }
         public Kullanici Olusturucu { get; set; }

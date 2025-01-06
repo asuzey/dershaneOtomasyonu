@@ -25,6 +25,8 @@ using FluentValidation.Results;
 using FluentValidation;
 using Bunifu.UI.WinForms;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
 
 namespace dershaneOtomasyonu
 {
@@ -40,6 +42,8 @@ namespace dershaneOtomasyonu
         private readonly ISinifRepository _sinifRepository;
         private readonly IDerslerRepository _derslerRepository;
         private readonly IKullaniciDersRepository _kullaniciDersRepository;
+        private readonly IDersKayitRepository _dersKayitRepository;
+        private readonly IDegerlendirmeRepository _degerlendirmeRepository;
 
 
         public AdminEkrani(ILogger logger,
@@ -51,7 +55,9 @@ namespace dershaneOtomasyonu
             IDerslerRepository derslerRepository,
             IKullaniciDersRepository kullaniciDersRepository,
             IBaseRepository<Dosya> baseDosyaRepository,
-            IKullaniciDosyaRepository kullaniciDosyaRepository)
+            IKullaniciDosyaRepository kullaniciDosyaRepository,
+            IDersKayitRepository dersKayitRepository,
+            IDegerlendirmeRepository degerlendirmeRepository)
         {
             InitializeComponent();
             _kullaniciRepository = kullaniciRepository;
@@ -64,6 +70,8 @@ namespace dershaneOtomasyonu
             _kullaniciDersRepository = kullaniciDersRepository;
             _baseDosyaRepository = baseDosyaRepository;
             _kullaniciDosyaRepository = kullaniciDosyaRepository;
+            _dersKayitRepository = dersKayitRepository;
+            _degerlendirmeRepository = degerlendirmeRepository;
             panels = [panelKullaniciEkle, panelLog, panelKullaniciVeri, panelSifreislem, panelDersAtama, panelDersveSinif, panelSinifAtama];
         }
 
@@ -71,7 +79,7 @@ namespace dershaneOtomasyonu
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository); // form2 ye geçiş
+            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository); // form2 ye geçiş
             GirisEkrani.Show(); // form2yi açıyor
             this.Hide(); // form1i gizleyecek
             GirisEkrani.FormClosed += (s, args) => this.Close();
@@ -384,7 +392,7 @@ namespace dershaneOtomasyonu
             seciliders.Text = dersAdi;
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void logo_Click(object sender, EventArgs e)
         {
             foreach (var panel in panels)
             {

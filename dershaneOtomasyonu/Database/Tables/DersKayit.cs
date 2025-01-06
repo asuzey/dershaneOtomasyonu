@@ -12,7 +12,7 @@ namespace dershaneOtomasyonu.Database.Tables
         public int SinifId { get; set; } // Sınıf ID'si
         public int KullaniciId { get; set; } // Kullanıcı ID'si (derse kaydolan)
         public string Oda { get; set; } // Oda adı veya kimliği
-        public string Mesajlar { get; set; } // Mesajlar
+        public string? Mesajlar { get; set; } // Mesajlar
         public bool Durum { get; set; } // Durum (Aktif/Deaktif)
 
         // Navigation Properties

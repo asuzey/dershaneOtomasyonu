@@ -1,13 +1,18 @@
 ﻿using Bunifu.UI.WinForms;
 using dershaneOtomasyonu.Database.Tables;
+using dershaneOtomasyonu.DTO;
+using dershaneOtomasyonu.Forms;
 using dershaneOtomasyonu.Helpers;
 using dershaneOtomasyonu.Repositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
+using Mapster;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +22,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TheArtOfDev.HtmlRenderer.Adapters;
 
 namespace dershaneOtomasyonu
 {
@@ -32,7 +38,10 @@ namespace dershaneOtomasyonu
         private readonly ISinifRepository _sinifRepository;
         private readonly IDerslerRepository _derslerRepository;
         private readonly IKullaniciDersRepository _kullaniciDersRepository;
+        private readonly IDersKayitRepository _dersKayitRepository;
+        private readonly IDegerlendirmeRepository _degerlendirmeRepository;
         private readonly FileService _fileService;
+        private ChattingForm _chattingForm;
 
         public PersonelEkrani(ILogger logger,
             IKullaniciRepository kullaniciRepository,
@@ -43,7 +52,9 @@ namespace dershaneOtomasyonu
             IDerslerRepository derslerRepository,
             IKullaniciDersRepository kullaniciDersRepository,
             IBaseRepository<Dosya> baseDosyaRepository,
-            IKullaniciDosyaRepository kullaniciDosyaRepository)
+            IKullaniciDosyaRepository kullaniciDosyaRepository,
+            IDersKayitRepository dersKayitRepository,
+            IDegerlendirmeRepository degerlendirmeRepository)
 
         {
             InitializeComponent();
@@ -57,7 +68,9 @@ namespace dershaneOtomasyonu
             _kullaniciDersRepository = kullaniciDersRepository;
             _baseDosyaRepository = baseDosyaRepository;
             _kullaniciDosyaRepository = kullaniciDosyaRepository;
-            panels = [Panel_SiniflarVeOgrenciler, panelDosyaGonderme, panelDersBaslat];
+            _dersKayitRepository = dersKayitRepository;
+            _degerlendirmeRepository = degerlendirmeRepository;
+            panels = [Panel_SiniflarVeOgrenciler, panelDosyaGonderme, panelDersBaslat, PanelGorusme];
             _fileService = new FileService();
 
         }
@@ -97,7 +110,7 @@ namespace dershaneOtomasyonu
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani form1 = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository); // form4e geçiş
+            GirisEkrani form1 = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository); // form4e geçiş
             form1.Show(); // form4ü açıyor
             this.Hide(); // form1i gizleyecek
             form1.FormClosed += (s, args) => this.Close();
@@ -140,6 +153,19 @@ namespace dershaneOtomasyonu
             }
             chattingOgrDataGridView.Columns[5].Visible = true;
             chattingOgrDataGridView.Columns[6].Visible = true;
+        }
+
+        private async Task LoadSinifinOgrencileriToDersBaslatOnPanelGorusme(int sinifId)
+        {
+            var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
+            var sinifinOgrencileri = ogrenciler.Where(o => o.SinifId == sinifId).ToList();
+            GorusmeOgrencilerDataGridView.DataSource = sinifinOgrencileri;
+            foreach (DataGridViewColumn column in GorusmeOgrencilerDataGridView.Columns)
+            {
+                column.Visible = false;
+            }
+            GorusmeOgrencilerDataGridView.Columns[5].Visible = true;
+            GorusmeOgrencilerDataGridView.Columns[6].Visible = true;
         }
 
         private void TogglePanel(BunifuPanel panelToToggle)
@@ -353,6 +379,13 @@ namespace dershaneOtomasyonu
             SiniflarDosyaDataGridView1.Columns[0].Visible = false;
         }
 
+        private async Task LoadClassroomsOnPanelGorusme()
+        {
+            var siniflar = await _sinifRepository.GetAllAsync();
+            gorusmeSiniflarDataGridView.DataSource = siniflar;
+            gorusmeSiniflarDataGridView.Columns[0].Visible = false;
+        }
+
         private void bunifuButton1_Click(object sender, EventArgs e)
         {
             SiniflarDosyaDataGridView1.ClearSelection(); // Seçimi temizle
@@ -372,6 +405,7 @@ namespace dershaneOtomasyonu
             var siniflar = await _sinifRepository.GetAllAsync();
             chattingSinifDataGridView.DataSource = siniflar;
             chattingSinifDataGridView.Columns[0].Visible = false;
+            LoadActiveDerslerData();
             TogglePanel(panelDersBaslat);
         }
 
@@ -382,7 +416,7 @@ namespace dershaneOtomasyonu
             if (sinifId != 0) await LoadSinifinOgrencileriToDersBaslat(sinifId);
         }
 
-        private void btnDersBaslat_Click(object sender, EventArgs e)
+        private async void btnDersBaslat_Click(object sender, EventArgs e)
         {
             if (chattingOgrDataGridView.Rows.Count == 0)
             {
@@ -398,13 +432,199 @@ namespace dershaneOtomasyonu
 
             if (userChoice == DialogResult.Yes)
             {
-                // ders başlar
-                MessageBox.Show("Ders başlatıldı.");
+
+                var sinifId = 0;
+                if (chattingSinifDataGridView.CurrentRow != null) { sinifId = Convert.ToInt32(chattingSinifDataGridView.CurrentRow.Cells[0].Value); } else if (sinifId == 0) { return; } else { return; }
+
+                var sinifAdi = chattingSinifDataGridView.CurrentRow.Cells[1].Value.ToString();
+                var dersKayit = await _dersKayitRepository.GetActiveDersBySinifAndOgretmenIdAsync(sinifId, GlobalData.Kullanici.Id);
+                if (dersKayit == null)
+                {
+                    dersKayit = new DersKayit();
+                    dersKayit.SinifId = sinifId;
+                    dersKayit.KullaniciId = GlobalData.Kullanici!.Id;
+                    dersKayit.Oda = $"{sinifAdi}-{GlobalData.Kullanici.Id}-{DateTime.Now}";
+                    dersKayit.Durum = true;
+                    await _dersKayitRepository.AddAsync(dersKayit);
+                }
+
+
+                _chattingForm = new ChattingForm(dersKayit, _dersKayitRepository);
+                _chattingForm.FormClosed += _chattingForm_FormClosed;
+                _chattingForm.Show();
+
+                await LoadActiveDerslerData();
+
+            }
+        }
+
+        private async void _chattingForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Thread.Sleep(2000); // 2000 milisaniye (2 saniye)
+            await LoadActiveDerslerData();
+        }
+        private async void _chattingFormGorusme_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Thread.Sleep(2000); // 2000 milisaniye (2 saniye)
+            await LoadActiveGorusmelerData();
+        }
+
+        private async Task LoadActiveDerslerData()// aktif dersleri çekiyorduk
+        {
+            var devamEdenDersler = await _dersKayitRepository.GetActiveDerslerByOgretmenIdAsync(GlobalData.Kullanici.Id);
+            var siniflar = new List<Sinif>();
+            foreach (var ders in devamEdenDersler)
+            {
+                siniflar.Add(await _sinifRepository.GetByIdAsync(ders.SinifId));
+            }
+            activeDerslerDataGrid.DataSource = siniflar;
+            activeDerslerDataGrid.Columns[0].Visible = false;
+        }
+        private async Task LoadActiveGorusmelerData()// aktif görüşmeleri çekeceğiz
+        {
+            var devamEdenGorusmeler = await _dersKayitRepository.GetActiveDerslerByOgretmenIdAsync(GlobalData.Kullanici.Id);
+            var siniflar = new List<Sinif>();
+            foreach (var ders in devamEdenGorusmeler)
+            {
+                siniflar.Add(await _sinifRepository.GetByIdAsync(ders.SinifId));
+            }
+            activeDerslerDataGrid.DataSource = siniflar;
+            activeDerslerDataGrid.Columns[0].Visible = false;
+        }
+
+        public static Tuple<int, string> ShowInputDialog()
+        {
+            Form prompt = new Form()
+            {
+                Width = 400,
+                Height = 200,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = "Değer Girişi",
+                StartPosition = FormStartPosition.CenterScreen
+            };
+
+            Label rateLabel = new Label() { Left = 20, Top = 20, Text = "Puan (0-100):", AutoSize = true };
+            TextBox rateInput = new TextBox() { Left = 150, Top = 20, Width = 200 };
+
+            Label descLabel = new Label() { Left = 20, Top = 60, Text = "Açıklama (isteğe bağlı):", AutoSize = true };
+            TextBox descInput = new TextBox() { Left = 150, Top = 60, Width = 200 };
+
+            Button confirmation = new Button() { Text = "Tamam", Left = 150, Width = 90, Top = 120 };
+            Button cancel = new Button() { Text = "İptal", Left = 260, Width = 90, Top = 120, DialogResult = DialogResult.Cancel };
+
+            confirmation.Click += (sender, e) =>
+            {
+                // Zorunlu rate kontrolü
+                if (!int.TryParse(rateInput.Text, out int rate) || rate < 0 || rate > 100)
+                {
+                    MessageBox.Show("Lütfen 0 ile 100 arasında geçerli bir sayısal puan değeri girin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; // Form kapanmaz
+                }
+
+                // Validasyon başarılı, form kapatılır
+                prompt.DialogResult = DialogResult.OK;
+                prompt.Close();
+            };
+
+            prompt.Controls.Add(rateLabel);
+            prompt.Controls.Add(rateInput);
+            prompt.Controls.Add(descLabel);
+            prompt.Controls.Add(descInput);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(cancel);
+
+            prompt.AcceptButton = confirmation;
+            prompt.CancelButton = cancel;
+
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                int rate = int.Parse(rateInput.Text); // Rate doğrulandığından kesin parse edilir
+                string description = descInput.Text; // Description opsiyonel
+                return Tuple.Create(rate, description);
+            }
+
+            return null; // Kullanıcı iptal ettiyse
+        }
+
+
+        private async void BtnDegerlendirmeYap_Click(object sender, EventArgs e)
+        {
+            if (chattingOgrDataGridView.CurrentRow == null)
+            {
+                MessageBox.Show("Lütfen öğrenci tablosundan bir kayıt seçiniz.", "Bilgi");
+                return;
+            }
+
+            var result = ShowInputDialog();
+            if (result != null)
+            {
+                var degerlendirme = new Degerlendirme();
+                degerlendirme.Puan = result.Item1;
+                degerlendirme.Aciklama = result.Item2;
+                degerlendirme.KullaniciId = Convert.ToInt32(chattingOgrDataGridView.CurrentRow.Cells[0].Value);
+                degerlendirme.CreatorId = GlobalData.Kullanici!.Id;
+                await _degerlendirmeRepository.AddAsync(degerlendirme);
+                MessageBox.Show($"Değerlendirme kaydedildi.", "Bilgi");
+            }
+            else ShowInputDialog(); // eğer hatalı veri girişi yapılırsa diyalog box tekrar açılıyor.
+        }
+
+        private async void BtnGorusmePanel_Click(object sender, EventArgs e)
+        {
+            await LoadClassroomsOnPanelGorusme();
+            TogglePanel(PanelGorusme);
+        }
+
+        private async void gorusmeSiniflarDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            var sinifId = 0;
+            if (gorusmeSiniflarDataGridView.CurrentRow != null) sinifId = Convert.ToInt32(gorusmeSiniflarDataGridView.CurrentRow.Cells[0].Value);
+            if (sinifId != 0) await LoadSinifinOgrencileriToDersBaslatOnPanelGorusme(sinifId);
+        }
+
+        private async void BtnGorusmeBaslat_Click(object sender, EventArgs e)
+        {
+            // görüşme başlat kodu yazacağım
+            if (gorusmeSiniflarDataGridView.Rows.Count == 0)
+            {
+                MessageBox.Show("Lütfen öğrencilerin bulunduğu bir sınıf seçiniz.", "Ders Başlatma İşlemi");
+                return;
+            }
+            DialogResult userChoice = MessageBox.Show(
+                    "Ders başlatılacaktır, devam edilsin mi?",
+                    "Ders Başlatma İşlemi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+            // global data'daki kullanıcı id'yi sorgulayarak aktif olan görüşmeleri gride yazacağız
+            // eğer bi öğrenci ile görüşme başlamışsa, o görüşme aktifken yeni bir görüşme kaydı atılmayacak, o kayıt devam edecek
+            if (userChoice == DialogResult.Yes)
+            {
+
+                var sinifId = 0;
+                if (gorusmeSiniflarDataGridView.CurrentRow != null) { sinifId = Convert.ToInt32(gorusmeSiniflarDataGridView.CurrentRow.Cells[0].Value); } else if (sinifId == 0) { return; } else { return; }
+
+                var sinifAdi = gorusmeSiniflarDataGridView.CurrentRow.Cells[1].Value.ToString();
+                var dersKayit = await _dersKayitRepository.GetActiveDersBySinifAndOgretmenIdAsync(sinifId, GlobalData.Kullanici.Id);
+                if (dersKayit == null)
+                {
+                    dersKayit = new DersKayit();
+                    dersKayit.SinifId = sinifId;
+                    dersKayit.KullaniciId = GlobalData.Kullanici!.Id;
+                    dersKayit.Oda = $"{sinifAdi}-{GlobalData.Kullanici.Id}-{DateTime.Now}";
+                    dersKayit.Durum = true;
+                    await _dersKayitRepository.AddAsync(dersKayit);
+                }
+
+
+                _chattingForm = new ChattingForm(dersKayit, _dersKayitRepository);
+                _chattingForm.FormClosed += _chattingFormGorusme_FormClosed;
+                _chattingForm.Show();
+
+                await LoadActiveDerslerData();
+
             }
         }
     }
-
-
-
 
 }

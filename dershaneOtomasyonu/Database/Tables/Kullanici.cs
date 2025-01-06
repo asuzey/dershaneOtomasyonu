@@ -30,5 +30,7 @@ namespace dershaneOtomasyonu.Database.Tables
         public ICollection<KullaniciDosya> Dosyalar { get; set; } // Kullanıcının dosyaları
         public ICollection<Gorusme> GorusmelerOlusturucu { get; set; } // Kullanıcının oluşturduğu görüşmeler
         public ICollection<Gorusme> GorusmelerKatilimci { get; set; } // Kullanıcının katıldığı görüşmeler
+        public ICollection<Degerlendirme> OgretmenDegerlendirmeleri { get; set; } // Kullanıcının
+        public ICollection<Degerlendirme> OgrenciDegerlendirmeleri { get; set; } // Kullanıcının
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dershaneOtomasyonu.Database;
 
@@ -11,9 +12,11 @@ using dershaneOtomasyonu.Database;
 namespace dershaneOtomasyonu.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250106162359_degerlendirme-nullable-aciklama")]
+    partial class degerlendirmenullableaciklama
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,9 +36,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.Property<string>("Aciklama")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CreatorId")
-                        .HasColumnType("int");
-
                     b.Property<int>("KullaniciId")
                         .HasColumnType("int");
 
@@ -43,8 +43,6 @@ namespace dershaneOtomasyonu.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
 
                     b.HasIndex("KullaniciId");
 
@@ -133,9 +131,6 @@ namespace dershaneOtomasyonu.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Durum")
-                        .HasColumnType("bit");
 
                     b.Property<int>("KatilimciId")
                         .HasColumnType("int");
@@ -368,19 +363,11 @@ namespace dershaneOtomasyonu.Migrations
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.Degerlendirme", b =>
                 {
-                    b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Creator")
-                        .WithMany("OgretmenDegerlendirmeleri")
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Kullanici")
-                        .WithMany("OgrenciDegerlendirmeleri")
+                        .WithMany()
                         .HasForeignKey("KullaniciId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Creator");
 
                     b.Navigation("Kullanici");
                 });
@@ -545,10 +532,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.Navigation("GorusmelerKatilimci");
 
                     b.Navigation("GorusmelerOlusturucu");
-
-                    b.Navigation("OgrenciDegerlendirmeleri");
-
-                    b.Navigation("OgretmenDegerlendirmeleri");
 
                     b.Navigation("Yoklamalar");
                 });

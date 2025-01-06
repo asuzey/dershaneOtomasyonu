@@ -78,7 +78,7 @@
             btnKullaniciVeriPanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             btnKullaniciEklePanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             label2 = new Label();
-            pictureBox1 = new PictureBox();
+            logo = new PictureBox();
             bunifuGradientPanel1 = new Bunifu.UI.WinForms.BunifuGradientPanel();
             label1 = new Label();
             monthCalendar1 = new MonthCalendar();
@@ -158,7 +158,7 @@
             OgretmenlerDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             panelSifreislem = new Bunifu.UI.WinForms.BunifuPanel();
             bunifuPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             bunifuGradientPanel1.SuspendLayout();
             panelKullaniciEkle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -217,7 +217,7 @@
             bunifuPanel1.Controls.Add(btnKullaniciVeriPanel);
             bunifuPanel1.Controls.Add(btnKullaniciEklePanel);
             bunifuPanel1.Controls.Add(label2);
-            bunifuPanel1.Controls.Add(pictureBox1);
+            bunifuPanel1.Controls.Add(logo);
             bunifuPanel1.Dock = DockStyle.Left;
             bunifuPanel1.Location = new Point(0, 0);
             bunifuPanel1.Margin = new Padding(4);
@@ -882,18 +882,18 @@
             label2.TabIndex = 11;
             label2.Text = "Dershane Otomasyonu";
             // 
-            // pictureBox1
+            // logo
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Cursor = Cursors.Hand;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(72, 18);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(81, 78);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 12;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
+            logo.BackColor = Color.Transparent;
+            logo.Cursor = Cursors.Hand;
+            logo.Image = (Image)resources.GetObject("logo.Image");
+            logo.Location = new Point(72, 18);
+            logo.Name = "logo";
+            logo.Size = new Size(81, 78);
+            logo.SizeMode = PictureBoxSizeMode.StretchImage;
+            logo.TabIndex = 12;
+            logo.TabStop = false;
+            logo.Click += logo_Click;
             // 
             // bunifuGradientPanel1
             // 
@@ -2896,7 +2896,7 @@
             Load += AdminEkrani_Load;
             bunifuPanel1.ResumeLayout(false);
             bunifuPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             bunifuGradientPanel1.ResumeLayout(false);
             bunifuGradientPanel1.PerformLayout();
             panelKullaniciEkle.ResumeLayout(false);
@@ -2935,7 +2935,7 @@
         private Button CikisYap;
         private Bunifu.UI.WinForms.BunifuPanel bunifuPanel1;
         private Bunifu.UI.WinForms.BunifuGradientPanel bunifuGradientPanel1;
-        private PictureBox pictureBox1;
+        private PictureBox logo;
         private Label label1;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnKullaniciEklePanel;
         private Label label2;

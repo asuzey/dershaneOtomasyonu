@@ -14,6 +14,8 @@ using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositorie
 using FluentValidation;
 using FluentValidation.Validators;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
 
 
 namespace dershaneOtomasyonu
@@ -51,6 +53,8 @@ namespace dershaneOtomasyonu
             services.AddScoped<IDerslerRepository, DerslerRepository>();
             services.AddScoped<IKullaniciDersRepository, KullaniciDersRepository>();
             services.AddScoped<IKullaniciDosyaRepository, KullaniciDosyaRepository>();
+            services.AddScoped<IDersKayitRepository, DersKayitRepository>();
+            services.AddScoped<IDegerlendirmeRepository, DegerlendirmeRepository>();
 
 
             // Servislere formu ekle
