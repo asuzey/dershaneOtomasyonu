@@ -912,7 +912,7 @@
             bunifuGradientPanel1.Margin = new Padding(4);
             bunifuGradientPanel1.Name = "bunifuGradientPanel1";
             bunifuGradientPanel1.Quality = 10;
-            bunifuGradientPanel1.Size = new Size(1060, 73);
+            bunifuGradientPanel1.Size = new Size(1062, 73);
             bunifuGradientPanel1.TabIndex = 11;
             // 
             // label1
@@ -929,7 +929,7 @@
             // monthCalendar1
             // 
             monthCalendar1.Font = new Font("Century Gothic", 13.25F);
-            monthCalendar1.Location = new Point(998, 156);
+            monthCalendar1.Location = new Point(988, 179);
             monthCalendar1.Name = "monthCalendar1";
             monthCalendar1.TabIndex = 12;
             // 
@@ -939,7 +939,7 @@
             label3.BackColor = Color.FromArgb(30, 24, 97);
             label3.Font = new Font("Century Gothic", 14.25F);
             label3.ForeColor = SystemColors.Window;
-            label3.Location = new Point(978, 125);
+            label3.Location = new Point(970, 125);
             label3.Name = "label3";
             label3.Size = new Size(271, 22);
             label3.TabIndex = 13;
@@ -964,10 +964,10 @@
             bunifuLabel1.AutoEllipsis = false;
             bunifuLabel1.CursorType = Cursors.Default;
             bunifuLabel1.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            bunifuLabel1.Location = new Point(283, 172);
+            bunifuLabel1.Location = new Point(285, 179);
             bunifuLabel1.Name = "bunifuLabel1";
             bunifuLabel1.RightToLeft = RightToLeft.No;
-            bunifuLabel1.Size = new Size(427, 105);
+            bunifuLabel1.Size = new Size(380, 307);
             bunifuLabel1.TabIndex = 15;
             bunifuLabel1.Text = resources.GetString("bunifuLabel1.Text");
             bunifuLabel1.TextAlignment = ContentAlignment.TopLeft;
@@ -2428,7 +2428,7 @@
             label28.BackColor = Color.Transparent;
             label28.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label28.ForeColor = SystemColors.MenuText;
-            label28.Location = new Point(14, 395);
+            label28.Location = new Point(14, 409);
             label28.Name = "label28";
             label28.Size = new Size(149, 22);
             label28.TabIndex = 28;
@@ -2844,6 +2844,7 @@
             OgretmenlerDataGridView.TabIndex = 0;
             OgretmenlerDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
             OgretmenlerDataGridView.SelectionChanged += OgretmenlerDataGridView_SelectionChanged;
+            OgretmenlerDataGridView.MouseClick += OgretmenlerDataGridView_MouseClick;
             // 
             // panelSifreislem
             // 
@@ -2871,21 +2872,21 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImageLayout = ImageLayout.None;
-            ClientSize = new Size(1294, 721);
-            Controls.Add(panelSinifAtama);
+            ClientSize = new Size(1296, 721);
             Controls.Add(panelDersAtama);
-            Controls.Add(panelKullaniciVeri);
-            Controls.Add(panelLog);
+            Controls.Add(panelSinifAtama);
             Controls.Add(panelSifreislem);
-            Controls.Add(panelDersveSinif);
+            Controls.Add(panelLog);
+            Controls.Add(panelKullaniciVeri);
             Controls.Add(panelKullaniciEkle);
-            Controls.Add(bunifuLabel2);
-            Controls.Add(bunifuLabel1);
-            Controls.Add(label3);
-            Controls.Add(monthCalendar1);
+            Controls.Add(panelDersveSinif);
             Controls.Add(bunifuGradientPanel1);
             Controls.Add(bunifuPanel1);
+            Controls.Add(label3);
+            Controls.Add(monthCalendar1);
             Controls.Add(label4);
+            Controls.Add(bunifuLabel1);
+            Controls.Add(bunifuLabel2);
             Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             ForeColor = SystemColors.WindowText;
             Icon = (Icon)resources.GetObject("$this.Icon");

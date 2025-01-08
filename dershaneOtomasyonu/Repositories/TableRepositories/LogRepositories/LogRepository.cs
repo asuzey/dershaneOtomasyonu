@@ -31,6 +31,7 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories
         public async Task<List<LogEntryDto>> GetAllAsDtoAsync()
         {
             return await _context.Logs
+                .OrderBy(log => log.Id) // Id'ye göre sıralama yapar
                 .Select(log => new LogEntryDto
                 {
                     KullaniciAdi = log.Kullanici != null ? log.Kullanici.KullaniciAdi : null,

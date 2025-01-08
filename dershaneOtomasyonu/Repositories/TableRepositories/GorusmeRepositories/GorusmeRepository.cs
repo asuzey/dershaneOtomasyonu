@@ -24,20 +24,32 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories
             return gorusme;
         }
 
-        public async Task<List<Gorusme>> GetGorusmeByOlusturucuIdAsync(string oda)
+        public async Task<List<Gorusme>> GetGorusmeByOlusturucuIdAsync(int olusturucuId)
         {
             var gorusme = await _context.Gorusmeler
-                .Where(d => d.Oda == oda)
+                .Where(d => d.OlusturucuId == olusturucuId)
                 .ToListAsync();
             return gorusme;
         }
 
-        public async Task<List<Gorusme>> GetGorusmeByOlusturucuIdAsync(string oda)
+        public async Task<List<Gorusme>> GetGorusmeByOlusturucuIdAndKullaniciIdAsync(int olusturucuId , int kullaniciId)
         {
             var gorusme = await _context.Gorusmeler
-                .Where(d => d.Oda == oda && d.)
+                .Where(d => d.OlusturucuId == olusturucuId && d.KatilimciId == kullaniciId)
                 .ToListAsync();
             return gorusme;
+        }
+
+        public async Task<Gorusme> GetActiveGorusmeByOlusturucuIdAndKullaniciIdAsync(int olusturucuId, int kullaniciId)
+        {
+            var gorusme = await _context.Gorusmeler
+                .FirstOrDefaultAsync(d => d.OlusturucuId == olusturucuId && d.KatilimciId == kullaniciId && d.Durum == true);
+            return gorusme;
+        }
+
+        public Task AddAsync(List<Gorusme> gorusme)
+        {
+            throw new NotImplementedException();
         }
     }
 }

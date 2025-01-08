@@ -27,6 +27,7 @@ using Bunifu.UI.WinForms;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
 
 namespace dershaneOtomasyonu
 {
@@ -44,7 +45,7 @@ namespace dershaneOtomasyonu
         private readonly IKullaniciDersRepository _kullaniciDersRepository;
         private readonly IDersKayitRepository _dersKayitRepository;
         private readonly IDegerlendirmeRepository _degerlendirmeRepository;
-
+        private readonly IGorusmeRepository _gorusmeRepository;
 
         public AdminEkrani(ILogger logger,
             IKullaniciRepository kullaniciRepository,
@@ -57,7 +58,8 @@ namespace dershaneOtomasyonu
             IBaseRepository<Dosya> baseDosyaRepository,
             IKullaniciDosyaRepository kullaniciDosyaRepository,
             IDersKayitRepository dersKayitRepository,
-            IDegerlendirmeRepository degerlendirmeRepository)
+            IDegerlendirmeRepository degerlendirmeRepository,
+            IGorusmeRepository gorusmeRepository)
         {
             InitializeComponent();
             _kullaniciRepository = kullaniciRepository;
@@ -72,6 +74,7 @@ namespace dershaneOtomasyonu
             _kullaniciDosyaRepository = kullaniciDosyaRepository;
             _dersKayitRepository = dersKayitRepository;
             _degerlendirmeRepository = degerlendirmeRepository;
+            _gorusmeRepository = gorusmeRepository;
             panels = [panelKullaniciEkle, panelLog, panelKullaniciVeri, panelSifreislem, panelDersAtama, panelDersveSinif, panelSinifAtama];
         }
 
@@ -79,7 +82,7 @@ namespace dershaneOtomasyonu
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository); // form2 ye geçiş
+            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository); // form2 ye geçiş
             GirisEkrani.Show(); // form2yi açıyor
             this.Hide(); // form1i gizleyecek
             GirisEkrani.FormClosed += (s, args) => this.Close();
@@ -244,8 +247,9 @@ namespace dershaneOtomasyonu
                 column.Visible = false;
             }
             // Sadece 3. ve 4. indexli kolonları görünür yap
-            OgretmenlerDataGridView.Columns[4].Visible = true;
+            // OgretmenlerDataGridView.Columns[4].Visible = true;
             OgretmenlerDataGridView.Columns[5].Visible = true;
+            OgretmenlerDataGridView.Columns[6].Visible = true;
 
             DerslerDataGridView.Columns[0].Visible = false;
             DerslerDataGridView.Columns[3].Visible = false;
@@ -450,6 +454,15 @@ namespace dershaneOtomasyonu
                 await _kullaniciRepository.UpdateAsync(ogrenci);
                 await LoadAtanmisOgrenciler(sinifId);
                 await LoadAtanmamisOgrenciler();
+            }
+        }
+
+        private async void OgretmenlerDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            var ogrId = Convert.ToInt32(OgretmenlerDataGridView.CurrentRow.Cells[0].Value);
+            if (ogrId != 0)
+            {
+                await LoadAtanmisDersler(ogrId);
             }
         }
     }

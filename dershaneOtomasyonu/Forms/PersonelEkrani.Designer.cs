@@ -1,4 +1,5 @@
-﻿namespace dershaneOtomasyonu
+﻿
+namespace dershaneOtomasyonu
 {
     partial class PersonelEkrani
     {
@@ -62,10 +63,13 @@
             DataGridViewCellStyle dataGridViewCellStyle22 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle23 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle24 = new DataGridViewCellStyle();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges10 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges10 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
             bunifuGradientPanel1 = new Bunifu.UI.WinForms.BunifuGradientPanel();
             label1 = new Label();
             CikisYap = new Button();
@@ -76,14 +80,14 @@
             btnDersBaslatmaPanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             BtnNotGondermePanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             label2 = new Label();
-            pictureBox1 = new PictureBox();
+            logo = new PictureBox();
             Panel_SiniflarVeOgrenciler = new Bunifu.UI.WinForms.BunifuPanel();
             label32 = new Label();
             sinifinOgrencileriDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             label33 = new Label();
             siniflarDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             panelDosyaGonderme = new Bunifu.UI.WinForms.BunifuPanel();
-            bunifuButton1 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
+            BtnSecimiTemizle = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             Btn_YeniDosyaYukle = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             label4 = new Label();
             DosyaDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
@@ -100,6 +104,8 @@
             label6 = new Label();
             chattingSinifDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             PanelGorusme = new Bunifu.UI.WinForms.BunifuPanel();
+            DedamEdenGorusmeDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
+            label9 = new Label();
             label10 = new Label();
             label11 = new Label();
             GorusmeOgrencilerDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
@@ -108,7 +114,7 @@
             gorusmeSiniflarDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             bunifuGradientPanel1.SuspendLayout();
             bunifuPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             Panel_SiniflarVeOgrenciler.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)sinifinOgrencileriDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)siniflarDataGridView).BeginInit();
@@ -120,6 +126,7 @@
             ((System.ComponentModel.ISupportInitialize)chattingOgrDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chattingSinifDataGridView).BeginInit();
             PanelGorusme.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DedamEdenGorusmeDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GorusmeOgrencilerDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gorusmeSiniflarDataGridView).BeginInit();
             SuspendLayout();
@@ -188,7 +195,7 @@
             bunifuPanel1.Controls.Add(btnDersBaslatmaPanel);
             bunifuPanel1.Controls.Add(BtnNotGondermePanel);
             bunifuPanel1.Controls.Add(label2);
-            bunifuPanel1.Controls.Add(pictureBox1);
+            bunifuPanel1.Controls.Add(logo);
             bunifuPanel1.Dock = DockStyle.Left;
             bunifuPanel1.Location = new Point(0, 0);
             bunifuPanel1.Margin = new Padding(4);
@@ -245,7 +252,7 @@
             BtnGorusmePanel.IdleIconLeftImage = null;
             BtnGorusmePanel.IdleIconRightImage = null;
             BtnGorusmePanel.IndicateFocus = false;
-            BtnGorusmePanel.Location = new Point(3, 424);
+            BtnGorusmePanel.Location = new Point(0, 473);
             BtnGorusmePanel.Name = "BtnGorusmePanel";
             BtnGorusmePanel.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             BtnGorusmePanel.OnDisabledState.BorderRadius = 1;
@@ -336,7 +343,7 @@
             Btn_SiniflarVeOgrenciler.IdleIconLeftImage = null;
             Btn_SiniflarVeOgrenciler.IdleIconRightImage = null;
             Btn_SiniflarVeOgrenciler.IndicateFocus = false;
-            Btn_SiniflarVeOgrenciler.Location = new Point(0, 306);
+            Btn_SiniflarVeOgrenciler.Location = new Point(0, 355);
             Btn_SiniflarVeOgrenciler.Name = "Btn_SiniflarVeOgrenciler";
             Btn_SiniflarVeOgrenciler.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             Btn_SiniflarVeOgrenciler.OnDisabledState.BorderRadius = 1;
@@ -427,7 +434,7 @@
             BtnistatislikPanel.IdleIconLeftImage = null;
             BtnistatislikPanel.IdleIconRightImage = null;
             BtnistatislikPanel.IndicateFocus = false;
-            BtnistatislikPanel.Location = new Point(0, 247);
+            BtnistatislikPanel.Location = new Point(0, 296);
             BtnistatislikPanel.Name = "BtnistatislikPanel";
             BtnistatislikPanel.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             BtnistatislikPanel.OnDisabledState.BorderRadius = 1;
@@ -517,7 +524,7 @@
             btnDersBaslatmaPanel.IdleIconLeftImage = null;
             btnDersBaslatmaPanel.IdleIconRightImage = null;
             btnDersBaslatmaPanel.IndicateFocus = false;
-            btnDersBaslatmaPanel.Location = new Point(0, 365);
+            btnDersBaslatmaPanel.Location = new Point(0, 414);
             btnDersBaslatmaPanel.Name = "btnDersBaslatmaPanel";
             btnDersBaslatmaPanel.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             btnDersBaslatmaPanel.OnDisabledState.BorderRadius = 1;
@@ -608,7 +615,7 @@
             BtnNotGondermePanel.IdleIconLeftImage = null;
             BtnNotGondermePanel.IdleIconRightImage = null;
             BtnNotGondermePanel.IndicateFocus = false;
-            BtnNotGondermePanel.Location = new Point(0, 188);
+            BtnNotGondermePanel.Location = new Point(0, 237);
             BtnNotGondermePanel.Name = "BtnNotGondermePanel";
             BtnNotGondermePanel.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             BtnNotGondermePanel.OnDisabledState.BorderRadius = 1;
@@ -663,18 +670,18 @@
             label2.TabIndex = 11;
             label2.Text = "Dershane Otomasyonu";
             // 
-            // pictureBox1
+            // logo
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Cursor = Cursors.Hand;
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(72, 18);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(81, 78);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 12;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
+            logo.BackColor = Color.Transparent;
+            logo.Cursor = Cursors.Hand;
+            logo.Image = (Image)resources.GetObject("logo.Image");
+            logo.Location = new Point(72, 18);
+            logo.Name = "logo";
+            logo.Size = new Size(81, 78);
+            logo.SizeMode = PictureBoxSizeMode.StretchImage;
+            logo.TabIndex = 12;
+            logo.TabStop = false;
+            logo.Click += logo_Click;
             // 
             // Panel_SiniflarVeOgrenciler
             // 
@@ -848,7 +855,7 @@
             panelDosyaGonderme.BorderColor = Color.Transparent;
             panelDosyaGonderme.BorderRadius = 3;
             panelDosyaGonderme.BorderThickness = 1;
-            panelDosyaGonderme.Controls.Add(bunifuButton1);
+            panelDosyaGonderme.Controls.Add(BtnSecimiTemizle);
             panelDosyaGonderme.Controls.Add(Btn_YeniDosyaYukle);
             panelDosyaGonderme.Controls.Add(label4);
             panelDosyaGonderme.Controls.Add(DosyaDataGridView);
@@ -861,96 +868,96 @@
             panelDosyaGonderme.TabIndex = 37;
             panelDosyaGonderme.Visible = false;
             // 
-            // bunifuButton1
+            // BtnSecimiTemizle
             // 
-            bunifuButton1.AllowAnimations = true;
-            bunifuButton1.AllowMouseEffects = true;
-            bunifuButton1.AllowToggling = false;
-            bunifuButton1.AnimationSpeed = 200;
-            bunifuButton1.AutoGenerateColors = false;
-            bunifuButton1.AutoRoundBorders = false;
-            bunifuButton1.AutoSizeLeftIcon = true;
-            bunifuButton1.AutoSizeRightIcon = true;
-            bunifuButton1.BackColor = Color.Transparent;
-            bunifuButton1.BackColor1 = Color.FromArgb(51, 122, 183);
-            bunifuButton1.BackgroundImage = (Image)resources.GetObject("bunifuButton1.BackgroundImage");
-            bunifuButton1.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            bunifuButton1.ButtonText = "Seçimi Temizle";
-            bunifuButton1.ButtonTextMarginLeft = 0;
-            bunifuButton1.ColorContrastOnClick = 45;
-            bunifuButton1.ColorContrastOnHover = 45;
+            BtnSecimiTemizle.AllowAnimations = true;
+            BtnSecimiTemizle.AllowMouseEffects = true;
+            BtnSecimiTemizle.AllowToggling = false;
+            BtnSecimiTemizle.AnimationSpeed = 200;
+            BtnSecimiTemizle.AutoGenerateColors = false;
+            BtnSecimiTemizle.AutoRoundBorders = false;
+            BtnSecimiTemizle.AutoSizeLeftIcon = true;
+            BtnSecimiTemizle.AutoSizeRightIcon = true;
+            BtnSecimiTemizle.BackColor = Color.Transparent;
+            BtnSecimiTemizle.BackColor1 = Color.FromArgb(51, 122, 183);
+            BtnSecimiTemizle.BackgroundImage = (Image)resources.GetObject("BtnSecimiTemizle.BackgroundImage");
+            BtnSecimiTemizle.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnSecimiTemizle.ButtonText = "Seçimi Temizle";
+            BtnSecimiTemizle.ButtonTextMarginLeft = 0;
+            BtnSecimiTemizle.ColorContrastOnClick = 45;
+            BtnSecimiTemizle.ColorContrastOnHover = 45;
             borderEdges6.BottomLeft = true;
             borderEdges6.BottomRight = true;
             borderEdges6.TopLeft = true;
             borderEdges6.TopRight = true;
-            bunifuButton1.CustomizableEdges = borderEdges6;
-            bunifuButton1.DialogResult = DialogResult.None;
-            bunifuButton1.DisabledBorderColor = Color.FromArgb(191, 191, 191);
-            bunifuButton1.DisabledFillColor = Color.Empty;
-            bunifuButton1.DisabledForecolor = Color.Empty;
-            bunifuButton1.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
-            bunifuButton1.Font = new Font("Segoe UI", 9F);
-            bunifuButton1.ForeColor = Color.White;
-            bunifuButton1.IconLeft = null;
-            bunifuButton1.IconLeftAlign = ContentAlignment.MiddleLeft;
-            bunifuButton1.IconLeftCursor = Cursors.Default;
-            bunifuButton1.IconLeftPadding = new Padding(11, 3, 3, 3);
-            bunifuButton1.IconMarginLeft = 11;
-            bunifuButton1.IconPadding = 10;
-            bunifuButton1.IconRight = null;
-            bunifuButton1.IconRightAlign = ContentAlignment.MiddleRight;
-            bunifuButton1.IconRightCursor = Cursors.Default;
-            bunifuButton1.IconRightPadding = new Padding(3, 3, 7, 3);
-            bunifuButton1.IconSize = 25;
-            bunifuButton1.IdleBorderColor = Color.Empty;
-            bunifuButton1.IdleBorderRadius = 0;
-            bunifuButton1.IdleBorderThickness = 0;
-            bunifuButton1.IdleFillColor = Color.Empty;
-            bunifuButton1.IdleIconLeftImage = null;
-            bunifuButton1.IdleIconRightImage = null;
-            bunifuButton1.IndicateFocus = false;
-            bunifuButton1.Location = new Point(17, 574);
-            bunifuButton1.Name = "bunifuButton1";
-            bunifuButton1.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
-            bunifuButton1.OnDisabledState.BorderRadius = 1;
-            bunifuButton1.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            bunifuButton1.OnDisabledState.BorderThickness = 1;
-            bunifuButton1.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
-            bunifuButton1.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
-            bunifuButton1.OnDisabledState.IconLeftImage = null;
-            bunifuButton1.OnDisabledState.IconRightImage = null;
-            bunifuButton1.onHoverState.BorderColor = Color.FromArgb(30, 150, 255);
-            bunifuButton1.onHoverState.BorderRadius = 1;
-            bunifuButton1.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            bunifuButton1.onHoverState.BorderThickness = 1;
-            bunifuButton1.onHoverState.FillColor = Color.FromArgb(30, 150, 255);
-            bunifuButton1.onHoverState.ForeColor = Color.White;
-            bunifuButton1.onHoverState.IconLeftImage = null;
-            bunifuButton1.onHoverState.IconRightImage = null;
-            bunifuButton1.OnIdleState.BorderColor = Color.FromArgb(255, 128, 0);
-            bunifuButton1.OnIdleState.BorderRadius = 1;
-            bunifuButton1.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            bunifuButton1.OnIdleState.BorderThickness = 1;
-            bunifuButton1.OnIdleState.FillColor = Color.FromArgb(255, 128, 0);
-            bunifuButton1.OnIdleState.ForeColor = Color.White;
-            bunifuButton1.OnIdleState.IconLeftImage = null;
-            bunifuButton1.OnIdleState.IconRightImage = null;
-            bunifuButton1.OnPressedState.BorderColor = Color.FromArgb(40, 96, 144);
-            bunifuButton1.OnPressedState.BorderRadius = 1;
-            bunifuButton1.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            bunifuButton1.OnPressedState.BorderThickness = 1;
-            bunifuButton1.OnPressedState.FillColor = Color.FromArgb(40, 96, 144);
-            bunifuButton1.OnPressedState.ForeColor = Color.White;
-            bunifuButton1.OnPressedState.IconLeftImage = null;
-            bunifuButton1.OnPressedState.IconRightImage = null;
-            bunifuButton1.Size = new Size(257, 39);
-            bunifuButton1.TabIndex = 36;
-            bunifuButton1.TextAlign = ContentAlignment.MiddleCenter;
-            bunifuButton1.TextAlignment = HorizontalAlignment.Center;
-            bunifuButton1.TextMarginLeft = 0;
-            bunifuButton1.TextPadding = new Padding(0);
-            bunifuButton1.UseDefaultRadiusAndThickness = true;
-            bunifuButton1.Click += bunifuButton1_Click;
+            BtnSecimiTemizle.CustomizableEdges = borderEdges6;
+            BtnSecimiTemizle.DialogResult = DialogResult.None;
+            BtnSecimiTemizle.DisabledBorderColor = Color.FromArgb(191, 191, 191);
+            BtnSecimiTemizle.DisabledFillColor = Color.Empty;
+            BtnSecimiTemizle.DisabledForecolor = Color.Empty;
+            BtnSecimiTemizle.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
+            BtnSecimiTemizle.Font = new Font("Segoe UI", 9F);
+            BtnSecimiTemizle.ForeColor = Color.White;
+            BtnSecimiTemizle.IconLeft = null;
+            BtnSecimiTemizle.IconLeftAlign = ContentAlignment.MiddleLeft;
+            BtnSecimiTemizle.IconLeftCursor = Cursors.Default;
+            BtnSecimiTemizle.IconLeftPadding = new Padding(11, 3, 3, 3);
+            BtnSecimiTemizle.IconMarginLeft = 11;
+            BtnSecimiTemizle.IconPadding = 10;
+            BtnSecimiTemizle.IconRight = null;
+            BtnSecimiTemizle.IconRightAlign = ContentAlignment.MiddleRight;
+            BtnSecimiTemizle.IconRightCursor = Cursors.Default;
+            BtnSecimiTemizle.IconRightPadding = new Padding(3, 3, 7, 3);
+            BtnSecimiTemizle.IconSize = 25;
+            BtnSecimiTemizle.IdleBorderColor = Color.Empty;
+            BtnSecimiTemizle.IdleBorderRadius = 0;
+            BtnSecimiTemizle.IdleBorderThickness = 0;
+            BtnSecimiTemizle.IdleFillColor = Color.Empty;
+            BtnSecimiTemizle.IdleIconLeftImage = null;
+            BtnSecimiTemizle.IdleIconRightImage = null;
+            BtnSecimiTemizle.IndicateFocus = false;
+            BtnSecimiTemizle.Location = new Point(17, 574);
+            BtnSecimiTemizle.Name = "BtnSecimiTemizle";
+            BtnSecimiTemizle.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
+            BtnSecimiTemizle.OnDisabledState.BorderRadius = 1;
+            BtnSecimiTemizle.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnSecimiTemizle.OnDisabledState.BorderThickness = 1;
+            BtnSecimiTemizle.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
+            BtnSecimiTemizle.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
+            BtnSecimiTemizle.OnDisabledState.IconLeftImage = null;
+            BtnSecimiTemizle.OnDisabledState.IconRightImage = null;
+            BtnSecimiTemizle.onHoverState.BorderColor = Color.FromArgb(30, 150, 255);
+            BtnSecimiTemizle.onHoverState.BorderRadius = 1;
+            BtnSecimiTemizle.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnSecimiTemizle.onHoverState.BorderThickness = 1;
+            BtnSecimiTemizle.onHoverState.FillColor = Color.FromArgb(30, 150, 255);
+            BtnSecimiTemizle.onHoverState.ForeColor = Color.White;
+            BtnSecimiTemizle.onHoverState.IconLeftImage = null;
+            BtnSecimiTemizle.onHoverState.IconRightImage = null;
+            BtnSecimiTemizle.OnIdleState.BorderColor = Color.FromArgb(255, 128, 0);
+            BtnSecimiTemizle.OnIdleState.BorderRadius = 1;
+            BtnSecimiTemizle.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnSecimiTemizle.OnIdleState.BorderThickness = 1;
+            BtnSecimiTemizle.OnIdleState.FillColor = Color.FromArgb(255, 128, 0);
+            BtnSecimiTemizle.OnIdleState.ForeColor = Color.White;
+            BtnSecimiTemizle.OnIdleState.IconLeftImage = null;
+            BtnSecimiTemizle.OnIdleState.IconRightImage = null;
+            BtnSecimiTemizle.OnPressedState.BorderColor = Color.FromArgb(40, 96, 144);
+            BtnSecimiTemizle.OnPressedState.BorderRadius = 1;
+            BtnSecimiTemizle.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnSecimiTemizle.OnPressedState.BorderThickness = 1;
+            BtnSecimiTemizle.OnPressedState.FillColor = Color.FromArgb(40, 96, 144);
+            BtnSecimiTemizle.OnPressedState.ForeColor = Color.White;
+            BtnSecimiTemizle.OnPressedState.IconLeftImage = null;
+            BtnSecimiTemizle.OnPressedState.IconRightImage = null;
+            BtnSecimiTemizle.Size = new Size(257, 39);
+            BtnSecimiTemizle.TabIndex = 36;
+            BtnSecimiTemizle.TextAlign = ContentAlignment.MiddleCenter;
+            BtnSecimiTemizle.TextAlignment = HorizontalAlignment.Center;
+            BtnSecimiTemizle.TextMarginLeft = 0;
+            BtnSecimiTemizle.TextPadding = new Padding(0);
+            BtnSecimiTemizle.UseDefaultRadiusAndThickness = true;
+            BtnSecimiTemizle.Click += BtnSecimiTemizle_Click;
             // 
             // Btn_YeniDosyaYukle
             // 
@@ -1631,6 +1638,8 @@
             PanelGorusme.BorderColor = Color.Transparent;
             PanelGorusme.BorderRadius = 3;
             PanelGorusme.BorderThickness = 1;
+            PanelGorusme.Controls.Add(DedamEdenGorusmeDataGridView);
+            PanelGorusme.Controls.Add(label9);
             PanelGorusme.Controls.Add(label10);
             PanelGorusme.Controls.Add(label11);
             PanelGorusme.Controls.Add(GorusmeOgrencilerDataGridView);
@@ -1644,14 +1653,86 @@
             PanelGorusme.TabIndex = 42;
             PanelGorusme.Visible = false;
             // 
+            // DedamEdenGorusmeDataGridView
+            // 
+            DedamEdenGorusmeDataGridView.AllowCustomTheming = false;
+            dataGridViewCellStyle22.BackColor = Color.FromArgb(248, 251, 255);
+            dataGridViewCellStyle22.ForeColor = Color.Black;
+            DedamEdenGorusmeDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
+            DedamEdenGorusmeDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DedamEdenGorusmeDataGridView.BorderStyle = BorderStyle.None;
+            DedamEdenGorusmeDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            DedamEdenGorusmeDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle23.BackColor = Color.DodgerBlue;
+            dataGridViewCellStyle23.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            dataGridViewCellStyle23.ForeColor = Color.White;
+            dataGridViewCellStyle23.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            dataGridViewCellStyle23.SelectionForeColor = Color.White;
+            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
+            DedamEdenGorusmeDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            DedamEdenGorusmeDataGridView.ColumnHeadersHeight = 40;
+            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
+            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.ForeColor = Color.Black;
+            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionForeColor = Color.Black;
+            DedamEdenGorusmeDataGridView.CurrentTheme.BackColor = Color.White;
+            DedamEdenGorusmeDataGridView.CurrentTheme.GridColor = Color.FromArgb(221, 238, 255);
+            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.BackColor = Color.DodgerBlue;
+            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.ForeColor = Color.White;
+            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.SelectionForeColor = Color.White;
+            DedamEdenGorusmeDataGridView.CurrentTheme.Name = null;
+            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.BackColor = Color.White;
+            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
+            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle24.BackColor = Color.White;
+            dataGridViewCellStyle24.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle24.ForeColor = Color.Black;
+            dataGridViewCellStyle24.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            dataGridViewCellStyle24.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle24.WrapMode = DataGridViewTriState.False;
+            DedamEdenGorusmeDataGridView.DefaultCellStyle = dataGridViewCellStyle24;
+            DedamEdenGorusmeDataGridView.EnableHeadersVisualStyles = false;
+            DedamEdenGorusmeDataGridView.GridColor = Color.FromArgb(221, 238, 255);
+            DedamEdenGorusmeDataGridView.HeaderBackColor = Color.DodgerBlue;
+            DedamEdenGorusmeDataGridView.HeaderBgColor = Color.Empty;
+            DedamEdenGorusmeDataGridView.HeaderForeColor = Color.White;
+            DedamEdenGorusmeDataGridView.Location = new Point(643, 63);
+            DedamEdenGorusmeDataGridView.Name = "DedamEdenGorusmeDataGridView";
+            DedamEdenGorusmeDataGridView.ReadOnly = true;
+            DedamEdenGorusmeDataGridView.RowHeadersVisible = false;
+            DedamEdenGorusmeDataGridView.RowTemplate.Height = 40;
+            DedamEdenGorusmeDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DedamEdenGorusmeDataGridView.Size = new Size(378, 348);
+            DedamEdenGorusmeDataGridView.TabIndex = 40;
+            DedamEdenGorusmeDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.BackColor = Color.Transparent;
+            label9.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label9.ForeColor = SystemColors.MenuText;
+            label9.Location = new Point(643, 29);
+            label9.Name = "label9";
+            label9.Size = new Size(240, 22);
+            label9.TabIndex = 39;
+            label9.Text = "Devam Eden Görüşmeler";
+            // 
             // label10
             // 
             label10.BackColor = Color.Transparent;
             label10.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label10.ForeColor = SystemColors.MenuText;
-            label10.Location = new Point(664, 395);
+            label10.Location = new Point(330, 446);
             label10.Name = "label10";
-            label10.Size = new Size(273, 91);
+            label10.Size = new Size(395, 91);
             label10.TabIndex = 38;
             label10.Text = "Dikkat: Görüşme başlatıldığında öğrenci konuşma odasına bağlanabilecek.";
             label10.TextAlign = ContentAlignment.MiddleCenter;
@@ -1662,7 +1743,7 @@
             label11.BackColor = Color.Transparent;
             label11.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label11.ForeColor = SystemColors.MenuText;
-            label11.Location = new Point(380, 143);
+            label11.Location = new Point(338, 29);
             label11.Name = "label11";
             label11.Size = new Size(106, 22);
             label11.TabIndex = 37;
@@ -1671,21 +1752,21 @@
             // GorusmeOgrencilerDataGridView
             // 
             GorusmeOgrencilerDataGridView.AllowCustomTheming = false;
-            dataGridViewCellStyle22.BackColor = Color.FromArgb(248, 251, 255);
-            dataGridViewCellStyle22.ForeColor = Color.Black;
-            GorusmeOgrencilerDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle25.BackColor = Color.FromArgb(248, 251, 255);
+            dataGridViewCellStyle25.ForeColor = Color.Black;
+            GorusmeOgrencilerDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
             GorusmeOgrencilerDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             GorusmeOgrencilerDataGridView.BorderStyle = BorderStyle.None;
             GorusmeOgrencilerDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             GorusmeOgrencilerDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle23.BackColor = Color.DodgerBlue;
-            dataGridViewCellStyle23.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
-            dataGridViewCellStyle23.ForeColor = Color.White;
-            dataGridViewCellStyle23.SelectionBackColor = Color.FromArgb(24, 115, 204);
-            dataGridViewCellStyle23.SelectionForeColor = Color.White;
-            dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
-            GorusmeOgrencilerDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle26.BackColor = Color.DodgerBlue;
+            dataGridViewCellStyle26.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            dataGridViewCellStyle26.ForeColor = Color.White;
+            dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            dataGridViewCellStyle26.SelectionForeColor = Color.White;
+            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
+            GorusmeOgrencilerDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
             GorusmeOgrencilerDataGridView.ColumnHeadersHeight = 40;
             GorusmeOgrencilerDataGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
             GorusmeOgrencilerDataGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
@@ -1705,20 +1786,20 @@
             GorusmeOgrencilerDataGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
             GorusmeOgrencilerDataGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
             GorusmeOgrencilerDataGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle24.BackColor = Color.White;
-            dataGridViewCellStyle24.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            dataGridViewCellStyle24.ForeColor = Color.Black;
-            dataGridViewCellStyle24.SelectionBackColor = Color.FromArgb(210, 232, 255);
-            dataGridViewCellStyle24.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle24.WrapMode = DataGridViewTriState.False;
-            GorusmeOgrencilerDataGridView.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle27.BackColor = Color.White;
+            dataGridViewCellStyle27.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle27.ForeColor = Color.Black;
+            dataGridViewCellStyle27.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            dataGridViewCellStyle27.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.False;
+            GorusmeOgrencilerDataGridView.DefaultCellStyle = dataGridViewCellStyle27;
             GorusmeOgrencilerDataGridView.EnableHeadersVisualStyles = false;
             GorusmeOgrencilerDataGridView.GridColor = Color.FromArgb(221, 238, 255);
             GorusmeOgrencilerDataGridView.HeaderBackColor = Color.DodgerBlue;
             GorusmeOgrencilerDataGridView.HeaderBgColor = Color.Empty;
             GorusmeOgrencilerDataGridView.HeaderForeColor = Color.White;
-            GorusmeOgrencilerDataGridView.Location = new Point(380, 177);
+            GorusmeOgrencilerDataGridView.Location = new Point(338, 63);
             GorusmeOgrencilerDataGridView.Name = "GorusmeOgrencilerDataGridView";
             GorusmeOgrencilerDataGridView.ReadOnly = true;
             GorusmeOgrencilerDataGridView.RowHeadersVisible = false;
@@ -1776,7 +1857,7 @@
             BtnGorusmeBaslat.IdleIconLeftImage = null;
             BtnGorusmeBaslat.IdleIconRightImage = null;
             BtnGorusmeBaslat.IndicateFocus = false;
-            BtnGorusmeBaslat.Location = new Point(725, 299);
+            BtnGorusmeBaslat.Location = new Point(445, 563);
             BtnGorusmeBaslat.Name = "BtnGorusmeBaslat";
             BtnGorusmeBaslat.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
             BtnGorusmeBaslat.OnDisabledState.BorderRadius = 1;
@@ -1825,7 +1906,7 @@
             label12.BackColor = Color.Transparent;
             label12.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label12.ForeColor = SystemColors.MenuText;
-            label12.Location = new Point(98, 143);
+            label12.Location = new Point(56, 29);
             label12.Name = "label12";
             label12.Size = new Size(65, 22);
             label12.TabIndex = 32;
@@ -1834,21 +1915,21 @@
             // gorusmeSiniflarDataGridView
             // 
             gorusmeSiniflarDataGridView.AllowCustomTheming = false;
-            dataGridViewCellStyle25.BackColor = Color.FromArgb(248, 251, 255);
-            dataGridViewCellStyle25.ForeColor = Color.Black;
-            gorusmeSiniflarDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle28.BackColor = Color.FromArgb(248, 251, 255);
+            dataGridViewCellStyle28.ForeColor = Color.Black;
+            gorusmeSiniflarDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle28;
             gorusmeSiniflarDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             gorusmeSiniflarDataGridView.BorderStyle = BorderStyle.None;
             gorusmeSiniflarDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             gorusmeSiniflarDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle26.BackColor = Color.DodgerBlue;
-            dataGridViewCellStyle26.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
-            dataGridViewCellStyle26.ForeColor = Color.White;
-            dataGridViewCellStyle26.SelectionBackColor = Color.FromArgb(24, 115, 204);
-            dataGridViewCellStyle26.SelectionForeColor = Color.White;
-            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
-            gorusmeSiniflarDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle29.BackColor = Color.DodgerBlue;
+            dataGridViewCellStyle29.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            dataGridViewCellStyle29.ForeColor = Color.White;
+            dataGridViewCellStyle29.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            dataGridViewCellStyle29.SelectionForeColor = Color.White;
+            dataGridViewCellStyle29.WrapMode = DataGridViewTriState.True;
+            gorusmeSiniflarDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle29;
             gorusmeSiniflarDataGridView.ColumnHeadersHeight = 40;
             gorusmeSiniflarDataGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
             gorusmeSiniflarDataGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
@@ -1868,20 +1949,20 @@
             gorusmeSiniflarDataGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
             gorusmeSiniflarDataGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
             gorusmeSiniflarDataGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.BackColor = Color.White;
-            dataGridViewCellStyle27.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            dataGridViewCellStyle27.ForeColor = Color.Black;
-            dataGridViewCellStyle27.SelectionBackColor = Color.FromArgb(210, 232, 255);
-            dataGridViewCellStyle27.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.False;
-            gorusmeSiniflarDataGridView.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle30.BackColor = Color.White;
+            dataGridViewCellStyle30.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle30.ForeColor = Color.Black;
+            dataGridViewCellStyle30.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            dataGridViewCellStyle30.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle30.WrapMode = DataGridViewTriState.False;
+            gorusmeSiniflarDataGridView.DefaultCellStyle = dataGridViewCellStyle30;
             gorusmeSiniflarDataGridView.EnableHeadersVisualStyles = false;
             gorusmeSiniflarDataGridView.GridColor = Color.FromArgb(221, 238, 255);
             gorusmeSiniflarDataGridView.HeaderBackColor = Color.DodgerBlue;
             gorusmeSiniflarDataGridView.HeaderBgColor = Color.Empty;
             gorusmeSiniflarDataGridView.HeaderForeColor = Color.White;
-            gorusmeSiniflarDataGridView.Location = new Point(98, 177);
+            gorusmeSiniflarDataGridView.Location = new Point(56, 63);
             gorusmeSiniflarDataGridView.Name = "gorusmeSiniflarDataGridView";
             gorusmeSiniflarDataGridView.ReadOnly = true;
             gorusmeSiniflarDataGridView.RowHeadersVisible = false;
@@ -1897,20 +1978,19 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1295, 729);
-            Controls.Add(PanelGorusme);
+            Controls.Add(Panel_SiniflarVeOgrenciler);
             Controls.Add(panelDersBaslat);
             Controls.Add(panelDosyaGonderme);
-            Controls.Add(Panel_SiniflarVeOgrenciler);
+            Controls.Add(PanelGorusme);
             Controls.Add(bunifuGradientPanel1);
             Controls.Add(bunifuPanel1);
             Name = "PersonelEkrani";
             Text = "Form4";
-            Load += Form4_Load;
             bunifuGradientPanel1.ResumeLayout(false);
             bunifuGradientPanel1.PerformLayout();
             bunifuPanel1.ResumeLayout(false);
             bunifuPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             Panel_SiniflarVeOgrenciler.ResumeLayout(false);
             Panel_SiniflarVeOgrenciler.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)sinifinOgrencileriDataGridView).EndInit();
@@ -1926,9 +2006,15 @@
             ((System.ComponentModel.ISupportInitialize)chattingSinifDataGridView).EndInit();
             PanelGorusme.ResumeLayout(false);
             PanelGorusme.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)DedamEdenGorusmeDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)GorusmeOgrencilerDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)gorusmeSiniflarDataGridView).EndInit();
             ResumeLayout(false);
+        }
+
+        private void BtnSecimiTemizle_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -1942,7 +2028,7 @@
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnDersBaslatmaPanel;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnNotGondermePanel;
         private Label label2;
-        private PictureBox pictureBox1;
+        private PictureBox logo;
         private Bunifu.UI.WinForms.BunifuPanel Panel_SiniflarVeOgrenciler;
         private Label label32;
         private Bunifu.UI.WinForms.BunifuDataGridView sinifinOgrencileriDataGridView;
@@ -1954,7 +2040,7 @@
         private Bunifu.UI.WinForms.BunifuDataGridView DosyaDataGridView;
         private Label label3;
         private Bunifu.UI.WinForms.BunifuDataGridView SiniflarDosyaDataGridView1;
-        private Bunifu.UI.WinForms.BunifuButton.BunifuButton bunifuButton1;
+        private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnSecimiTemizle;
         private Bunifu.UI.WinForms.BunifuPanel panelDersBaslat;
         private Label label5;
         private Bunifu.UI.WinForms.BunifuDataGridView chattingOgrDataGridView;
@@ -1972,5 +2058,7 @@
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnGorusmeBaslat;
         private Label label12;
         private Bunifu.UI.WinForms.BunifuDataGridView gorusmeSiniflarDataGridView;
+        private Bunifu.UI.WinForms.BunifuDataGridView DedamEdenGorusmeDataGridView;
+        private Label label9;
     }
 }

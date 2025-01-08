@@ -2,6 +2,7 @@
 using dershaneOtomasyonu.DTO;
 using dershaneOtomasyonu.Helpers;
 using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
 using Mapster;
 using Newtonsoft.Json;
 using System;
@@ -20,10 +21,13 @@ namespace dershaneOtomasyonu.Forms
     public partial class ChattingForm : Form
     {
         private readonly IDersKayitRepository _dersKayitRepository;
+        private readonly IGorusmeRepository _gorusmeRepository;
         private WebSocketClient _webSocketClient;
         private DersKayit _newDersKayit;
-        public ChattingForm(DersKayit newDersKayit
-            , IDersKayitRepository dersKayitRepository)
+        private Gorusme _newGorusme;
+
+        public ChattingForm(DersKayit newDersKayit,
+            IDersKayitRepository dersKayitRepository)
         {
             InitializeComponent();
             _newDersKayit = newDersKayit;
@@ -31,7 +35,16 @@ namespace dershaneOtomasyonu.Forms
             _dersKayitRepository = dersKayitRepository;
         }
 
-        private async void OgrenciForm_Load(object sender, EventArgs e)
+        public ChattingForm(Gorusme newGorusme,
+            IGorusmeRepository gorusmeRepository)
+        {
+            InitializeComponent();
+            _newGorusme = newGorusme;
+            _webSocketClient = new WebSocketClient();
+            _gorusmeRepository = gorusmeRepository;
+        }
+
+        private async void ChattingForm_Load(object sender, EventArgs e)
         {
             try
             {
@@ -39,7 +52,7 @@ namespace dershaneOtomasyonu.Forms
                 var userMessage = new
                 {
                     type = "userInfo",
-                    data = new { Username = "asu", Email = "asu@example.com" }
+                    data = GlobalData.Kullanici.Adapt<KullaniciWithoutNavPropDto>()
                 };
                 await _webSocketClient.SendMessageAsync(userMessage);
                 _ = Task.Run(ReceiveMessages);
@@ -84,7 +97,6 @@ namespace dershaneOtomasyonu.Forms
             }
         }
 
-
         private void AppendMessage(Kullanici kullanici, string message, DateTime date, bool isOwnMessage)
         {
             var messageCard = new MessageCard(kullanici, message, date, isOwnMessage);
@@ -113,7 +125,7 @@ namespace dershaneOtomasyonu.Forms
                 {
                     type = "message",
                     data = message,
-                    room = _newDersKayit.Oda
+                    room = _newDersKayit != null ? _newDersKayit.Oda : _newGorusme.Oda
                 };
 
                 await _webSocketClient.SendMessageAsync(chatMessage);
@@ -147,7 +159,7 @@ namespace dershaneOtomasyonu.Forms
         {
             // Kullanıcıya emin olup olmadığını sormak için bir MessageBox gösteriyoruz
             DialogResult result = MessageBox.Show(
-                "Dersi sonlandırılacak, devam edilsin mi?",
+                "Görüşme sonlandırılacak, devam edilsin mi?",
                 "Sistem",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
@@ -160,10 +172,20 @@ namespace dershaneOtomasyonu.Forms
             }
             else
             {
-                // burada açık olan ders kapatılacak
-                var aktifDers = await _dersKayitRepository.GetByIdAsync(_newDersKayit.Id);
-                aktifDers.Durum = false;
-                var x = await _dersKayitRepository.UpdateAsync(aktifDers);
+                if (_newDersKayit != null)
+                {
+                    // burada açık olan ders kapatılacak
+                    var aktifDers = await _dersKayitRepository.GetByIdAsync(_newDersKayit.Id);
+                    aktifDers.Durum = false;
+                    var x = await _dersKayitRepository.UpdateAsync(aktifDers);
+                }
+                else
+                {
+                    // burada açık olan görüşme kapatılacak
+                    var aktifGorusme = await _gorusmeRepository.GetByIdAsync(_newGorusme.Id);
+                    aktifGorusme.Durum = false;
+                    var x = await _gorusmeRepository.UpdateAsync(aktifGorusme);
+                }
             }
 
         }

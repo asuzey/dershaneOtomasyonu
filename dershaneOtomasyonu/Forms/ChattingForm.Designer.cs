@@ -156,6 +156,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Ders";
             FormClosing += ChattingForm_FormClosing;
+            Load += ChattingForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }

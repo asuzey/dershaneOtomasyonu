@@ -30,10 +30,10 @@ public class KullaniciValidator : AbstractValidator<Kullanici>
         RuleFor(k => k.Email)
             .NotEmpty().WithMessage("Email boş olamaz.")
             .EmailAddress().WithMessage("Geçerli bir email adresi giriniz.");
-
+        
         RuleFor(k => k.Telefon)
             .NotEmpty().WithMessage("Telefon numarası boş olamaz.")
-            .Length(9).WithMessage("Geçerli bir telefon numarası giriniz.");
+            .Matches(@"^\(\d{3}\)\s\d{3}-\d{4}$").WithMessage("Geçerli bir telefon numarası giriniz."); // özel karakterleri de 5454986964 şeklindeki yazımı da okuyabiliyor.
 
         RuleFor(k => k.DogumTarihi)
             .NotEmpty().WithMessage("Doğum tarihi boş olamaz.")
