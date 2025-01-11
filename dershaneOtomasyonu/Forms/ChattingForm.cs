@@ -3,6 +3,7 @@ using dershaneOtomasyonu.DTO;
 using dershaneOtomasyonu.Helpers;
 using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 using Mapster;
 using Newtonsoft.Json;
 using System;
@@ -22,17 +23,23 @@ namespace dershaneOtomasyonu.Forms
     {
         private readonly IDersKayitRepository _dersKayitRepository;
         private readonly IGorusmeRepository _gorusmeRepository;
+        private readonly IYoklamaRepository _yoklamaRepository;
         private WebSocketClient _webSocketClient;
         private DersKayit _newDersKayit;
         private Gorusme _newGorusme;
 
+        public static int? dersKayitId = null;
+        public static int? gorusmeId = null;
+
         public ChattingForm(DersKayit newDersKayit,
-            IDersKayitRepository dersKayitRepository)
+            IDersKayitRepository dersKayitRepository,
+            IYoklamaRepository yoklamaRepository)
         {
             InitializeComponent();
             _newDersKayit = newDersKayit;
             _webSocketClient = new WebSocketClient();
             _dersKayitRepository = dersKayitRepository;
+            _yoklamaRepository = yoklamaRepository;
         }
 
         public ChattingForm(Gorusme newGorusme,
@@ -52,10 +59,11 @@ namespace dershaneOtomasyonu.Forms
                 var userMessage = new
                 {
                     type = "userInfo",
-                    data = GlobalData.Kullanici.Adapt<KullaniciWithoutNavPropDto>()
+                    data = GlobalData.Kullanici.Adapt<KullaniciWithoutNavPropDto>(),
+                    room = _newDersKayit != null ? _newDersKayit.Oda : _newGorusme.Oda
                 };
                 await _webSocketClient.SendMessageAsync(userMessage);
-                _ = Task.Run(ReceiveMessages);
+                await ReceiveMessages();
             }
             catch (Exception ex)
             {
@@ -64,41 +72,32 @@ namespace dershaneOtomasyonu.Forms
         }
         private async Task ReceiveMessages()
         {
-            try
+            while (true)
             {
-                while (true)
+                try
                 {
-                    // WebSocket'ten gelen mesajı al
                     var messageJson = await _webSocketClient.ReceiveMessageAsync();
 
                     if (!string.IsNullOrWhiteSpace(messageJson))
                     {
-                        try
+                        var response = JsonConvert.DeserializeObject<WebSocketResponse>(messageJson);
+                        if (response != null)
                         {
-                            // Gelen mesajı deserialize et
-                            var response = JsonConvert.DeserializeObject<WebSocketResponse>(messageJson);
-
-                            if (response != null)
-                            {
-                                // Mesajı UI'ye ekle
-                                AppendMessage(response.User, response.Message, response.Date, false);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Mesaj işleme hatası: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            AppendMessage(response.User, response.Message, response.Date);
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Mesaj alma hatası: {ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"ReceiveMessages Hata: {ex.Message}");
+                    await Task.Delay(1000); // Bekleme ekleyerek döngüyü devam ettirin
+                }
             }
         }
 
-        private void AppendMessage(Kullanici kullanici, string message, DateTime date, bool isOwnMessage)
+        private void AppendMessage(Kullanici kullanici, string message, DateTime date)
         {
+            bool isOwnMessage = kullanici.Id == GlobalData.Kullanici!.Id ? true : false;
             var messageCard = new MessageCard(kullanici, message, date, isOwnMessage);
 
             if (flowLayoutPanel1.InvokeRequired)
@@ -130,7 +129,7 @@ namespace dershaneOtomasyonu.Forms
 
                 await _webSocketClient.SendMessageAsync(chatMessage);
 
-                AppendMessage(GlobalData.Kullanici, message, DateTime.Now, true);
+                //AppendMessage(GlobalData.Kullanici, message, DateTime.Now, true);
             }
             catch (Exception ex)
             {
@@ -172,19 +171,46 @@ namespace dershaneOtomasyonu.Forms
             }
             else
             {
-                if (_newDersKayit != null)
+                if (GlobalData.Kullanici!.RoleId == 2)// Öğretmen çıkışı
                 {
-                    // burada açık olan ders kapatılacak
-                    var aktifDers = await _dersKayitRepository.GetByIdAsync(_newDersKayit.Id);
-                    aktifDers.Durum = false;
-                    var x = await _dersKayitRepository.UpdateAsync(aktifDers);
+                    if (_newDersKayit != null)
+                    {
+                        // burada açık olan ders kapatılacak
+                        var aktifDers = await _dersKayitRepository.GetByIdAsync(_newDersKayit.Id);
+                        aktifDers.Durum = false;
+                        var x = await _dersKayitRepository.UpdateAsync(aktifDers);
+                        dersKayitId = aktifDers.Id;
+                    }
+                    else
+                    {
+                        // burada açık olan görüşme kapatılacak
+                        var aktifGorusme = await _gorusmeRepository.GetByIdAsync(_newGorusme.Id);
+                        aktifGorusme.Durum = false;
+                        var x = await _gorusmeRepository.UpdateAsync(aktifGorusme);
+                        gorusmeId = aktifGorusme.Id;
+                    }
                 }
-                else
+                else if (GlobalData.Kullanici!.RoleId == 3)// Öğrenci çıkışı
                 {
-                    // burada açık olan görüşme kapatılacak
-                    var aktifGorusme = await _gorusmeRepository.GetByIdAsync(_newGorusme.Id);
-                    aktifGorusme.Durum = false;
-                    var x = await _gorusmeRepository.UpdateAsync(aktifGorusme);
+                    if (_newDersKayit != null)
+                    {
+                        // burada öğrencinin yoklama kaydına çıkış tarihi atılacak
+                        var yoklama = await _yoklamaRepository.GetByKullaniciIdAndDersKayitIdAsync(_newDersKayit.Id, GlobalData.Kullanici!.Id);
+                        if (yoklama != null)
+                        {
+                            yoklama.AyrilmaTarihi = DateTime.Now;
+                            var x = await _yoklamaRepository.UpdateAsync(yoklama);
+                        }
+                    }
+                    else if (_gorusmeRepository != null)
+                    {
+                        var gorusme = await _gorusmeRepository.GetByIdAsync(_newGorusme.Id);
+                        if (gorusme != null)
+                        {
+                            gorusme.Durum = false;
+                            var x = await _gorusmeRepository.UpdateAsync(gorusme);
+                        }
+                    }
                 }
             }
 

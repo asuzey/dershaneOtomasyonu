@@ -76,7 +76,7 @@ namespace dershaneOtomasyonu
             bunifuPanel1 = new Bunifu.UI.WinForms.BunifuPanel();
             BtnGorusmePanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             Btn_SiniflarVeOgrenciler = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
-            BtnistatislikPanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
+            BtnRaporlamaPanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             btnDersBaslatmaPanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             BtnNotGondermePanel = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             label2 = new Label();
@@ -104,7 +104,7 @@ namespace dershaneOtomasyonu
             label6 = new Label();
             chattingSinifDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             PanelGorusme = new Bunifu.UI.WinForms.BunifuPanel();
-            DedamEdenGorusmeDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
+            DevamEdenGorusmeDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             label9 = new Label();
             label10 = new Label();
             label11 = new Label();
@@ -112,6 +112,12 @@ namespace dershaneOtomasyonu
             BtnGorusmeBaslat = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             label12 = new Label();
             gorusmeSiniflarDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
+            label13 = new Label();
+            label14 = new Label();
+            label15 = new Label();
+            monthCalendar1 = new MonthCalendar();
+            pictureBox1 = new PictureBox();
+            panelRaporlama = new Bunifu.UI.WinForms.BunifuPanel();
             bunifuGradientPanel1.SuspendLayout();
             bunifuPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
@@ -126,9 +132,10 @@ namespace dershaneOtomasyonu
             ((System.ComponentModel.ISupportInitialize)chattingOgrDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chattingSinifDataGridView).BeginInit();
             PanelGorusme.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)DedamEdenGorusmeDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)DevamEdenGorusmeDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)GorusmeOgrencilerDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gorusmeSiniflarDataGridView).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // bunifuGradientPanel1
@@ -148,7 +155,7 @@ namespace dershaneOtomasyonu
             bunifuGradientPanel1.Margin = new Padding(4);
             bunifuGradientPanel1.Name = "bunifuGradientPanel1";
             bunifuGradientPanel1.Quality = 10;
-            bunifuGradientPanel1.Size = new Size(1061, 73);
+            bunifuGradientPanel1.Size = new Size(1064, 73);
             bunifuGradientPanel1.TabIndex = 17;
             // 
             // label1
@@ -191,7 +198,7 @@ namespace dershaneOtomasyonu
             bunifuPanel1.BorderThickness = 0;
             bunifuPanel1.Controls.Add(BtnGorusmePanel);
             bunifuPanel1.Controls.Add(Btn_SiniflarVeOgrenciler);
-            bunifuPanel1.Controls.Add(BtnistatislikPanel);
+            bunifuPanel1.Controls.Add(BtnRaporlamaPanel);
             bunifuPanel1.Controls.Add(btnDersBaslatmaPanel);
             bunifuPanel1.Controls.Add(BtnNotGondermePanel);
             bunifuPanel1.Controls.Add(label2);
@@ -201,7 +208,7 @@ namespace dershaneOtomasyonu
             bunifuPanel1.Margin = new Padding(4);
             bunifuPanel1.Name = "bunifuPanel1";
             bunifuPanel1.ShowBorders = true;
-            bunifuPanel1.Size = new Size(234, 729);
+            bunifuPanel1.Size = new Size(234, 727);
             bunifuPanel1.TabIndex = 16;
             // 
             // BtnGorusmePanel
@@ -386,95 +393,96 @@ namespace dershaneOtomasyonu
             Btn_SiniflarVeOgrenciler.UseDefaultRadiusAndThickness = true;
             Btn_SiniflarVeOgrenciler.Click += Btn_SiniflarVeOgrenciler_Click;
             // 
-            // BtnistatislikPanel
+            // BtnRaporlamaPanel
             // 
-            BtnistatislikPanel.AllowAnimations = true;
-            BtnistatislikPanel.AllowMouseEffects = true;
-            BtnistatislikPanel.AllowToggling = false;
-            BtnistatislikPanel.AnimationSpeed = 200;
-            BtnistatislikPanel.AutoGenerateColors = false;
-            BtnistatislikPanel.AutoRoundBorders = false;
-            BtnistatislikPanel.AutoSizeLeftIcon = true;
-            BtnistatislikPanel.AutoSizeRightIcon = true;
-            BtnistatislikPanel.BackColor = Color.Transparent;
-            BtnistatislikPanel.BackColor1 = Color.FromArgb(51, 122, 183);
-            BtnistatislikPanel.BackgroundImage = (Image)resources.GetObject("BtnistatislikPanel.BackgroundImage");
-            BtnistatislikPanel.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnistatislikPanel.ButtonText = "Öğrenci Başarı Durumu";
-            BtnistatislikPanel.ButtonTextMarginLeft = 0;
-            BtnistatislikPanel.ColorContrastOnClick = 45;
-            BtnistatislikPanel.ColorContrastOnHover = 45;
+            BtnRaporlamaPanel.AllowAnimations = true;
+            BtnRaporlamaPanel.AllowMouseEffects = true;
+            BtnRaporlamaPanel.AllowToggling = false;
+            BtnRaporlamaPanel.AnimationSpeed = 200;
+            BtnRaporlamaPanel.AutoGenerateColors = false;
+            BtnRaporlamaPanel.AutoRoundBorders = false;
+            BtnRaporlamaPanel.AutoSizeLeftIcon = true;
+            BtnRaporlamaPanel.AutoSizeRightIcon = true;
+            BtnRaporlamaPanel.BackColor = Color.Transparent;
+            BtnRaporlamaPanel.BackColor1 = Color.FromArgb(51, 122, 183);
+            BtnRaporlamaPanel.BackgroundImage = (Image)resources.GetObject("BtnRaporlamaPanel.BackgroundImage");
+            BtnRaporlamaPanel.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnRaporlamaPanel.ButtonText = "Öğrenci Başarı Durumu";
+            BtnRaporlamaPanel.ButtonTextMarginLeft = 0;
+            BtnRaporlamaPanel.ColorContrastOnClick = 45;
+            BtnRaporlamaPanel.ColorContrastOnHover = 45;
             borderEdges3.BottomLeft = true;
             borderEdges3.BottomRight = true;
             borderEdges3.TopLeft = true;
             borderEdges3.TopRight = true;
-            BtnistatislikPanel.CustomizableEdges = borderEdges3;
-            BtnistatislikPanel.DialogResult = DialogResult.None;
-            BtnistatislikPanel.DisabledBorderColor = Color.FromArgb(191, 191, 191);
-            BtnistatislikPanel.DisabledFillColor = Color.Empty;
-            BtnistatislikPanel.DisabledForecolor = Color.Empty;
-            BtnistatislikPanel.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
-            BtnistatislikPanel.Font = new Font("Segoe UI", 9F);
-            BtnistatislikPanel.ForeColor = Color.White;
-            BtnistatislikPanel.IconLeft = null;
-            BtnistatislikPanel.IconLeftAlign = ContentAlignment.MiddleLeft;
-            BtnistatislikPanel.IconLeftCursor = Cursors.Default;
-            BtnistatislikPanel.IconLeftPadding = new Padding(11, 3, 3, 3);
-            BtnistatislikPanel.IconMarginLeft = 11;
-            BtnistatislikPanel.IconPadding = 10;
-            BtnistatislikPanel.IconRight = null;
-            BtnistatislikPanel.IconRightAlign = ContentAlignment.MiddleRight;
-            BtnistatislikPanel.IconRightCursor = Cursors.Default;
-            BtnistatislikPanel.IconRightPadding = new Padding(3, 3, 7, 3);
-            BtnistatislikPanel.IconSize = 25;
-            BtnistatislikPanel.IdleBorderColor = Color.Empty;
-            BtnistatislikPanel.IdleBorderRadius = 0;
-            BtnistatislikPanel.IdleBorderThickness = 0;
-            BtnistatislikPanel.IdleFillColor = Color.Empty;
-            BtnistatislikPanel.IdleIconLeftImage = null;
-            BtnistatislikPanel.IdleIconRightImage = null;
-            BtnistatislikPanel.IndicateFocus = false;
-            BtnistatislikPanel.Location = new Point(0, 296);
-            BtnistatislikPanel.Name = "BtnistatislikPanel";
-            BtnistatislikPanel.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
-            BtnistatislikPanel.OnDisabledState.BorderRadius = 1;
-            BtnistatislikPanel.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnistatislikPanel.OnDisabledState.BorderThickness = 1;
-            BtnistatislikPanel.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
-            BtnistatislikPanel.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
-            BtnistatislikPanel.OnDisabledState.IconLeftImage = null;
-            BtnistatislikPanel.OnDisabledState.IconRightImage = null;
-            BtnistatislikPanel.onHoverState.BorderColor = Color.FromArgb(30, 24, 97);
-            BtnistatislikPanel.onHoverState.BorderRadius = 1;
-            BtnistatislikPanel.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnistatislikPanel.onHoverState.BorderThickness = 1;
-            BtnistatislikPanel.onHoverState.FillColor = Color.FromArgb(30, 24, 97);
-            BtnistatislikPanel.onHoverState.ForeColor = Color.White;
-            BtnistatislikPanel.onHoverState.IconLeftImage = null;
-            BtnistatislikPanel.onHoverState.IconRightImage = null;
-            BtnistatislikPanel.OnIdleState.BorderColor = Color.FromArgb(30, 24, 97);
-            BtnistatislikPanel.OnIdleState.BorderRadius = 1;
-            BtnistatislikPanel.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnistatislikPanel.OnIdleState.BorderThickness = 1;
-            BtnistatislikPanel.OnIdleState.FillColor = Color.FromArgb(30, 24, 97);
-            BtnistatislikPanel.OnIdleState.ForeColor = Color.White;
-            BtnistatislikPanel.OnIdleState.IconLeftImage = null;
-            BtnistatislikPanel.OnIdleState.IconRightImage = null;
-            BtnistatislikPanel.OnPressedState.BorderColor = Color.FromArgb(30, 24, 97);
-            BtnistatislikPanel.OnPressedState.BorderRadius = 1;
-            BtnistatislikPanel.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnistatislikPanel.OnPressedState.BorderThickness = 1;
-            BtnistatislikPanel.OnPressedState.FillColor = Color.FromArgb(30, 24, 90);
-            BtnistatislikPanel.OnPressedState.ForeColor = Color.White;
-            BtnistatislikPanel.OnPressedState.IconLeftImage = null;
-            BtnistatislikPanel.OnPressedState.IconRightImage = null;
-            BtnistatislikPanel.Size = new Size(234, 53);
-            BtnistatislikPanel.TabIndex = 15;
-            BtnistatislikPanel.TextAlign = ContentAlignment.MiddleCenter;
-            BtnistatislikPanel.TextAlignment = HorizontalAlignment.Center;
-            BtnistatislikPanel.TextMarginLeft = 0;
-            BtnistatislikPanel.TextPadding = new Padding(0);
-            BtnistatislikPanel.UseDefaultRadiusAndThickness = true;
+            BtnRaporlamaPanel.CustomizableEdges = borderEdges3;
+            BtnRaporlamaPanel.DialogResult = DialogResult.None;
+            BtnRaporlamaPanel.DisabledBorderColor = Color.FromArgb(191, 191, 191);
+            BtnRaporlamaPanel.DisabledFillColor = Color.Empty;
+            BtnRaporlamaPanel.DisabledForecolor = Color.Empty;
+            BtnRaporlamaPanel.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
+            BtnRaporlamaPanel.Font = new Font("Segoe UI", 9F);
+            BtnRaporlamaPanel.ForeColor = Color.White;
+            BtnRaporlamaPanel.IconLeft = null;
+            BtnRaporlamaPanel.IconLeftAlign = ContentAlignment.MiddleLeft;
+            BtnRaporlamaPanel.IconLeftCursor = Cursors.Default;
+            BtnRaporlamaPanel.IconLeftPadding = new Padding(11, 3, 3, 3);
+            BtnRaporlamaPanel.IconMarginLeft = 11;
+            BtnRaporlamaPanel.IconPadding = 10;
+            BtnRaporlamaPanel.IconRight = null;
+            BtnRaporlamaPanel.IconRightAlign = ContentAlignment.MiddleRight;
+            BtnRaporlamaPanel.IconRightCursor = Cursors.Default;
+            BtnRaporlamaPanel.IconRightPadding = new Padding(3, 3, 7, 3);
+            BtnRaporlamaPanel.IconSize = 25;
+            BtnRaporlamaPanel.IdleBorderColor = Color.Empty;
+            BtnRaporlamaPanel.IdleBorderRadius = 0;
+            BtnRaporlamaPanel.IdleBorderThickness = 0;
+            BtnRaporlamaPanel.IdleFillColor = Color.Empty;
+            BtnRaporlamaPanel.IdleIconLeftImage = null;
+            BtnRaporlamaPanel.IdleIconRightImage = null;
+            BtnRaporlamaPanel.IndicateFocus = false;
+            BtnRaporlamaPanel.Location = new Point(0, 296);
+            BtnRaporlamaPanel.Name = "BtnRaporlamaPanel";
+            BtnRaporlamaPanel.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
+            BtnRaporlamaPanel.OnDisabledState.BorderRadius = 1;
+            BtnRaporlamaPanel.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnRaporlamaPanel.OnDisabledState.BorderThickness = 1;
+            BtnRaporlamaPanel.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
+            BtnRaporlamaPanel.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
+            BtnRaporlamaPanel.OnDisabledState.IconLeftImage = null;
+            BtnRaporlamaPanel.OnDisabledState.IconRightImage = null;
+            BtnRaporlamaPanel.onHoverState.BorderColor = Color.FromArgb(30, 24, 97);
+            BtnRaporlamaPanel.onHoverState.BorderRadius = 1;
+            BtnRaporlamaPanel.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnRaporlamaPanel.onHoverState.BorderThickness = 1;
+            BtnRaporlamaPanel.onHoverState.FillColor = Color.FromArgb(30, 24, 97);
+            BtnRaporlamaPanel.onHoverState.ForeColor = Color.White;
+            BtnRaporlamaPanel.onHoverState.IconLeftImage = null;
+            BtnRaporlamaPanel.onHoverState.IconRightImage = null;
+            BtnRaporlamaPanel.OnIdleState.BorderColor = Color.FromArgb(30, 24, 97);
+            BtnRaporlamaPanel.OnIdleState.BorderRadius = 1;
+            BtnRaporlamaPanel.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnRaporlamaPanel.OnIdleState.BorderThickness = 1;
+            BtnRaporlamaPanel.OnIdleState.FillColor = Color.FromArgb(30, 24, 97);
+            BtnRaporlamaPanel.OnIdleState.ForeColor = Color.White;
+            BtnRaporlamaPanel.OnIdleState.IconLeftImage = null;
+            BtnRaporlamaPanel.OnIdleState.IconRightImage = null;
+            BtnRaporlamaPanel.OnPressedState.BorderColor = Color.FromArgb(30, 24, 97);
+            BtnRaporlamaPanel.OnPressedState.BorderRadius = 1;
+            BtnRaporlamaPanel.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            BtnRaporlamaPanel.OnPressedState.BorderThickness = 1;
+            BtnRaporlamaPanel.OnPressedState.FillColor = Color.FromArgb(30, 24, 90);
+            BtnRaporlamaPanel.OnPressedState.ForeColor = Color.White;
+            BtnRaporlamaPanel.OnPressedState.IconLeftImage = null;
+            BtnRaporlamaPanel.OnPressedState.IconRightImage = null;
+            BtnRaporlamaPanel.Size = new Size(234, 53);
+            BtnRaporlamaPanel.TabIndex = 15;
+            BtnRaporlamaPanel.TextAlign = ContentAlignment.MiddleCenter;
+            BtnRaporlamaPanel.TextAlignment = HorizontalAlignment.Center;
+            BtnRaporlamaPanel.TextMarginLeft = 0;
+            BtnRaporlamaPanel.TextPadding = new Padding(0);
+            BtnRaporlamaPanel.UseDefaultRadiusAndThickness = true;
+            BtnRaporlamaPanel.Click += BtnRaporlamaPanel_Click;
             // 
             // btnDersBaslatmaPanel
             // 
@@ -695,7 +703,7 @@ namespace dershaneOtomasyonu
             Panel_SiniflarVeOgrenciler.Controls.Add(sinifinOgrencileriDataGridView);
             Panel_SiniflarVeOgrenciler.Controls.Add(label33);
             Panel_SiniflarVeOgrenciler.Controls.Add(siniflarDataGridView);
-            Panel_SiniflarVeOgrenciler.Location = new Point(240, 80);
+            Panel_SiniflarVeOgrenciler.Location = new Point(241, 80);
             Panel_SiniflarVeOgrenciler.Name = "Panel_SiniflarVeOgrenciler";
             Panel_SiniflarVeOgrenciler.ShowBorders = true;
             Panel_SiniflarVeOgrenciler.Size = new Size(1050, 640);
@@ -861,7 +869,7 @@ namespace dershaneOtomasyonu
             panelDosyaGonderme.Controls.Add(DosyaDataGridView);
             panelDosyaGonderme.Controls.Add(label3);
             panelDosyaGonderme.Controls.Add(SiniflarDosyaDataGridView1);
-            panelDosyaGonderme.Location = new Point(240, 80);
+            panelDosyaGonderme.Location = new Point(241, 80);
             panelDosyaGonderme.Name = "panelDosyaGonderme";
             panelDosyaGonderme.ShowBorders = true;
             panelDosyaGonderme.Size = new Size(1050, 640);
@@ -1370,6 +1378,7 @@ namespace dershaneOtomasyonu
             activeDerslerDataGrid.Size = new Size(257, 127);
             activeDerslerDataGrid.TabIndex = 40;
             activeDerslerDataGrid.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            activeDerslerDataGrid.MouseClick += activeDerslerDataGrid_MouseClick;
             // 
             // label8
             // 
@@ -1638,7 +1647,7 @@ namespace dershaneOtomasyonu
             PanelGorusme.BorderColor = Color.Transparent;
             PanelGorusme.BorderRadius = 3;
             PanelGorusme.BorderThickness = 1;
-            PanelGorusme.Controls.Add(DedamEdenGorusmeDataGridView);
+            PanelGorusme.Controls.Add(DevamEdenGorusmeDataGridView);
             PanelGorusme.Controls.Add(label9);
             PanelGorusme.Controls.Add(label10);
             PanelGorusme.Controls.Add(label11);
@@ -1653,16 +1662,16 @@ namespace dershaneOtomasyonu
             PanelGorusme.TabIndex = 42;
             PanelGorusme.Visible = false;
             // 
-            // DedamEdenGorusmeDataGridView
+            // DevamEdenGorusmeDataGridView
             // 
-            DedamEdenGorusmeDataGridView.AllowCustomTheming = false;
+            DevamEdenGorusmeDataGridView.AllowCustomTheming = false;
             dataGridViewCellStyle22.BackColor = Color.FromArgb(248, 251, 255);
             dataGridViewCellStyle22.ForeColor = Color.Black;
-            DedamEdenGorusmeDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
-            DedamEdenGorusmeDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DedamEdenGorusmeDataGridView.BorderStyle = BorderStyle.None;
-            DedamEdenGorusmeDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            DedamEdenGorusmeDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            DevamEdenGorusmeDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle22;
+            DevamEdenGorusmeDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DevamEdenGorusmeDataGridView.BorderStyle = BorderStyle.None;
+            DevamEdenGorusmeDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            DevamEdenGorusmeDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle23.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle23.BackColor = Color.DodgerBlue;
             dataGridViewCellStyle23.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
@@ -1670,26 +1679,26 @@ namespace dershaneOtomasyonu
             dataGridViewCellStyle23.SelectionBackColor = Color.FromArgb(24, 115, 204);
             dataGridViewCellStyle23.SelectionForeColor = Color.White;
             dataGridViewCellStyle23.WrapMode = DataGridViewTriState.True;
-            DedamEdenGorusmeDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
-            DedamEdenGorusmeDataGridView.ColumnHeadersHeight = 40;
-            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
-            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.ForeColor = Color.Black;
-            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
-            DedamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionForeColor = Color.Black;
-            DedamEdenGorusmeDataGridView.CurrentTheme.BackColor = Color.White;
-            DedamEdenGorusmeDataGridView.CurrentTheme.GridColor = Color.FromArgb(221, 238, 255);
-            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.BackColor = Color.DodgerBlue;
-            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
-            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.ForeColor = Color.White;
-            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.SelectionBackColor = Color.FromArgb(24, 115, 204);
-            DedamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.SelectionForeColor = Color.White;
-            DedamEdenGorusmeDataGridView.CurrentTheme.Name = null;
-            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.BackColor = Color.White;
-            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
-            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
-            DedamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
+            DevamEdenGorusmeDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle23;
+            DevamEdenGorusmeDataGridView.ColumnHeadersHeight = 40;
+            DevamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
+            DevamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            DevamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.ForeColor = Color.Black;
+            DevamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            DevamEdenGorusmeDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionForeColor = Color.Black;
+            DevamEdenGorusmeDataGridView.CurrentTheme.BackColor = Color.White;
+            DevamEdenGorusmeDataGridView.CurrentTheme.GridColor = Color.FromArgb(221, 238, 255);
+            DevamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.BackColor = Color.DodgerBlue;
+            DevamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            DevamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.ForeColor = Color.White;
+            DevamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            DevamEdenGorusmeDataGridView.CurrentTheme.HeaderStyle.SelectionForeColor = Color.White;
+            DevamEdenGorusmeDataGridView.CurrentTheme.Name = null;
+            DevamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.BackColor = Color.White;
+            DevamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            DevamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
+            DevamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            DevamEdenGorusmeDataGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
             dataGridViewCellStyle24.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle24.BackColor = Color.White;
             dataGridViewCellStyle24.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
@@ -1697,21 +1706,22 @@ namespace dershaneOtomasyonu
             dataGridViewCellStyle24.SelectionBackColor = Color.FromArgb(210, 232, 255);
             dataGridViewCellStyle24.SelectionForeColor = Color.Black;
             dataGridViewCellStyle24.WrapMode = DataGridViewTriState.False;
-            DedamEdenGorusmeDataGridView.DefaultCellStyle = dataGridViewCellStyle24;
-            DedamEdenGorusmeDataGridView.EnableHeadersVisualStyles = false;
-            DedamEdenGorusmeDataGridView.GridColor = Color.FromArgb(221, 238, 255);
-            DedamEdenGorusmeDataGridView.HeaderBackColor = Color.DodgerBlue;
-            DedamEdenGorusmeDataGridView.HeaderBgColor = Color.Empty;
-            DedamEdenGorusmeDataGridView.HeaderForeColor = Color.White;
-            DedamEdenGorusmeDataGridView.Location = new Point(643, 63);
-            DedamEdenGorusmeDataGridView.Name = "DedamEdenGorusmeDataGridView";
-            DedamEdenGorusmeDataGridView.ReadOnly = true;
-            DedamEdenGorusmeDataGridView.RowHeadersVisible = false;
-            DedamEdenGorusmeDataGridView.RowTemplate.Height = 40;
-            DedamEdenGorusmeDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DedamEdenGorusmeDataGridView.Size = new Size(378, 348);
-            DedamEdenGorusmeDataGridView.TabIndex = 40;
-            DedamEdenGorusmeDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            DevamEdenGorusmeDataGridView.DefaultCellStyle = dataGridViewCellStyle24;
+            DevamEdenGorusmeDataGridView.EnableHeadersVisualStyles = false;
+            DevamEdenGorusmeDataGridView.GridColor = Color.FromArgb(221, 238, 255);
+            DevamEdenGorusmeDataGridView.HeaderBackColor = Color.DodgerBlue;
+            DevamEdenGorusmeDataGridView.HeaderBgColor = Color.Empty;
+            DevamEdenGorusmeDataGridView.HeaderForeColor = Color.White;
+            DevamEdenGorusmeDataGridView.Location = new Point(766, 63);
+            DevamEdenGorusmeDataGridView.Name = "DevamEdenGorusmeDataGridView";
+            DevamEdenGorusmeDataGridView.ReadOnly = true;
+            DevamEdenGorusmeDataGridView.RowHeadersVisible = false;
+            DevamEdenGorusmeDataGridView.RowTemplate.Height = 40;
+            DevamEdenGorusmeDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            DevamEdenGorusmeDataGridView.Size = new Size(255, 348);
+            DevamEdenGorusmeDataGridView.TabIndex = 40;
+            DevamEdenGorusmeDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            DevamEdenGorusmeDataGridView.MouseClick += DevamEdenGorusmeDataGridView_MouseClick;
             // 
             // label9
             // 
@@ -1719,7 +1729,7 @@ namespace dershaneOtomasyonu
             label9.BackColor = Color.Transparent;
             label9.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label9.ForeColor = SystemColors.MenuText;
-            label9.Location = new Point(643, 29);
+            label9.Location = new Point(766, 29);
             label9.Name = "label9";
             label9.Size = new Size(240, 22);
             label9.TabIndex = 39;
@@ -1743,7 +1753,7 @@ namespace dershaneOtomasyonu
             label11.BackColor = Color.Transparent;
             label11.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label11.ForeColor = SystemColors.MenuText;
-            label11.Location = new Point(338, 29);
+            label11.Location = new Point(389, 29);
             label11.Name = "label11";
             label11.Size = new Size(106, 22);
             label11.TabIndex = 37;
@@ -1799,13 +1809,13 @@ namespace dershaneOtomasyonu
             GorusmeOgrencilerDataGridView.HeaderBackColor = Color.DodgerBlue;
             GorusmeOgrencilerDataGridView.HeaderBgColor = Color.Empty;
             GorusmeOgrencilerDataGridView.HeaderForeColor = Color.White;
-            GorusmeOgrencilerDataGridView.Location = new Point(338, 63);
+            GorusmeOgrencilerDataGridView.Location = new Point(389, 63);
             GorusmeOgrencilerDataGridView.Name = "GorusmeOgrencilerDataGridView";
             GorusmeOgrencilerDataGridView.ReadOnly = true;
             GorusmeOgrencilerDataGridView.RowHeadersVisible = false;
             GorusmeOgrencilerDataGridView.RowTemplate.Height = 40;
             GorusmeOgrencilerDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            GorusmeOgrencilerDataGridView.Size = new Size(257, 348);
+            GorusmeOgrencilerDataGridView.Size = new Size(301, 348);
             GorusmeOgrencilerDataGridView.TabIndex = 36;
             GorusmeOgrencilerDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
             // 
@@ -1968,22 +1978,99 @@ namespace dershaneOtomasyonu
             gorusmeSiniflarDataGridView.RowHeadersVisible = false;
             gorusmeSiniflarDataGridView.RowTemplate.Height = 40;
             gorusmeSiniflarDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            gorusmeSiniflarDataGridView.Size = new Size(257, 348);
+            gorusmeSiniflarDataGridView.Size = new Size(293, 348);
             gorusmeSiniflarDataGridView.TabIndex = 31;
             gorusmeSiniflarDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
             gorusmeSiniflarDataGridView.MouseClick += gorusmeSiniflarDataGridView_MouseClick;
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.BackColor = Color.FromArgb(30, 24, 60);
+            label13.BorderStyle = BorderStyle.FixedSingle;
+            label13.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label13.ForeColor = Color.White;
+            label13.Location = new Point(358, 158);
+            label13.Margin = new Padding(3, 5, 3, 5);
+            label13.Name = "label13";
+            label13.Size = new Size(382, 27);
+            label13.TabIndex = 46;
+            label13.Text = "             ÖĞRETMENLERİN DİKKATİNE            ";
+            label13.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label14
+            // 
+            label14.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label14.ForeColor = Color.Black;
+            label14.Location = new Point(296, 199);
+            label14.Name = "label14";
+            label14.Size = new Size(522, 355);
+            label14.TabIndex = 45;
+            label14.Text = resources.GetString("label14.Text");
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.BackColor = Color.FromArgb(30, 24, 60);
+            label15.BorderStyle = BorderStyle.FixedSingle;
+            label15.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label15.ForeColor = Color.White;
+            label15.Location = new Point(1007, 158);
+            label15.Margin = new Padding(3, 5, 3, 5);
+            label15.Name = "label15";
+            label15.Size = new Size(205, 27);
+            label15.TabIndex = 44;
+            label15.Text = "             TAKVİM            ";
+            label15.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // monthCalendar1
+            // 
+            monthCalendar1.Location = new Point(993, 199);
+            monthCalendar1.Name = "monthCalendar1";
+            monthCalendar1.TabIndex = 43;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(857, 392);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(298, 328);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 47;
+            pictureBox1.TabStop = false;
+            // 
+            // panelRaporlama
+            // 
+            panelRaporlama.BackgroundColor = Color.Transparent;
+            panelRaporlama.BackgroundImage = (Image)resources.GetObject("panelRaporlama.BackgroundImage");
+            panelRaporlama.BackgroundImageLayout = ImageLayout.Stretch;
+            panelRaporlama.BorderColor = Color.Transparent;
+            panelRaporlama.BorderRadius = 3;
+            panelRaporlama.BorderThickness = 1;
+            panelRaporlama.Location = new Point(241, 80);
+            panelRaporlama.Name = "panelRaporlama";
+            panelRaporlama.ShowBorders = true;
+            panelRaporlama.Size = new Size(1050, 640);
+            panelRaporlama.TabIndex = 42;
+            panelRaporlama.Visible = false;
             // 
             // PersonelEkrani
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1295, 729);
-            Controls.Add(Panel_SiniflarVeOgrenciler);
-            Controls.Add(panelDersBaslat);
-            Controls.Add(panelDosyaGonderme);
+            ClientSize = new Size(1298, 727);
             Controls.Add(PanelGorusme);
+            Controls.Add(panelDersBaslat);
+            Controls.Add(panelRaporlama);
+            Controls.Add(Panel_SiniflarVeOgrenciler);
+            Controls.Add(panelDosyaGonderme);
             Controls.Add(bunifuGradientPanel1);
             Controls.Add(bunifuPanel1);
+            Controls.Add(pictureBox1);
+            Controls.Add(label13);
+            Controls.Add(label14);
+            Controls.Add(label15);
+            Controls.Add(monthCalendar1);
             Name = "PersonelEkrani";
             Text = "Form4";
             bunifuGradientPanel1.ResumeLayout(false);
@@ -2006,10 +2093,12 @@ namespace dershaneOtomasyonu
             ((System.ComponentModel.ISupportInitialize)chattingSinifDataGridView).EndInit();
             PanelGorusme.ResumeLayout(false);
             PanelGorusme.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)DedamEdenGorusmeDataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)DevamEdenGorusmeDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)GorusmeOgrencilerDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)gorusmeSiniflarDataGridView).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         private void BtnSecimiTemizle_Click(object sender, EventArgs e)
@@ -2024,7 +2113,7 @@ namespace dershaneOtomasyonu
         private Bunifu.UI.WinForms.BunifuPanel bunifuPanel1;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnGorusmePanel;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton Btn_SiniflarVeOgrenciler;
-        private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnistatislikPanel;
+        private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnRaporlamaPanel;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnDersBaslatmaPanel;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnNotGondermePanel;
         private Label label2;
@@ -2058,7 +2147,13 @@ namespace dershaneOtomasyonu
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnGorusmeBaslat;
         private Label label12;
         private Bunifu.UI.WinForms.BunifuDataGridView gorusmeSiniflarDataGridView;
-        private Bunifu.UI.WinForms.BunifuDataGridView DedamEdenGorusmeDataGridView;
+        private Bunifu.UI.WinForms.BunifuDataGridView DevamEdenGorusmeDataGridView;
         private Label label9;
+        private Label label13;
+        private Label label14;
+        private Label label15;
+        private MonthCalendar monthCalendar1;
+        private PictureBox pictureBox1;
+        private Bunifu.UI.WinForms.BunifuPanel panelRaporlama;
     }
 }

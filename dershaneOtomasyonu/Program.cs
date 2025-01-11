@@ -17,6 +17,9 @@ using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositori
 using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 
 
 namespace dershaneOtomasyonu
@@ -57,6 +60,9 @@ namespace dershaneOtomasyonu
             services.AddScoped<IDersKayitRepository, DersKayitRepository>();
             services.AddScoped<IDegerlendirmeRepository, DegerlendirmeRepository>();
             services.AddScoped<IGorusmeRepository, GorusmeRepository>();
+            services.AddScoped<INotRepository, NotRepository>();
+            services.AddScoped<IKullaniciNotRepository, KullaniciNotRepository>();
+            services.AddScoped<IYoklamaRepository, YoklamaRepository>();
 
 
             // Servislere formu ekle

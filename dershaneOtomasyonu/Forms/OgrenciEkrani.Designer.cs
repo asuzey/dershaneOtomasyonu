@@ -37,10 +37,14 @@
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges3 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges4 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges5 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges6 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges6 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton2.BorderEdges borderEdges7 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton2.BorderEdges();
             panelDersNotlari = new Bunifu.UI.WinForms.BunifuPanel();
             DosyaDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
             txtKarsilama = new Label();
@@ -66,10 +70,15 @@
             label6 = new Label();
             OgrenciNotRichTextBox = new RichTextBox();
             panelSinifGrubu = new Bunifu.UI.WinForms.BunifuPanel();
+            btnDersBaslat = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
             activeDerslerDataGrid = new Bunifu.UI.WinForms.BunifuDataGridView();
             label8 = new Label();
+            panelGorusme = new Bunifu.UI.WinForms.BunifuPanel();
+            AktifGorusmelerGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
+            label9 = new Label();
+            BtnGorusmeKatil = new Bunifu.UI.WinForms.BunifuButton.BunifuButton2();
             label7 = new Label();
-            btnDersBaslat = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
+            panelBilgilerim = new Bunifu.UI.WinForms.BunifuPanel();
             panelDersNotlari.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DosyaDataGridView).BeginInit();
             bunifuGradientPanel1.SuspendLayout();
@@ -78,6 +87,8 @@
             panelNotlarim.SuspendLayout();
             panelSinifGrubu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)activeDerslerDataGrid).BeginInit();
+            panelGorusme.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)AktifGorusmelerGridView).BeginInit();
             SuspendLayout();
             // 
             // panelDersNotlari
@@ -94,6 +105,7 @@
             panelDersNotlari.ShowBorders = true;
             panelDersNotlari.Size = new Size(1050, 640);
             panelDersNotlari.TabIndex = 15;
+            panelDersNotlari.Visible = false;
             // 
             // DosyaDataGridView
             // 
@@ -186,7 +198,7 @@
             bunifuGradientPanel1.Margin = new Padding(4);
             bunifuGradientPanel1.Name = "bunifuGradientPanel1";
             bunifuGradientPanel1.Quality = 10;
-            bunifuGradientPanel1.Size = new Size(1065, 73);
+            bunifuGradientPanel1.Size = new Size(1063, 73);
             bunifuGradientPanel1.TabIndex = 14;
             // 
             // label1
@@ -239,7 +251,7 @@
             bunifuPanel1.Margin = new Padding(4);
             bunifuPanel1.Name = "bunifuPanel1";
             bunifuPanel1.ShowBorders = true;
-            bunifuPanel1.Size = new Size(234, 727);
+            bunifuPanel1.Size = new Size(234, 729);
             bunifuPanel1.TabIndex = 13;
             // 
             // kullaniciadogr
@@ -248,7 +260,7 @@
             kullaniciadogr.BackColor = Color.Transparent;
             kullaniciadogr.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             kullaniciadogr.ForeColor = Color.White;
-            kullaniciadogr.Location = new Point(82, 143);
+            kullaniciadogr.Location = new Point(50, 142);
             kullaniciadogr.Name = "kullaniciadogr";
             kullaniciadogr.Size = new Size(0, 20);
             kullaniciadogr.TabIndex = 19;
@@ -343,6 +355,7 @@
             BtnBilgilerimpanel.TextMarginLeft = 0;
             BtnBilgilerimpanel.TextPadding = new Padding(0);
             BtnBilgilerimpanel.UseDefaultRadiusAndThickness = true;
+            BtnBilgilerimpanel.Click += BtnBilgilerimpanel_Click;
             // 
             // BtnGorusmePanel
             // 
@@ -433,6 +446,7 @@
             BtnGorusmePanel.TextMarginLeft = 0;
             BtnGorusmePanel.TextPadding = new Padding(0);
             BtnGorusmePanel.UseDefaultRadiusAndThickness = true;
+            BtnGorusmePanel.Click += BtnGorusmePanel_Click;
             // 
             // BtnSınıfChat
             // 
@@ -713,7 +727,7 @@
             label2.BackColor = Color.Transparent;
             label2.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label2.ForeColor = SystemColors.Window;
-            label2.Location = new Point(8, 109);
+            label2.Location = new Point(8, 107);
             label2.Name = "label2";
             label2.Size = new Size(223, 22);
             label2.TabIndex = 11;
@@ -792,6 +806,7 @@
             panelNotlarim.ShowBorders = true;
             panelNotlarim.Size = new Size(1050, 640);
             panelNotlarim.TabIndex = 35;
+            panelNotlarim.Visible = false;
             // 
             // BtnKaydet
             // 
@@ -841,7 +856,6 @@
             panelSinifGrubu.BorderRadius = 3;
             panelSinifGrubu.BorderThickness = 1;
             panelSinifGrubu.Controls.Add(btnDersBaslat);
-            panelSinifGrubu.Controls.Add(label7);
             panelSinifGrubu.Controls.Add(activeDerslerDataGrid);
             panelSinifGrubu.Controls.Add(label8);
             panelSinifGrubu.Location = new Point(241, 80);
@@ -849,6 +863,98 @@
             panelSinifGrubu.ShowBorders = true;
             panelSinifGrubu.Size = new Size(1050, 640);
             panelSinifGrubu.TabIndex = 36;
+            panelSinifGrubu.Visible = false;
+            // 
+            // btnDersBaslat
+            // 
+            btnDersBaslat.AllowAnimations = true;
+            btnDersBaslat.AllowMouseEffects = true;
+            btnDersBaslat.AllowToggling = false;
+            btnDersBaslat.AnimationSpeed = 200;
+            btnDersBaslat.AutoGenerateColors = false;
+            btnDersBaslat.AutoRoundBorders = false;
+            btnDersBaslat.AutoSizeLeftIcon = true;
+            btnDersBaslat.AutoSizeRightIcon = true;
+            btnDersBaslat.BackColor = Color.Transparent;
+            btnDersBaslat.BackColor1 = Color.FromArgb(51, 122, 183);
+            btnDersBaslat.BackgroundImage = (Image)resources.GetObject("btnDersBaslat.BackgroundImage");
+            btnDersBaslat.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            btnDersBaslat.ButtonText = "Derse Katıl";
+            btnDersBaslat.ButtonTextMarginLeft = 0;
+            btnDersBaslat.ColorContrastOnClick = 45;
+            btnDersBaslat.ColorContrastOnHover = 45;
+            borderEdges6.BottomLeft = true;
+            borderEdges6.BottomRight = true;
+            borderEdges6.TopLeft = true;
+            borderEdges6.TopRight = true;
+            btnDersBaslat.CustomizableEdges = borderEdges6;
+            btnDersBaslat.DialogResult = DialogResult.None;
+            btnDersBaslat.DisabledBorderColor = Color.FromArgb(191, 191, 191);
+            btnDersBaslat.DisabledFillColor = Color.Empty;
+            btnDersBaslat.DisabledForecolor = Color.Empty;
+            btnDersBaslat.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
+            btnDersBaslat.Font = new Font("Segoe UI", 9F);
+            btnDersBaslat.ForeColor = Color.White;
+            btnDersBaslat.IconLeft = null;
+            btnDersBaslat.IconLeftAlign = ContentAlignment.MiddleLeft;
+            btnDersBaslat.IconLeftCursor = Cursors.Default;
+            btnDersBaslat.IconLeftPadding = new Padding(11, 3, 3, 3);
+            btnDersBaslat.IconMarginLeft = 11;
+            btnDersBaslat.IconPadding = 10;
+            btnDersBaslat.IconRight = null;
+            btnDersBaslat.IconRightAlign = ContentAlignment.MiddleRight;
+            btnDersBaslat.IconRightCursor = Cursors.Default;
+            btnDersBaslat.IconRightPadding = new Padding(3, 3, 7, 3);
+            btnDersBaslat.IconSize = 25;
+            btnDersBaslat.IdleBorderColor = Color.Empty;
+            btnDersBaslat.IdleBorderRadius = 0;
+            btnDersBaslat.IdleBorderThickness = 0;
+            btnDersBaslat.IdleFillColor = Color.Empty;
+            btnDersBaslat.IdleIconLeftImage = null;
+            btnDersBaslat.IdleIconRightImage = null;
+            btnDersBaslat.IndicateFocus = false;
+            btnDersBaslat.Location = new Point(744, 308);
+            btnDersBaslat.Name = "btnDersBaslat";
+            btnDersBaslat.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
+            btnDersBaslat.OnDisabledState.BorderRadius = 1;
+            btnDersBaslat.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            btnDersBaslat.OnDisabledState.BorderThickness = 1;
+            btnDersBaslat.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
+            btnDersBaslat.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
+            btnDersBaslat.OnDisabledState.IconLeftImage = null;
+            btnDersBaslat.OnDisabledState.IconRightImage = null;
+            btnDersBaslat.onHoverState.BorderColor = Color.FromArgb(30, 150, 255);
+            btnDersBaslat.onHoverState.BorderRadius = 1;
+            btnDersBaslat.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            btnDersBaslat.onHoverState.BorderThickness = 1;
+            btnDersBaslat.onHoverState.FillColor = Color.FromArgb(30, 150, 255);
+            btnDersBaslat.onHoverState.ForeColor = Color.White;
+            btnDersBaslat.onHoverState.IconLeftImage = null;
+            btnDersBaslat.onHoverState.IconRightImage = null;
+            btnDersBaslat.OnIdleState.BorderColor = Color.DodgerBlue;
+            btnDersBaslat.OnIdleState.BorderRadius = 1;
+            btnDersBaslat.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            btnDersBaslat.OnIdleState.BorderThickness = 1;
+            btnDersBaslat.OnIdleState.FillColor = Color.DodgerBlue;
+            btnDersBaslat.OnIdleState.ForeColor = Color.White;
+            btnDersBaslat.OnIdleState.IconLeftImage = null;
+            btnDersBaslat.OnIdleState.IconRightImage = null;
+            btnDersBaslat.OnPressedState.BorderColor = Color.FromArgb(40, 96, 144);
+            btnDersBaslat.OnPressedState.BorderRadius = 1;
+            btnDersBaslat.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
+            btnDersBaslat.OnPressedState.BorderThickness = 1;
+            btnDersBaslat.OnPressedState.FillColor = Color.FromArgb(40, 96, 144);
+            btnDersBaslat.OnPressedState.ForeColor = Color.White;
+            btnDersBaslat.OnPressedState.IconLeftImage = null;
+            btnDersBaslat.OnPressedState.IconRightImage = null;
+            btnDersBaslat.Size = new Size(150, 39);
+            btnDersBaslat.TabIndex = 44;
+            btnDersBaslat.TextAlign = ContentAlignment.MiddleCenter;
+            btnDersBaslat.TextAlignment = HorizontalAlignment.Center;
+            btnDersBaslat.TextMarginLeft = 0;
+            btnDersBaslat.TextPadding = new Padding(0);
+            btnDersBaslat.UseDefaultRadiusAndThickness = true;
+            btnDersBaslat.Click += btnDersBaslat_Click;
             // 
             // activeDerslerDataGrid
             // 
@@ -900,13 +1006,13 @@
             activeDerslerDataGrid.HeaderBackColor = Color.DodgerBlue;
             activeDerslerDataGrid.HeaderBgColor = Color.Empty;
             activeDerslerDataGrid.HeaderForeColor = Color.White;
-            activeDerslerDataGrid.Location = new Point(53, 105);
+            activeDerslerDataGrid.Location = new Point(53, 98);
             activeDerslerDataGrid.Name = "activeDerslerDataGrid";
             activeDerslerDataGrid.ReadOnly = true;
             activeDerslerDataGrid.RowHeadersVisible = false;
             activeDerslerDataGrid.RowTemplate.Height = 40;
             activeDerslerDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            activeDerslerDataGrid.Size = new Size(496, 450);
+            activeDerslerDataGrid.Size = new Size(590, 450);
             activeDerslerDataGrid.TabIndex = 42;
             activeDerslerDataGrid.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
             // 
@@ -922,112 +1028,218 @@
             label8.TabIndex = 41;
             label8.Text = "Devam Eden Dersler";
             // 
+            // panelGorusme
+            // 
+            panelGorusme.BackgroundColor = Color.White;
+            panelGorusme.BackgroundImage = (Image)resources.GetObject("panelGorusme.BackgroundImage");
+            panelGorusme.BackgroundImageLayout = ImageLayout.Stretch;
+            panelGorusme.BorderColor = Color.White;
+            panelGorusme.BorderRadius = 3;
+            panelGorusme.BorderThickness = 1;
+            panelGorusme.Controls.Add(AktifGorusmelerGridView);
+            panelGorusme.Controls.Add(label9);
+            panelGorusme.Controls.Add(BtnGorusmeKatil);
+            panelGorusme.Controls.Add(label7);
+            panelGorusme.Location = new Point(241, 80);
+            panelGorusme.Name = "panelGorusme";
+            panelGorusme.ShowBorders = true;
+            panelGorusme.Size = new Size(1050, 640);
+            panelGorusme.TabIndex = 45;
+            panelGorusme.Visible = false;
+            // 
+            // AktifGorusmelerGridView
+            // 
+            AktifGorusmelerGridView.AllowCustomTheming = false;
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(248, 251, 255);
+            dataGridViewCellStyle7.ForeColor = Color.Black;
+            AktifGorusmelerGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
+            AktifGorusmelerGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            AktifGorusmelerGridView.BorderStyle = BorderStyle.None;
+            AktifGorusmelerGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            AktifGorusmelerGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.DodgerBlue;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            dataGridViewCellStyle8.ForeColor = Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            dataGridViewCellStyle8.SelectionForeColor = Color.White;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            AktifGorusmelerGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            AktifGorusmelerGridView.ColumnHeadersHeight = 40;
+            AktifGorusmelerGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
+            AktifGorusmelerGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            AktifGorusmelerGridView.CurrentTheme.AlternatingRowsStyle.ForeColor = Color.Black;
+            AktifGorusmelerGridView.CurrentTheme.AlternatingRowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            AktifGorusmelerGridView.CurrentTheme.AlternatingRowsStyle.SelectionForeColor = Color.Black;
+            AktifGorusmelerGridView.CurrentTheme.BackColor = Color.White;
+            AktifGorusmelerGridView.CurrentTheme.GridColor = Color.FromArgb(221, 238, 255);
+            AktifGorusmelerGridView.CurrentTheme.HeaderStyle.BackColor = Color.DodgerBlue;
+            AktifGorusmelerGridView.CurrentTheme.HeaderStyle.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            AktifGorusmelerGridView.CurrentTheme.HeaderStyle.ForeColor = Color.White;
+            AktifGorusmelerGridView.CurrentTheme.HeaderStyle.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            AktifGorusmelerGridView.CurrentTheme.HeaderStyle.SelectionForeColor = Color.White;
+            AktifGorusmelerGridView.CurrentTheme.Name = null;
+            AktifGorusmelerGridView.CurrentTheme.RowsStyle.BackColor = Color.White;
+            AktifGorusmelerGridView.CurrentTheme.RowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            AktifGorusmelerGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
+            AktifGorusmelerGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            AktifGorusmelerGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.White;
+            dataGridViewCellStyle9.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle9.ForeColor = Color.Black;
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            dataGridViewCellStyle9.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.False;
+            AktifGorusmelerGridView.DefaultCellStyle = dataGridViewCellStyle9;
+            AktifGorusmelerGridView.EnableHeadersVisualStyles = false;
+            AktifGorusmelerGridView.GridColor = Color.FromArgb(221, 238, 255);
+            AktifGorusmelerGridView.HeaderBackColor = Color.DodgerBlue;
+            AktifGorusmelerGridView.HeaderBgColor = Color.Empty;
+            AktifGorusmelerGridView.HeaderForeColor = Color.White;
+            AktifGorusmelerGridView.Location = new Point(64, 98);
+            AktifGorusmelerGridView.Name = "AktifGorusmelerGridView";
+            AktifGorusmelerGridView.RowHeadersVisible = false;
+            AktifGorusmelerGridView.RowTemplate.Height = 40;
+            AktifGorusmelerGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            AktifGorusmelerGridView.Size = new Size(314, 480);
+            AktifGorusmelerGridView.TabIndex = 4;
+            AktifGorusmelerGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label9.ForeColor = Color.Black;
+            label9.Location = new Point(560, 289);
+            label9.Name = "label9";
+            label9.Size = new Size(315, 22);
+            label9.TabIndex = 3;
+            label9.Text = "Görüşmeye katılmak için tıklayınız.";
+            // 
+            // BtnGorusmeKatil
+            // 
+            BtnGorusmeKatil.AllowAnimations = true;
+            BtnGorusmeKatil.AllowMouseEffects = true;
+            BtnGorusmeKatil.AllowToggling = false;
+            BtnGorusmeKatil.AnimationSpeed = 200;
+            BtnGorusmeKatil.AutoGenerateColors = false;
+            BtnGorusmeKatil.AutoRoundBorders = false;
+            BtnGorusmeKatil.AutoSizeLeftIcon = true;
+            BtnGorusmeKatil.AutoSizeRightIcon = true;
+            BtnGorusmeKatil.BackColor = Color.Transparent;
+            BtnGorusmeKatil.BackColor1 = Color.Black;
+            BtnGorusmeKatil.BackgroundImage = (Image)resources.GetObject("BtnGorusmeKatil.BackgroundImage");
+            BtnGorusmeKatil.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton2.BorderStyles.Solid;
+            BtnGorusmeKatil.ButtonText = "Görüşemye Katıl";
+            BtnGorusmeKatil.ButtonTextMarginLeft = 0;
+            BtnGorusmeKatil.ColorContrastOnClick = 45;
+            BtnGorusmeKatil.ColorContrastOnHover = 45;
+            borderEdges7.BottomLeft = true;
+            borderEdges7.BottomRight = true;
+            borderEdges7.TopLeft = true;
+            borderEdges7.TopRight = true;
+            BtnGorusmeKatil.CustomizableEdges = borderEdges7;
+            BtnGorusmeKatil.DialogResult = DialogResult.None;
+            BtnGorusmeKatil.DisabledBorderColor = Color.FromArgb(191, 191, 191);
+            BtnGorusmeKatil.DisabledFillColor = Color.FromArgb(204, 204, 204);
+            BtnGorusmeKatil.DisabledForecolor = Color.FromArgb(168, 160, 168);
+            BtnGorusmeKatil.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton2.ButtonStates.Pressed;
+            BtnGorusmeKatil.Font = new Font("Segoe UI", 9F);
+            BtnGorusmeKatil.ForeColor = Color.White;
+            BtnGorusmeKatil.IconLeftAlign = ContentAlignment.MiddleLeft;
+            BtnGorusmeKatil.IconLeftCursor = Cursors.Default;
+            BtnGorusmeKatil.IconLeftPadding = new Padding(11, 3, 3, 3);
+            BtnGorusmeKatil.IconMarginLeft = 11;
+            BtnGorusmeKatil.IconPadding = 10;
+            BtnGorusmeKatil.IconRightAlign = ContentAlignment.MiddleRight;
+            BtnGorusmeKatil.IconRightCursor = Cursors.Default;
+            BtnGorusmeKatil.IconRightPadding = new Padding(3, 3, 7, 3);
+            BtnGorusmeKatil.IconSize = 25;
+            BtnGorusmeKatil.IdleBorderColor = Color.Black;
+            BtnGorusmeKatil.IdleBorderRadius = 5;
+            BtnGorusmeKatil.IdleBorderThickness = 1;
+            BtnGorusmeKatil.IdleFillColor = Color.Black;
+            BtnGorusmeKatil.IdleIconLeftImage = null;
+            BtnGorusmeKatil.IdleIconRightImage = null;
+            BtnGorusmeKatil.IndicateFocus = false;
+            BtnGorusmeKatil.Location = new Point(641, 341);
+            BtnGorusmeKatil.Name = "BtnGorusmeKatil";
+            BtnGorusmeKatil.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
+            BtnGorusmeKatil.OnDisabledState.BorderRadius = 5;
+            BtnGorusmeKatil.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton2.BorderStyles.Solid;
+            BtnGorusmeKatil.OnDisabledState.BorderThickness = 1;
+            BtnGorusmeKatil.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
+            BtnGorusmeKatil.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
+            BtnGorusmeKatil.OnDisabledState.IconLeftImage = null;
+            BtnGorusmeKatil.OnDisabledState.IconRightImage = null;
+            BtnGorusmeKatil.onHoverState.BorderColor = Color.FromArgb(105, 181, 255);
+            BtnGorusmeKatil.onHoverState.BorderRadius = 5;
+            BtnGorusmeKatil.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton2.BorderStyles.Solid;
+            BtnGorusmeKatil.onHoverState.BorderThickness = 1;
+            BtnGorusmeKatil.onHoverState.FillColor = Color.FromArgb(105, 181, 255);
+            BtnGorusmeKatil.onHoverState.ForeColor = Color.White;
+            BtnGorusmeKatil.onHoverState.IconLeftImage = null;
+            BtnGorusmeKatil.onHoverState.IconRightImage = null;
+            BtnGorusmeKatil.OnIdleState.BorderColor = Color.Black;
+            BtnGorusmeKatil.OnIdleState.BorderRadius = 5;
+            BtnGorusmeKatil.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton2.BorderStyles.Solid;
+            BtnGorusmeKatil.OnIdleState.BorderThickness = 1;
+            BtnGorusmeKatil.OnIdleState.FillColor = Color.Black;
+            BtnGorusmeKatil.OnIdleState.ForeColor = Color.White;
+            BtnGorusmeKatil.OnIdleState.IconLeftImage = null;
+            BtnGorusmeKatil.OnIdleState.IconRightImage = null;
+            BtnGorusmeKatil.OnPressedState.BorderColor = Color.FromArgb(40, 96, 144);
+            BtnGorusmeKatil.OnPressedState.BorderRadius = 5;
+            BtnGorusmeKatil.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton2.BorderStyles.Solid;
+            BtnGorusmeKatil.OnPressedState.BorderThickness = 1;
+            BtnGorusmeKatil.OnPressedState.FillColor = Color.FromArgb(40, 96, 144);
+            BtnGorusmeKatil.OnPressedState.ForeColor = Color.White;
+            BtnGorusmeKatil.OnPressedState.IconLeftImage = null;
+            BtnGorusmeKatil.OnPressedState.IconRightImage = null;
+            BtnGorusmeKatil.Size = new Size(150, 39);
+            BtnGorusmeKatil.TabIndex = 2;
+            BtnGorusmeKatil.TextAlign = ContentAlignment.MiddleCenter;
+            BtnGorusmeKatil.TextAlignment = HorizontalAlignment.Center;
+            BtnGorusmeKatil.TextMarginLeft = 0;
+            BtnGorusmeKatil.TextPadding = new Padding(0);
+            BtnGorusmeKatil.UseDefaultRadiusAndThickness = true;
+            BtnGorusmeKatil.Click += BtnGorusmeKatil_Click;
+            // 
             // label7
             // 
             label7.AutoSize = true;
+            label7.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label7.ForeColor = Color.Black;
-            label7.Location = new Point(304, 70);
+            label7.Location = new Point(64, 61);
             label7.Name = "label7";
-            label7.Size = new Size(365, 15);
-            label7.TabIndex = 43;
-            label7.Text = "BURAYA HEM DERSİ HEMDE Öğretmenin adıını EKLEYEBİLİR MİYİZ??";
+            label7.Size = new Size(160, 22);
+            label7.TabIndex = 0;
+            label7.Text = "Aktif Görüşmeler";
             // 
-            // btnDersBaslat
+            // panelBilgilerim
             // 
-            btnDersBaslat.AllowAnimations = true;
-            btnDersBaslat.AllowMouseEffects = true;
-            btnDersBaslat.AllowToggling = false;
-            btnDersBaslat.AnimationSpeed = 200;
-            btnDersBaslat.AutoGenerateColors = false;
-            btnDersBaslat.AutoRoundBorders = false;
-            btnDersBaslat.AutoSizeLeftIcon = true;
-            btnDersBaslat.AutoSizeRightIcon = true;
-            btnDersBaslat.BackColor = Color.Transparent;
-            btnDersBaslat.BackColor1 = Color.FromArgb(51, 122, 183);
-            btnDersBaslat.BackgroundImage = (Image)resources.GetObject("btnDersBaslat.BackgroundImage");
-            btnDersBaslat.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            btnDersBaslat.ButtonText = "Derse Katıl";
-            btnDersBaslat.ButtonTextMarginLeft = 0;
-            btnDersBaslat.ColorContrastOnClick = 45;
-            btnDersBaslat.ColorContrastOnHover = 45;
-            borderEdges6.BottomLeft = true;
-            borderEdges6.BottomRight = true;
-            borderEdges6.TopLeft = true;
-            borderEdges6.TopRight = true;
-            btnDersBaslat.CustomizableEdges = borderEdges6;
-            btnDersBaslat.DialogResult = DialogResult.None;
-            btnDersBaslat.DisabledBorderColor = Color.FromArgb(191, 191, 191);
-            btnDersBaslat.DisabledFillColor = Color.Empty;
-            btnDersBaslat.DisabledForecolor = Color.Empty;
-            btnDersBaslat.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
-            btnDersBaslat.Font = new Font("Segoe UI", 9F);
-            btnDersBaslat.ForeColor = Color.White;
-            btnDersBaslat.IconLeft = null;
-            btnDersBaslat.IconLeftAlign = ContentAlignment.MiddleLeft;
-            btnDersBaslat.IconLeftCursor = Cursors.Default;
-            btnDersBaslat.IconLeftPadding = new Padding(11, 3, 3, 3);
-            btnDersBaslat.IconMarginLeft = 11;
-            btnDersBaslat.IconPadding = 10;
-            btnDersBaslat.IconRight = null;
-            btnDersBaslat.IconRightAlign = ContentAlignment.MiddleRight;
-            btnDersBaslat.IconRightCursor = Cursors.Default;
-            btnDersBaslat.IconRightPadding = new Padding(3, 3, 7, 3);
-            btnDersBaslat.IconSize = 25;
-            btnDersBaslat.IdleBorderColor = Color.Empty;
-            btnDersBaslat.IdleBorderRadius = 0;
-            btnDersBaslat.IdleBorderThickness = 0;
-            btnDersBaslat.IdleFillColor = Color.Empty;
-            btnDersBaslat.IdleIconLeftImage = null;
-            btnDersBaslat.IdleIconRightImage = null;
-            btnDersBaslat.IndicateFocus = false;
-            btnDersBaslat.Location = new Point(712, 298);
-            btnDersBaslat.Name = "btnDersBaslat";
-            btnDersBaslat.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
-            btnDersBaslat.OnDisabledState.BorderRadius = 1;
-            btnDersBaslat.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            btnDersBaslat.OnDisabledState.BorderThickness = 1;
-            btnDersBaslat.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
-            btnDersBaslat.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
-            btnDersBaslat.OnDisabledState.IconLeftImage = null;
-            btnDersBaslat.OnDisabledState.IconRightImage = null;
-            btnDersBaslat.onHoverState.BorderColor = Color.FromArgb(30, 150, 255);
-            btnDersBaslat.onHoverState.BorderRadius = 1;
-            btnDersBaslat.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            btnDersBaslat.onHoverState.BorderThickness = 1;
-            btnDersBaslat.onHoverState.FillColor = Color.FromArgb(30, 150, 255);
-            btnDersBaslat.onHoverState.ForeColor = Color.White;
-            btnDersBaslat.onHoverState.IconLeftImage = null;
-            btnDersBaslat.onHoverState.IconRightImage = null;
-            btnDersBaslat.OnIdleState.BorderColor = Color.DodgerBlue;
-            btnDersBaslat.OnIdleState.BorderRadius = 1;
-            btnDersBaslat.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            btnDersBaslat.OnIdleState.BorderThickness = 1;
-            btnDersBaslat.OnIdleState.FillColor = Color.DodgerBlue;
-            btnDersBaslat.OnIdleState.ForeColor = Color.White;
-            btnDersBaslat.OnIdleState.IconLeftImage = null;
-            btnDersBaslat.OnIdleState.IconRightImage = null;
-            btnDersBaslat.OnPressedState.BorderColor = Color.FromArgb(40, 96, 144);
-            btnDersBaslat.OnPressedState.BorderRadius = 1;
-            btnDersBaslat.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            btnDersBaslat.OnPressedState.BorderThickness = 1;
-            btnDersBaslat.OnPressedState.FillColor = Color.FromArgb(40, 96, 144);
-            btnDersBaslat.OnPressedState.ForeColor = Color.White;
-            btnDersBaslat.OnPressedState.IconLeftImage = null;
-            btnDersBaslat.OnPressedState.IconRightImage = null;
-            btnDersBaslat.Size = new Size(150, 39);
-            btnDersBaslat.TabIndex = 44;
-            btnDersBaslat.TextAlign = ContentAlignment.MiddleCenter;
-            btnDersBaslat.TextAlignment = HorizontalAlignment.Center;
-            btnDersBaslat.TextMarginLeft = 0;
-            btnDersBaslat.TextPadding = new Padding(0);
-            btnDersBaslat.UseDefaultRadiusAndThickness = true;
+            panelBilgilerim.BackgroundColor = Color.White;
+            panelBilgilerim.BackgroundImage = (Image)resources.GetObject("panelBilgilerim.BackgroundImage");
+            panelBilgilerim.BackgroundImageLayout = ImageLayout.Stretch;
+            panelBilgilerim.BorderColor = Color.White;
+            panelBilgilerim.BorderRadius = 3;
+            panelBilgilerim.BorderThickness = 1;
+            panelBilgilerim.Location = new Point(241, 80);
+            panelBilgilerim.Name = "panelBilgilerim";
+            panelBilgilerim.ShowBorders = true;
+            panelBilgilerim.Size = new Size(1050, 640);
+            panelBilgilerim.TabIndex = 46;
+            panelBilgilerim.Visible = false;
             // 
             // OgrenciEkrani
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Window;
-            ClientSize = new Size(1299, 727);
+            ClientSize = new Size(1297, 729);
+            Controls.Add(panelGorusme);
+            Controls.Add(panelBilgilerim);
             Controls.Add(panelSinifGrubu);
             Controls.Add(panelNotlarim);
             Controls.Add(panelDersNotlari);
@@ -1054,6 +1266,9 @@
             panelSinifGrubu.ResumeLayout(false);
             panelSinifGrubu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)activeDerslerDataGrid).EndInit();
+            panelGorusme.ResumeLayout(false);
+            panelGorusme.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)AktifGorusmelerGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1087,7 +1302,12 @@
         private Bunifu.UI.WinForms.BunifuPanel panelSinifGrubu;
         private Bunifu.UI.WinForms.BunifuDataGridView activeDerslerDataGrid;
         private Label label8;
-        private Label label7;
         private Bunifu.UI.WinForms.BunifuButton.BunifuButton btnDersBaslat;
+        private Bunifu.UI.WinForms.BunifuPanel panelGorusme;
+        private Label label9;
+        private Bunifu.UI.WinForms.BunifuButton.BunifuButton2 BtnGorusmeKatil;
+        private Label label7;
+        private Bunifu.UI.WinForms.BunifuPanel panelBilgilerim;
+        private Bunifu.UI.WinForms.BunifuDataGridView AktifGorusmelerGridView;
     }
 }

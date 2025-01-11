@@ -10,9 +10,12 @@ using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 using Mapster;
 using System;
 using System.Collections.Generic;
@@ -42,6 +45,9 @@ namespace dershaneOtomasyonu
         private readonly IDersKayitRepository _dersKayitRepository;
         private readonly IDegerlendirmeRepository _degerlendirmeRepository;
         private readonly IGorusmeRepository _gorusmeRepository;
+        private readonly IKullaniciNotRepository _kullaniciNotRepository;
+        private readonly INotRepository _notRepository;
+        private readonly IYoklamaRepository _yoklamaRepository;
         private readonly FileService _fileService;
         private ChattingForm _chattingForm;
 
@@ -57,7 +63,10 @@ namespace dershaneOtomasyonu
             IKullaniciDosyaRepository kullaniciDosyaRepository,
             IDersKayitRepository dersKayitRepository,
             IDegerlendirmeRepository degerlendirmeRepository,
-            IGorusmeRepository gorusmeRepository)
+            IGorusmeRepository gorusmeRepository,
+            IKullaniciNotRepository kullaniciNotRepository,
+            INotRepository notRepository,
+            IYoklamaRepository yoklamaRepository)
 
         {
             InitializeComponent();
@@ -74,7 +83,10 @@ namespace dershaneOtomasyonu
             _dersKayitRepository = dersKayitRepository;
             _degerlendirmeRepository = degerlendirmeRepository;
             _gorusmeRepository = gorusmeRepository;
-            panels = [Panel_SiniflarVeOgrenciler, panelDosyaGonderme, panelDersBaslat, PanelGorusme];
+            _kullaniciNotRepository = kullaniciNotRepository;
+            _notRepository = notRepository;
+            _yoklamaRepository = yoklamaRepository;
+            panels = [Panel_SiniflarVeOgrenciler, panelDosyaGonderme, panelDersBaslat, PanelGorusme, panelRaporlama];
             _fileService = new FileService();
 
         }
@@ -116,7 +128,7 @@ namespace dershaneOtomasyonu
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani form1 = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository); // form4e geçiş
+            GirisEkrani form1 = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository, _kullaniciNotRepository, _notRepository, _yoklamaRepository); // form4e geçiş
             form1.Show(); // form4ü açıyor
             this.Hide(); // form1i gizleyecek
             form1.FormClosed += (s, args) => this.Close();
@@ -413,6 +425,11 @@ namespace dershaneOtomasyonu
 
         private async void chattingSinifDataGridView_MouseClick(object sender, MouseEventArgs e)
         {
+            await HandleDerslerMouseClickAsync(sender, e);
+        }
+
+        private async Task HandleDerslerMouseClickAsync(object sender, MouseEventArgs e)
+        {
             var sinifId = 0;
             if (chattingSinifDataGridView.CurrentRow != null) sinifId = Convert.ToInt32(chattingSinifDataGridView.CurrentRow.Cells[0].Value);
             if (sinifId != 0) await LoadSinifinOgrencileriToDersBaslat(sinifId);
@@ -451,7 +468,7 @@ namespace dershaneOtomasyonu
                 }
 
 
-                _chattingForm = new ChattingForm(dersKayit, _dersKayitRepository);
+                _chattingForm = new ChattingForm(dersKayit, _dersKayitRepository, _yoklamaRepository);
                 _chattingForm.FormClosed += _chattingForm_FormClosed;
                 _chattingForm.Show();
 
@@ -468,7 +485,7 @@ namespace dershaneOtomasyonu
         private async void _chattingFormGorusme_FormClosed(object sender, FormClosedEventArgs e)
         {
             Thread.Sleep(2000); // 2000 milisaniye (2 saniye)
-            await LoadActiveGorusmelerData();
+            await LoadActiveDerslerData();
         }
 
         private async Task LoadActiveDerslerData()// aktif dersleri çekiyorduk
@@ -476,17 +493,6 @@ namespace dershaneOtomasyonu
             var devamEdenDersler = await _dersKayitRepository.GetActiveDerslerByOgretmenIdAsync(GlobalData.Kullanici.Id);
             var siniflar = new List<Sinif>();
             foreach (var ders in devamEdenDersler)
-            {
-                siniflar.Add(await _sinifRepository.GetByIdAsync(ders.SinifId));
-            }
-            activeDerslerDataGrid.DataSource = siniflar;
-            activeDerslerDataGrid.Columns[0].Visible = false;
-        }
-        private async Task LoadActiveGorusmelerData()// aktif görüşmeleri çekeceğiz
-        {
-            var devamEdenGorusmeler = await _dersKayitRepository.GetActiveDerslerByOgretmenIdAsync(GlobalData.Kullanici.Id);
-            var siniflar = new List<Sinif>();
-            foreach (var ders in devamEdenGorusmeler)
             {
                 siniflar.Add(await _sinifRepository.GetByIdAsync(ders.SinifId));
             }
@@ -574,14 +580,39 @@ namespace dershaneOtomasyonu
         private async void BtnGorusmePanel_Click(object sender, EventArgs e)
         {
             await LoadClassroomsOnPanelGorusme();
+            await LoadDevamEdenGorusmeler();
             TogglePanel(PanelGorusme);
+        }
+
+        private async Task LoadDevamEdenGorusmeler()
+        {
+            var gorusmeler = await _gorusmeRepository.GetAktifGorusmelerByOlusturucuIdAsync(GlobalData.Kullanici!.Id);
+            var gorusmedto = gorusmeler.Select(x => new
+            {
+                x.Id,
+                x.Katilimci.SinifId,
+                OgrenciId = x.Katilimci.Id,
+                Katilimci = x.Katilimci.Adi + " " + x.Katilimci.Soyadi,
+            });
+            DevamEdenGorusmeDataGridView.DataSource = gorusmedto.ToList();
+            DevamEdenGorusmeDataGridView.Columns[0].Visible = false;
+            DevamEdenGorusmeDataGridView.Columns[1].Visible = false;
+            DevamEdenGorusmeDataGridView.Columns[2].Visible = false;
         }
 
         private async void gorusmeSiniflarDataGridView_MouseClick(object sender, MouseEventArgs e)
         {
+            await HandleMouseClickAsync(sender, e);
+        }
+
+        private async Task HandleMouseClickAsync(object sender, MouseEventArgs e)
+        {
             var sinifId = 0;
-            if (gorusmeSiniflarDataGridView.CurrentRow != null) sinifId = Convert.ToInt32(gorusmeSiniflarDataGridView.CurrentRow.Cells[0].Value);
-            if (sinifId != 0) await LoadSinifinOgrencileriToDersBaslatOnPanelGorusme(sinifId);
+            if (gorusmeSiniflarDataGridView.CurrentRow != null)
+                sinifId = Convert.ToInt32(gorusmeSiniflarDataGridView.CurrentRow.Cells[0].Value);
+
+            if (sinifId != 0)
+                await LoadSinifinOgrencileriToDersBaslatOnPanelGorusme(sinifId);
         }
 
         private async void BtnGorusmeBaslat_Click(object sender, EventArgs e)
@@ -623,6 +654,68 @@ namespace dershaneOtomasyonu
                 _chattingForm.Show();
 
                 await LoadActiveDerslerData();
+            }
+        }
+
+        private void BtnRaporlamaPanel_Click(object sender, EventArgs e)
+        {
+            TogglePanel(panelRaporlama);
+        }
+
+        private async void activeDerslerDataGrid_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (activeDerslerDataGrid.CurrentRow == null) return;
+            var selectedId = activeDerslerDataGrid.CurrentRow.Cells["Id"].Value;
+            chattingSinifDataGridView.ClearSelection();
+            // İlk gridde bu ID değerine sahip satırı bul ve seç
+            foreach (DataGridViewRow row in chattingSinifDataGridView.Rows)
+            {
+                if (row.Cells["Id"].Value.Equals(selectedId))
+                {
+                    // Satırı seçili hale getir
+                    chattingSinifDataGridView.CurrentCell = row.Cells[1];
+                    row.Selected = true;
+                    await HandleDerslerMouseClickAsync(sender, e);
+                    // Seçili satırı görünür yapmak (isteğe bağlı)
+                    chattingSinifDataGridView.FirstDisplayedScrollingRowIndex = row.Index;
+                    break;
+                }
+            }
+        }
+
+        private async void DevamEdenGorusmeDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (DevamEdenGorusmeDataGridView.CurrentRow == null) return;
+
+            var selectedId = DevamEdenGorusmeDataGridView.CurrentRow.Cells["SinifId"].Value;
+            gorusmeSiniflarDataGridView.ClearSelection();
+            foreach (DataGridViewRow row in gorusmeSiniflarDataGridView.Rows)
+            {
+                if (row.Cells["Id"].Value.Equals(selectedId))
+                {
+                    // Satırı seçili hale getir
+                    row.Selected = true;
+                    gorusmeSiniflarDataGridView.CurrentCell = row.Cells[1];
+                    // Seçili satırı görünür yapmak (isteğe bağlı)
+                    gorusmeSiniflarDataGridView.FirstDisplayedScrollingRowIndex = row.Index;
+
+                    await HandleMouseClickAsync(sender, e);
+
+                    break;
+                }
+            }
+
+            var selectedOgrenciId = DevamEdenGorusmeDataGridView.CurrentRow.Cells["OgrenciId"].Value;
+            GorusmeOgrencilerDataGridView.ClearSelection();
+            foreach (DataGridViewRow row in GorusmeOgrencilerDataGridView.Rows)
+            {
+                if (row.Cells["Id"].Value.Equals(selectedOgrenciId))
+                {
+                    row.Selected = true;
+                    GorusmeOgrencilerDataGridView.CurrentCell = row.Cells[5];
+                    GorusmeOgrencilerDataGridView.FirstDisplayedScrollingRowIndex = row.Index;
+                    break;
+                }
             }
         }
     }

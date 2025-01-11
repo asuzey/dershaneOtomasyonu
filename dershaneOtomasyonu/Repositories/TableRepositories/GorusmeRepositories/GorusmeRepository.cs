@@ -16,10 +16,10 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories
 
         }
 
-        public async Task<List<Gorusme>> GetGorusmeByKullaniciIdAsync(int kullaniciId)
+        public async Task<List<Gorusme>> GetGorusmeByKatilimciIdAsync(int ogrenciId)
         {
             var gorusme = await _context.Gorusmeler
-                .Where(d => d.KatilimciId == kullaniciId)
+                .Where(d => d.KatilimciId == ogrenciId)
                 .ToListAsync();
             return gorusme;
         }
@@ -27,9 +27,23 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories
         public async Task<List<Gorusme>> GetGorusmeByOlusturucuIdAsync(int olusturucuId)
         {
             var gorusme = await _context.Gorusmeler
+                .Include(d => d.Katilimci)
                 .Where(d => d.OlusturucuId == olusturucuId)
                 .ToListAsync();
             return gorusme;
+        }
+        public async Task<List<Gorusme>> GetAktifGorusmelerByOlusturucuIdAsync(int olusturucuId)
+        {
+            return await _context.Gorusmeler
+                .Where(d => d.OlusturucuId == olusturucuId && d.Durum == true)
+                .ToListAsync();
+        }
+        public async Task<List<Gorusme>> GetAktifGorusmelerByKatilimciIdAsync(int katilimciId)
+        {
+            return await _context.Gorusmeler
+                .Include(o => o.Olusturucu)
+                .Where(d => d.KatilimciId == katilimciId && d.Durum == true)
+                .ToListAsync();
         }
 
         public async Task<List<Gorusme>> GetGorusmeByOlusturucuIdAndKullaniciIdAsync(int olusturucuId , int kullaniciId)

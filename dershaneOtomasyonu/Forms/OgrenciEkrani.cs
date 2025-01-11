@@ -22,6 +22,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
+using dershaneOtomasyonu.Forms;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 
 namespace dershaneOtomasyonu
 {
@@ -41,6 +45,10 @@ namespace dershaneOtomasyonu
         private readonly IDegerlendirmeRepository _degerlendirmeRepository;
         private readonly IGorusmeRepository _gorusmeRepository;
         private readonly FileService _fileService;
+        private readonly IKullaniciNotRepository _kullaniciNotRepository;
+        private readonly INotRepository _notRepository;
+        private readonly IYoklamaRepository _yoklamaRepository;
+        private ChattingForm _chattingForm;
 
 
 
@@ -56,7 +64,10 @@ namespace dershaneOtomasyonu
             IKullaniciDosyaRepository kullaniciDosyaRepository,
             IDersKayitRepository dersKayitRepository,
             IDegerlendirmeRepository degerlendirmeRepository,
-            IGorusmeRepository gorusmeRepository)
+            IGorusmeRepository gorusmeRepository,
+            IKullaniciNotRepository kullaniciNotRepository,
+            INotRepository notRepository,
+            IYoklamaRepository yoklamaRepository)
 
         {
             InitializeComponent();
@@ -73,8 +84,11 @@ namespace dershaneOtomasyonu
             _dersKayitRepository = dersKayitRepository;
             _degerlendirmeRepository = degerlendirmeRepository;
             _gorusmeRepository = gorusmeRepository;
+            _kullaniciNotRepository = kullaniciNotRepository;
+            _notRepository = notRepository;
+            _yoklamaRepository = yoklamaRepository;
             _fileService = new FileService();
-            panels = [panelDersNotlari, panelNotlarim];
+            panels = [panelDersNotlari, panelNotlarim, panelSinifGrubu, panelGorusme, panelBilgilerim];
 
         }
 
@@ -82,7 +96,7 @@ namespace dershaneOtomasyonu
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani OgrenciEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository); // form3e geçiş
+            GirisEkrani OgrenciEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository, _kullaniciNotRepository, _notRepository, _yoklamaRepository); // form3e geçiş
             OgrenciEkrani.Show(); // form3ü açıyor
             this.Hide(); // form1i gizleyecek
             OgrenciEkrani.FormClosed += (s, args) => this.Close();
@@ -115,6 +129,7 @@ namespace dershaneOtomasyonu
         {
             TogglePanel(panelDersNotlari);
             InitializeDataGridView();
+            RefreshFileList();
         }
 
         private void InitializeDataGridView()
@@ -134,7 +149,33 @@ namespace dershaneOtomasyonu
             };
             DosyaDataGridView.Columns.Add(downloadButtonColumn);
 
+            DosyaDataGridView.CellClick -= DosyaDataGridView_CellClick; // Önce eski bağlantıyı kaldır
             DosyaDataGridView.CellClick += DosyaDataGridView_CellClick;
+        }
+
+        private async void RefreshFileList()
+        {
+            try
+            {
+                DosyaDataGridView.Rows.Clear();
+                var files = _fileService.ListFiles();
+
+                var assignedFiles = await _kullaniciDosyaRepository.GetAllByKullaniciIdAsync(GlobalData.Kullanici!.Id);
+                foreach (var file in files)
+                {
+                    foreach (var assignedFile in assignedFiles)
+                    {
+                        if (file == assignedFile.Dosya.FileName)
+                        {
+                            DosyaDataGridView.Rows.Add(file);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Dosya listesi alınırken hata oluştu: {ex.Message}");
+            }
         }
 
         private void logo_Click(object sender, EventArgs e)
@@ -173,7 +214,7 @@ namespace dershaneOtomasyonu
                         }
                         else
                         {
-                            MessageBox.Show("Dosya indirme işlemi iptal edildi.");
+                            return;
                         }
                     }
 
@@ -181,111 +222,43 @@ namespace dershaneOtomasyonu
             }
         }
 
-        #region BURAYA BAKILACAK FİLE SERVER İLE İLGİLİ KODLAR
-        async Task OpenFileSelection()
-        {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string timestamp = DateTime.Now.ToString("ddMMyyyyHHmmssfff");
-                    bool success = _fileService.UploadFile(openFileDialog.FileName, timestamp);
-                    if (success)
-                    {
-                        string originalFileName = openFileDialog.FileName;
-                        string timestampedFileName = $"{Path.GetFileNameWithoutExtension(originalFileName)}_{timestamp}{Path.GetExtension(originalFileName)}";
-                        var newFile = new Dosya
-                        {
-                            FileName = timestampedFileName,
-                            FilePath = @"C:\Users\Public\FileServer"
-                        };
-                        await _baseDosyaRepository.AddAsync(newFile);
-                        var assignment = new KullaniciDosya();
-                        assignment.KullaniciId = GlobalData.Kullanici!.Id;
-
-
-                        /*
-
-                            if (selectedClass == null)
-                            {
-                                foreach (var ogrenci in ogrenciler)
-                                {
-                                    var newAssignment = new KullaniciDosya();
-                                    newAssignment.KullaniciId = ogrenci.Id;
-                                    newAssignment.DosyaId = newFile.Id;
-                                    await _kullaniciDosyaRepository.AddAsync(newAssignment);
-                                }
-                            }
-                            else
-                            {
-                                var selectedOgrenciler = ogrenciler.Where(o => o.SinifId == (int)selectedClass.Value).ToList();
-                                foreach (var ogrenci in selectedOgrenciler)
-                                {
-                                    var newAssignment = new KullaniciDosya();
-                                    newAssignment.KullaniciId = ogrenci.Id;
-                                    newAssignment.DosyaId = newFile.Id;
-                                    await _kullaniciDosyaRepository.AddAsync(newAssignment);
-                                }
-                            }
-                            MessageBox.Show("Dosya başarıyla yüklendi.");
-                            RefreshFileList();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Dosya yükleme başarısız.");
-                        } */
-                    }
-
-                }
-            }
-        }
-        #endregion
-
-        private void BtnNotTutmaPanel_Click(object sender, EventArgs e)
+        private async void BtnNotTutmaPanel_Click(object sender, EventArgs e)
         {
             TogglePanel(panelNotlarim);
         }
 
-        private void BtnKaydet_Click(object sender, EventArgs e)
+        private async void BtnKaydet_Click(object sender, EventArgs e)
         {
-
-            // 1. Dosya adı TextBox'tan alınıyor
             string dosyaAdi = txtDosyaAdi.Text;
-
-            // 2. Dosya adı boş mu kontrol ediliyor
             if (string.IsNullOrWhiteSpace(dosyaAdi))
             {
                 MessageBox.Show("Lütfen bir dosya adı girin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            // 3. .txt uzantısını kontrol et
             if (!dosyaAdi.EndsWith(".txt"))
             {
-                dosyaAdi += ".txt"; // Eğer yoksa uzantıyı ekle
+                dosyaAdi += ".txt";
             }
-
-            // 4. Dosya kaydetme yolu belirlenir
             string kaydetmeDizini = @"C:\Dosyalar\";
-
-            // Klasör var mı kontrol edilir, yoksa oluşturulur
             if (!Directory.Exists(kaydetmeDizini))
             {
                 Directory.CreateDirectory(kaydetmeDizini);
             }
-
-            // Tam dosya yolu
             string tamDosyaYolu = Path.Combine(kaydetmeDizini, dosyaAdi);
-
-
-            // 5. RichTextBox içindeki metni al
             string metin = OgrenciNotRichTextBox.Text;
-
-            // 6. Dosya oluştur ve metni içine yaz
             try
             {
                 File.WriteAllText(tamDosyaYolu, metin);
                 MessageBox.Show($"Dosya başarıyla kaydedildi:\n{tamDosyaYolu}", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var newnot = new Not();
+                newnot.Baslik = txtDosyaAdi.Text;
+                newnot.Icerik = OgrenciNotRichTextBox.Text;
+                await _notRepository.AddAsync(newnot);
+
+                var kullaniciNot = new KullaniciNot();
+                kullaniciNot.KullaniciId = GlobalData.Kullanici!.Id;
+                kullaniciNot.NotId = newnot.Id;
+                await _kullaniciNotRepository.AddAsync(kullaniciNot);
             }
             catch (Exception ex)
             {
@@ -294,10 +267,123 @@ namespace dershaneOtomasyonu
 
         }
 
-        private void BtnSınıfChat_Click(object sender, EventArgs e)
+        private async void BtnSınıfChat_Click(object sender, EventArgs e)
         {
             TogglePanel(panelSinifGrubu);
             // chat ekranı yönlendirmesi yapılacak ve datagride dersler doldurulacak aynı zamanda açan öğretmen de bu listede gözükecek.
+            await LoadAktifDersler();
+
+        }
+
+        private async Task LoadAktifDersler()
+        {
+            if (GlobalData.Kullanici!.SinifId != null)
+            {
+                var aktifDersler = await _dersKayitRepository.GetActiveDerslerBySinifIdAsync((int)GlobalData.Kullanici!.SinifId);
+                var aktifDerslerList = aktifDersler
+                    .Select(x => new
+                    {
+                        Id = x.Id,
+                        SinifKodu = x.Sinif.Kodu,
+                        OgretmenAdi = $"{x.Kullanici.Adi} {x.Kullanici.Soyadi}"
+                    })
+                    .ToList();
+                activeDerslerDataGrid.DataSource = aktifDerslerList;
+                activeDerslerDataGrid.Columns[0].Visible = false;
+            }
+        }
+
+        private async void btnDersBaslat_Click(object sender, EventArgs e)
+        {
+            var dersKayitId = 0;
+            if (activeDerslerDataGrid.CurrentRow != null) dersKayitId = Convert.ToInt32(activeDerslerDataGrid.CurrentRow.Cells[0].Value);
+            if (dersKayitId != 0)
+            {
+                var dersKayit = await _dersKayitRepository.GetByIdAsync(dersKayitId);
+                DialogResult userChoice = MessageBox.Show(
+                    "Ders'e katılınacaktır, devam edilsin mi?",
+                    "Ders Başlatma İşlemi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (dersKayit != null && userChoice == DialogResult.Yes)
+                {
+                    _chattingForm = new ChattingForm(dersKayit, _dersKayitRepository, _yoklamaRepository);
+                    _chattingForm.Show();
+
+                    var yoklama = await _yoklamaRepository.GetByKullaniciIdAndDersKayitIdAsync(dersKayitId, GlobalData.Kullanici!.Id);
+                    if (yoklama == null)
+                    {
+                        yoklama = new Yoklama();
+                        yoklama.DersKayitId = dersKayitId;
+                        yoklama.KullaniciId = GlobalData.Kullanici!.Id;
+                        yoklama.KatilmaTarihi = DateTime.Now;
+                        await _yoklamaRepository.AddAsync(yoklama);
+                    }
+
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Lütfen aktif dersler tablosundan bir kayıt seçiniz.", "Bilgi");
+            }
+        }
+
+        private async void BtnGorusmePanel_Click(object sender, EventArgs e)
+        {
+            await LoadAktifGorusmeler();
+            TogglePanel(panelGorusme);
+        }
+
+        private async Task LoadAktifGorusmeler()
+        {
+            var aktifgorusmeler = await _gorusmeRepository.GetAktifGorusmelerByKatilimciIdAsync(GlobalData.Kullanici!.Id);
+            var aktifGorusmelerDto = aktifgorusmeler.Select(x => new
+            {
+                x.Id,
+                Olusturucu = x.Olusturucu.Adi + " " + x.Olusturucu.Soyadi
+            }).ToList();
+            AktifGorusmelerGridView.DataSource = aktifGorusmelerDto;
+            AktifGorusmelerGridView.Columns[0].Visible = false;
+        }
+
+        private void BtnBilgilerimpanel_Click(object sender, EventArgs e)
+        {
+            TogglePanel(panelBilgilerim);
+        }
+
+        private async void BtnGorusmeKatil_Click(object sender, EventArgs e)
+        {
+            var gorusmeId = 0;
+            if (AktifGorusmelerGridView.CurrentRow != null) gorusmeId = Convert.ToInt32(AktifGorusmelerGridView.CurrentRow.Cells[0].Value);
+            if (gorusmeId == 0)
+            {
+                MessageBox.Show("Lütfen görüşme kaydı seçiniz.", "Görüşme Başlatma İşlemi");
+                return;
+            }
+            DialogResult userChoice = MessageBox.Show(
+                    "Görüşmeye katılınacaktır, devam edilsin mi?",
+                    "Görüşme Başlatma İşlemi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+            // global data'daki kullanıcı id'yi sorgulayarak aktif olan görüşmeleri gride yazacağız
+            // eğer bi öğrenci ile görüşme başlamışsa, o görüşme aktifken yeni bir görüşme kaydı atılmayacak, o kayıt devam edecek
+            if (userChoice == DialogResult.Yes)
+            {
+                // burada görüşme başlatırken sınıf id üzerinden arama yapmak mantıklı değil, çünkü oluşturucu ve kullanıcı idlerine göre aktif görüşmeleri
+                // çekeceğiz, buna göre senin global data'daki kullanıcı ile tabloda seçili öğrencinin id 'sini alarak
+
+                var aktifGorusme = await _gorusmeRepository.GetByIdAsync(gorusmeId);
+                if (aktifGorusme != null)
+                {
+                    _chattingForm = new ChattingForm(aktifGorusme, _gorusmeRepository);
+                    _chattingForm.Show();
+                }
+
+            }
         }
     }
 }

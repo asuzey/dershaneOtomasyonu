@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 namespace dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories
 {
     public interface IDersKayitRepository : IBaseRepository<DersKayit>
-    {//GetActiveDerslerBySinifAndOgretmenIdAsync
+    {
 
         Task<DersKayit> GetActiveDersBySinifAndOgretmenIdAsync(int sinifId, int ogretmenId);
         Task<List<DersKayit>> GetActiveDerslerByOgretmenIdAsync(int ogretmenId);
+        Task<List<DersKayit>> GetActiveDerslerBySinifIdAsync(int sinifId);
     }
 }

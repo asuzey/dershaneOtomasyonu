@@ -29,5 +29,10 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositorie
         {
             return _context.DersKayitlari.Where(x => x.KullaniciId == ogretmenId && x.Durum == true).ToListAsync();
         }
+
+        public Task<List<DersKayit>> GetActiveDerslerBySinifIdAsync(int sinifId)
+        {
+            return _context.DersKayitlari.Include(x => x.Kullanici).Include(x => x.Sinif).Where(x => x.SinifId == sinifId && x.Durum == true).ToListAsync();
+        }
     }
 }

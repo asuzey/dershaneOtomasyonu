@@ -28,6 +28,9 @@ using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositori
 using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 
 namespace dershaneOtomasyonu
 {
@@ -46,6 +49,9 @@ namespace dershaneOtomasyonu
         private readonly IDersKayitRepository _dersKayitRepository;
         private readonly IDegerlendirmeRepository _degerlendirmeRepository;
         private readonly IGorusmeRepository _gorusmeRepository;
+        private readonly IKullaniciNotRepository _kullaniciNotRepository;
+        private readonly INotRepository _notRepository;
+        private readonly IYoklamaRepository _yoklamaRepository;
 
         public AdminEkrani(ILogger logger,
             IKullaniciRepository kullaniciRepository,
@@ -59,7 +65,10 @@ namespace dershaneOtomasyonu
             IKullaniciDosyaRepository kullaniciDosyaRepository,
             IDersKayitRepository dersKayitRepository,
             IDegerlendirmeRepository degerlendirmeRepository,
-            IGorusmeRepository gorusmeRepository)
+            IGorusmeRepository gorusmeRepository,
+            IKullaniciNotRepository kullaniciNotRepository,
+            INotRepository notRepository,
+            IYoklamaRepository yoklamaRepository)
         {
             InitializeComponent();
             _kullaniciRepository = kullaniciRepository;
@@ -75,6 +84,9 @@ namespace dershaneOtomasyonu
             _dersKayitRepository = dersKayitRepository;
             _degerlendirmeRepository = degerlendirmeRepository;
             _gorusmeRepository = gorusmeRepository;
+            _kullaniciNotRepository = kullaniciNotRepository;
+            _notRepository = notRepository;
+            _yoklamaRepository = yoklamaRepository;
             panels = [panelKullaniciEkle, panelLog, panelKullaniciVeri, panelSifreislem, panelDersAtama, panelDersveSinif, panelSinifAtama];
         }
 
@@ -82,7 +94,7 @@ namespace dershaneOtomasyonu
 
         private void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository); // form2 ye geçiş
+            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository , _kullaniciNotRepository, _notRepository, _yoklamaRepository); // form2 ye geçiş
             GirisEkrani.Show(); // form2yi açıyor
             this.Hide(); // form1i gizleyecek
             GirisEkrani.FormClosed += (s, args) => this.Close();

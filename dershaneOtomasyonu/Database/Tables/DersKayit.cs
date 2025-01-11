@@ -14,6 +14,7 @@ namespace dershaneOtomasyonu.Database.Tables
         public string Oda { get; set; } // Oda adı veya kimliği
         public string? Mesajlar { get; set; } // Mesajlar
         public bool Durum { get; set; } // Durum (Aktif/Deaktif)
+        public DateTime BaslangicTarihi { get; set; }
 
         // Navigation Properties
         public Sinif Sinif { get; set; } // Sınıf ilişkisi

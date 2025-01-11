@@ -8,9 +8,12 @@ using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 using Microsoft.Data.SqlClient;
 
 namespace dershaneOtomasyonu
@@ -30,10 +33,13 @@ namespace dershaneOtomasyonu
         private readonly IDersKayitRepository _dersKayitRepository;
         private readonly IDegerlendirmeRepository _degerlendirmeRepository;
         private readonly IGorusmeRepository _gorusmeRepository;
+        private readonly IKullaniciNotRepository _kullaniciNotRepository;
+        private readonly INotRepository _notRepository;
+        private readonly IYoklamaRepository _yoklamaRepository;
         // buraya görüþme repolarýný ekleyip aþaðýdan constructor'a eklesene bi tmsama
 
-        public GirisEkrani(ILogger logger, 
-            IKullaniciRepository kullaniciRepository, 
+        public GirisEkrani(ILogger logger,
+            IKullaniciRepository kullaniciRepository,
             IBaseRepository<Role> roleRepository,
             IBaseRepository<LogEntry> baseLogRepository,
             ILogRepository logRepository,
@@ -44,7 +50,10 @@ namespace dershaneOtomasyonu
             IKullaniciDosyaRepository kullaniciDosyaRepository,
             IDersKayitRepository dersKayitRepository,
             IDegerlendirmeRepository degerlendirmeRepository,
-            IGorusmeRepository gorusmeRepository)
+            IGorusmeRepository gorusmeRepository,
+            IKullaniciNotRepository kullaniciNotRepository,
+            INotRepository notRepository,
+            IYoklamaRepository yoklamaRepository)
 
         {
             InitializeComponent();
@@ -61,6 +70,9 @@ namespace dershaneOtomasyonu
             _dersKayitRepository = dersKayitRepository;
             _degerlendirmeRepository = degerlendirmeRepository;
             _gorusmeRepository = gorusmeRepository;
+            _kullaniciNotRepository = kullaniciNotRepository;
+            _notRepository = notRepository;
+            _yoklamaRepository = yoklamaRepository;
         }
 
         private async void BtnGirisYap_Click(object sender, EventArgs e)
@@ -78,7 +90,22 @@ namespace dershaneOtomasyonu
             if (kullanici.RoleId == 1)
             {
                 // Admin
-                AdminEkrani form2 = new AdminEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository);
+                AdminEkrani form2 = new AdminEkrani(_logger,
+                    _kullaniciRepository,
+                    _roleRepository,
+                    _baseLogRepository,
+                    _logRepository,
+                    _sinifRepository,
+                    _derslerRepository,
+                    _kullaniciDersRepository,
+                    _baseDosyaRepository,
+                    _kullaniciDosyaRepository,
+                    _dersKayitRepository,
+                    _degerlendirmeRepository,
+                    _gorusmeRepository,
+                    _kullaniciNotRepository,
+                    _notRepository,
+                    _yoklamaRepository);
                 form2.Show();
                 this.Hide();
                 form2.FormClosed += (s, args) => this.Close();
@@ -86,7 +113,22 @@ namespace dershaneOtomasyonu
             else if (kullanici.RoleId == 2)
             {
                 // Personel
-                PersonelEkrani form4 = new PersonelEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository);
+                PersonelEkrani form4 = new PersonelEkrani(_logger,
+                    _kullaniciRepository,
+                    _roleRepository,
+                    _baseLogRepository,
+                    _logRepository,
+                    _sinifRepository,
+                    _derslerRepository,
+                    _kullaniciDersRepository,
+                    _baseDosyaRepository,
+                    _kullaniciDosyaRepository,
+                    _dersKayitRepository,
+                    _degerlendirmeRepository,
+                    _gorusmeRepository,
+                    _kullaniciNotRepository,
+                    _notRepository,
+                    _yoklamaRepository);
                 form4.Show();
                 this.Hide();
                 form4.FormClosed += (s, args) => this.Close();
@@ -94,7 +136,22 @@ namespace dershaneOtomasyonu
             else if (kullanici.RoleId == 3)
             {
                 // Ogrenci
-                OgrenciEkrani form3 = new OgrenciEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository);
+                OgrenciEkrani form3 = new OgrenciEkrani(_logger,
+                    _kullaniciRepository,
+                    _roleRepository,
+                    _baseLogRepository,
+                    _logRepository,
+                    _sinifRepository,
+                    _derslerRepository,
+                    _kullaniciDersRepository,
+                    _baseDosyaRepository,
+                    _kullaniciDosyaRepository,
+                    _dersKayitRepository,
+                    _degerlendirmeRepository,
+                    _gorusmeRepository,
+                    _kullaniciNotRepository,
+                    _notRepository,
+                    _yoklamaRepository);
                 form3.Show();
                 this.Hide();
                 form3.FormClosed += (s, args) => this.Close();
