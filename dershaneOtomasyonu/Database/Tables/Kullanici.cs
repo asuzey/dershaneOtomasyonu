@@ -27,7 +27,8 @@ namespace dershaneOtomasyonu.Database.Tables
         public Sinif Sinif { get; set; } // Kullanıcıların Sınıfı
         public ICollection<DersKayit> DersKayitlari { get; set; } // Kullanıcının ders kayıtları
         public ICollection<Yoklama> Yoklamalar { get; set; } // Kullanıcının yoklamaları
-        public ICollection<KullaniciDosya> Dosyalar { get; set; } // Kullanıcının dosyaları
+        public ICollection<KullaniciDosya> KullaniciDosyalari { get; set; } // Kullanıcının dosyaları
+        public ICollection<Dosya> Dosyalar { get; set; } // Kullanıcının dosyaları
         public ICollection<Gorusme> GorusmelerOlusturucu { get; set; } // Kullanıcının oluşturduğu görüşmeler
         public ICollection<Gorusme> GorusmelerKatilimci { get; set; } // Kullanıcının katıldığı görüşmeler
         public ICollection<Degerlendirme> OgretmenDegerlendirmeleri { get; set; } // Kullanıcının

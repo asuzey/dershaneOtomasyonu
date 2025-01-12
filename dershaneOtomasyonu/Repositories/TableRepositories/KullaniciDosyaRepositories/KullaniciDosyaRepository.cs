@@ -16,6 +16,7 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaReposi
             return await _context.KullaniciDosyalari
                 .Where(k => k.KullaniciId == kullaniciId)
                 .Include(x => x.Dosya)
+                .ThenInclude(x => x.Olusturucu)
                 .ToListAsync();
         }
     }

@@ -26,6 +26,7 @@ namespace dershaneOtomasyonu.Helpers
             if (_webSocket.State != WebSocketState.Open)
             {
                 _webSocket = new ClientWebSocket();
+                _webSocket.Options.SetBuffer(1024 * 1024, 1024 * 1024);
                 await _webSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
                 Console.WriteLine($"Connected to WebSocket server at {uri}");
             }
@@ -42,11 +43,20 @@ namespace dershaneOtomasyonu.Helpers
         {
             if (_webSocket.State == WebSocketState.Open)
             {
-                var messageJson = JsonConvert.SerializeObject(message);
-                var messageBytes = Encoding.UTF8.GetBytes(messageJson);
+                try
+                {
+                    var messageJson = JsonConvert.SerializeObject(message);
+                    var messageBytes = Encoding.UTF8.GetBytes(messageJson);
 
-                await _webSocket.SendAsync(new ArraySegment<byte>(messageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
-                Console.WriteLine("Message sent: " + messageJson);
+                    await _webSocket.SendAsync(new ArraySegment<byte>(messageBytes), WebSocketMessageType.Text, true, CancellationToken.None);
+                    Console.WriteLine("Message sent: " + messageJson);
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+                
             }
             else
             {
@@ -61,7 +71,7 @@ namespace dershaneOtomasyonu.Helpers
         {
             if (_webSocket.State == WebSocketState.Open)
             {
-                var buffer = new byte[1024];
+                var buffer = new byte[1024 * 1024];
                 try
                 {
                     var result = await _webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);

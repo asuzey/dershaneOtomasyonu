@@ -260,7 +260,8 @@ namespace dershaneOtomasyonu
                         var newFile = new Dosya
                         {
                             FileName = timestampedFileName,
-                            FilePath = @"C:\Users\Public\FileServer"
+                            FilePath = @"C:\Users\Public\FileServer",
+                            OlusturucuId = GlobalData.Kullanici!.Id
                         };
                         await _baseDosyaRepository.AddAsync(newFile);
                         var assignment = new KullaniciDosya();

@@ -50,6 +50,13 @@ namespace dershaneOtomasyonu.Database
                 .HasForeignKey(g => g.KatilimciId)
                 .OnDelete(DeleteBehavior.Restrict); // Çift yönlü cascade önlemek için
 
+            // Gorusme - Kullanici İlişkisi
+            modelBuilder.Entity<Dosya>()
+                .HasOne(g => g.Olusturucu)
+                .WithMany(k => k.Dosyalar)
+                .HasForeignKey(g => g.OlusturucuId)
+                .OnDelete(DeleteBehavior.Restrict); // Çift yönlü cascade önlemek için
+
             modelBuilder.Entity<Gorusme>()
                 .HasOne(g => g.Olusturucu)
                 .WithMany(k => k.GorusmelerOlusturucu)

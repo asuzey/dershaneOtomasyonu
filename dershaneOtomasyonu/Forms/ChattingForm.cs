@@ -108,6 +108,7 @@ namespace dershaneOtomasyonu.Forms
             {
                 flowLayoutPanel1.Controls.Add(messageCard);
             }
+            ScrollToBottom(flowLayoutPanel1);
         }
 
 
@@ -178,6 +179,7 @@ namespace dershaneOtomasyonu.Forms
                         // burada açık olan ders kapatılacak
                         var aktifDers = await _dersKayitRepository.GetByIdAsync(_newDersKayit.Id);
                         aktifDers.Durum = false;
+                        aktifDers.Mesajlar = JsonConvert.SerializeObject(flowLayoutPanel1.Controls.OfType<MessageCard>().Select(x => new { x._kullanici.Id, x._message, x._date }));
                         var x = await _dersKayitRepository.UpdateAsync(aktifDers);
                         dersKayitId = aktifDers.Id;
                     }
@@ -186,6 +188,7 @@ namespace dershaneOtomasyonu.Forms
                         // burada açık olan görüşme kapatılacak
                         var aktifGorusme = await _gorusmeRepository.GetByIdAsync(_newGorusme.Id);
                         aktifGorusme.Durum = false;
+                        aktifGorusme.Mesajlar = JsonConvert.SerializeObject(flowLayoutPanel1.Controls.OfType<MessageCard>().Select(x => new { x._kullanici.Id, x._message, x._date }));
                         var x = await _gorusmeRepository.UpdateAsync(aktifGorusme);
                         gorusmeId = aktifGorusme.Id;
                     }
@@ -208,6 +211,7 @@ namespace dershaneOtomasyonu.Forms
                         if (gorusme != null)
                         {
                             gorusme.Durum = false;
+                            gorusme.Mesajlar = JsonConvert.SerializeObject(flowLayoutPanel1.Controls.OfType<MessageCard>().Select(x => new { x._kullanici.Id, x._message, x._date }));
                             var x = await _gorusmeRepository.UpdateAsync(gorusme);
                         }
                     }
@@ -220,6 +224,14 @@ namespace dershaneOtomasyonu.Forms
         {
             if (e.KeyCode == Keys.Enter)
                 await PressSend();
+        }
+
+        private void ScrollToBottom(FlowLayoutPanel panel)
+        {
+            if (panel.VerticalScroll.Visible)
+            {
+                panel.AutoScrollPosition = new Point(0, panel.VerticalScroll.Maximum);
+            }
         }
     }
     public class WebSocketResponse

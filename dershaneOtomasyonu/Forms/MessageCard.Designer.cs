@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             label2 = new Label();
-            label1 = new Label();
             label3 = new Label();
             SuspendLayout();
             // 
@@ -45,38 +44,29 @@
             label2.TabIndex = 12;
             label2.Text = "Kimden";
             // 
-            // label1
-            // 
-            label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
-            label1.ForeColor = SystemColors.MenuText;
-            label1.Location = new Point(3, 27);
-            label1.Name = "label1";
-            label1.Size = new Size(531, 22);
-            label1.TabIndex = 13;
-            label1.Text = "Mesaj";
-            // 
             // label3
             // 
+            label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
             label3.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 162);
             label3.ForeColor = SystemColors.MenuText;
-            label3.Location = new Point(557, 50);
+            label3.Location = new Point(558, 62);
             label3.Name = "label3";
             label3.Size = new Size(53, 17);
             label3.TabIndex = 14;
             label3.Text = "Zaman";
+            label3.TextAlign = ContentAlignment.TopCenter;
             // 
             // MessageCard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             Controls.Add(label3);
-            Controls.Add(label1);
             Controls.Add(label2);
             Name = "MessageCard";
-            Size = new Size(614, 67);
+            Size = new Size(614, 82);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -84,7 +74,6 @@
         #endregion
 
         private Label label2;
-        private Label label1;
         private Label label3;
     }
 }

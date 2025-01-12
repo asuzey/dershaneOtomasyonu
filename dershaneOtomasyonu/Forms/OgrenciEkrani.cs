@@ -135,9 +135,9 @@ namespace dershaneOtomasyonu
         private void InitializeDataGridView()
         {
             // Dosya Adı sütunu
-            DosyaDataGridView.ColumnCount = 1;
+            DosyaDataGridView.ColumnCount = 2;
             DosyaDataGridView.Columns[0].Name = "Dosya Adı";
-            DosyaDataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            DosyaDataGridView.Columns[1].Name = "Yükleyen Öğretmen";
 
             // İndirme butonu
             DataGridViewButtonColumn downloadButtonColumn = new DataGridViewButtonColumn
@@ -167,7 +167,7 @@ namespace dershaneOtomasyonu
                     {
                         if (file == assignedFile.Dosya.FileName)
                         {
-                            DosyaDataGridView.Rows.Add(file);
+                            DosyaDataGridView.Rows.Add(file, assignedFile.Dosya.Olusturucu.Adi + " " + assignedFile.Dosya.Olusturucu.Soyadi);
                         }
                     }
                 }
@@ -239,7 +239,7 @@ namespace dershaneOtomasyonu
             {
                 dosyaAdi += ".txt";
             }
-            string kaydetmeDizini = @"C:\Dosyalar\";
+            string kaydetmeDizini = @"C:\Users\Public\Dosyalar\";
             if (!Directory.Exists(kaydetmeDizini))
             {
                 Directory.CreateDirectory(kaydetmeDizini);
@@ -253,6 +253,7 @@ namespace dershaneOtomasyonu
                 var newnot = new Not();
                 newnot.Baslik = txtDosyaAdi.Text;
                 newnot.Icerik = OgrenciNotRichTextBox.Text;
+                newnot.OlusturmaTarihi = DateTime.Now;
                 await _notRepository.AddAsync(newnot);
 
                 var kullaniciNot = new KullaniciNot();
