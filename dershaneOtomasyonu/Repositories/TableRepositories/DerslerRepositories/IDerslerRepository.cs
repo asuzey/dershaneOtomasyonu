@@ -11,5 +11,6 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories
     public interface IDerslerRepository : IBaseRepository<Ders>
     {
         Task<List<DerslerDto>> GetAllAsDtoAsync();
+        Task<List<Ders>> GetAllByOgretmenIdAsync(int ogretmenId);
     }
 }

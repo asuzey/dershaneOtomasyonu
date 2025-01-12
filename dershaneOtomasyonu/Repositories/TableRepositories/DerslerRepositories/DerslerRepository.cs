@@ -22,5 +22,12 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories
             var dersler = await _context.Dersler.ToListAsync();
             return dersler.Adapt<List<DerslerDto>>();
         }
+
+        public async Task<List<Ders>> GetAllByOgretmenIdAsync(int ogretmenId)
+        {
+            var kullaniciDersleri = await _context.KullaniciDersleri.Include(x => x.Ders).Where(x => x.KullaniciId == ogretmenId).ToListAsync();
+            var dersler = kullaniciDersleri.Select(x => x.Ders).ToList();
+            return dersler;
+        }
     }
 }

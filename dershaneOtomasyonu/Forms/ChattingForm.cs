@@ -67,6 +67,8 @@ namespace dershaneOtomasyonu.Forms
             }
             catch (Exception ex)
             {
+                MessageBox.Show("Bağlantı Hatası", "Hata");
+                this.Close();
                 //AppendMessage($"Bağlantı hatası: {ex.Message}");
             }
         }
@@ -89,8 +91,11 @@ namespace dershaneOtomasyonu.Forms
                 }
                 catch (Exception ex)
                 {
+                    MessageBox.Show("Bağlantı hatası: " + ex.Message);
                     Console.WriteLine($"ReceiveMessages Hata: {ex.Message}");
                     await Task.Delay(1000); // Bekleme ekleyerek döngüyü devam ettirin
+                    this.Close();
+                    break;
                 }
             }
         }
@@ -172,6 +177,8 @@ namespace dershaneOtomasyonu.Forms
             }
             else
             {
+                if (_webSocketClient.State != WebSocketState.Open) return;
+
                 if (GlobalData.Kullanici!.RoleId == 2)// Öğretmen çıkışı
                 {
                     if (_newDersKayit != null)
@@ -182,6 +189,12 @@ namespace dershaneOtomasyonu.Forms
                         aktifDers.Mesajlar = JsonConvert.SerializeObject(flowLayoutPanel1.Controls.OfType<MessageCard>().Select(x => new { x._kullanici.Id, x._message, x._date }));
                         var x = await _dersKayitRepository.UpdateAsync(aktifDers);
                         dersKayitId = aktifDers.Id;
+                        var yoklamalar = await _yoklamaRepository.GetByDersKayitIdAsync(aktifDers.Id);
+                        foreach (var yoklama in yoklamalar)
+                        {
+                            yoklama.AyrilmaTarihi = DateTime.Now;
+                            var y = await _yoklamaRepository.UpdateAsync(yoklama);
+                        }
                     }
                     else
                     {

@@ -36,7 +36,6 @@ namespace dershaneOtomasyonu
         private readonly IKullaniciNotRepository _kullaniciNotRepository;
         private readonly INotRepository _notRepository;
         private readonly IYoklamaRepository _yoklamaRepository;
-        // buraya görüþme repolarýný ekleyip aþaðýdan constructor'a eklesene bi tmsama
 
         public GirisEkrani(ILogger logger,
             IKullaniciRepository kullaniciRepository,
@@ -160,6 +159,7 @@ namespace dershaneOtomasyonu
             {
                 // Unknown role
                 MessageBox.Show("Bilinmeyen rol denemesi, baþarýsýz.");
+                await _logger.Error("Bilinmeyen rol denemesi, baþarýsýz.");
 
             }
         }

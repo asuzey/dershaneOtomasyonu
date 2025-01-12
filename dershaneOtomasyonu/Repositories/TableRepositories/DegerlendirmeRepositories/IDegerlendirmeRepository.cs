@@ -10,6 +10,7 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeReposit
 {
     public interface IDegerlendirmeRepository : IBaseRepository<Degerlendirme>
     {
-        Task<List<DegerlendirmeDto>> GetDegerlendirmeByKullaniciIdAsync(int kullaniciId);
+        Task<List<DegerlendirmeDto>> GetDegerlendirmelerAsDtoByKullaniciIdAsync(int kullaniciId);
+        Task<List<Degerlendirme>> GetDegerlendirmelerByKullaniciIdAsync(int kullaniciId);
     }
 }

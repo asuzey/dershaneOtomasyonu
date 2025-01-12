@@ -92,17 +92,32 @@ namespace dershaneOtomasyonu
 
         public static BunifuPanel[] panels;
 
-        private void CikisYap_Click(object sender, EventArgs e)
+        private async void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani GirisEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository , _kullaniciNotRepository, _notRepository, _yoklamaRepository); // form2 ye geçiş
+            GirisEkrani GirisEkrani = new GirisEkrani(_logger,
+                _kullaniciRepository,
+                _roleRepository,
+                _baseLogRepository,
+                _logRepository,
+                _sinifRepository,
+                _derslerRepository,
+                _kullaniciDersRepository,
+                _baseDosyaRepository,
+                _kullaniciDosyaRepository,
+                _dersKayitRepository,
+                _degerlendirmeRepository,
+                _gorusmeRepository,
+                _kullaniciNotRepository,
+                _notRepository,
+                _yoklamaRepository); // form2 ye geçiş
             GirisEkrani.Show(); // form2yi açıyor
             this.Hide(); // form1i gizleyecek
             GirisEkrani.FormClosed += (s, args) => this.Close();
+            await _logger.Info($"Çıkış yapıldı. {GlobalData.Kullanici?.Adi}");
         }
 
         private void btnKullaniciEklePanel_Click(object sender, EventArgs e)
         {
-            // Console.WriteLine("Button 1 clicked"); debugger ile hata kontrolü için kullandığım bir kod 
             TogglePanel(panelKullaniciEkle); // Show panel2 and hide panel3
         }
 
@@ -160,6 +175,7 @@ namespace dershaneOtomasyonu
             // Kullanıcı ekleme işlemi
             await _kullaniciRepository.AddAsync(yeniKullanici);
             MessageBox.Show("Kullanıcı başarıyla eklendi!");
+            await _logger.Info($"Yeni kullanıcı eklendi. {yeniKullanici.Adi} {yeniKullanici.Soyadi}");
 
             // Mail kodları
             GmailMailer mailer = new GmailMailer();
@@ -173,10 +189,12 @@ namespace dershaneOtomasyonu
             if (success)
             {
                 MessageBox.Show("Yeni şifre e-posta adresinize gönderildi.");
+                await _logger.Info($"Şifre e-posta adresine gönderildi. {recipient}");
             }
 
             else
                 MessageBox.Show("E-posta gönderilirken bir hata oluştu.");
+                await _logger.Warn("E-posta gönderilirken bir hata oluştu.");
 
         }
 
@@ -235,10 +253,12 @@ namespace dershaneOtomasyonu
                 MessageBox.Show("Yeni şifre e-posta adresinize gönderildi.");
                 kullanici.Sifre = password;
                 await _kullaniciRepository.UpdateAsync(kullanici);
+                await _logger.Info($"Şifre sıfırlama işlemi gerçekleştirildi. {kullanici.Adi} {kullanici.Soyadi}");
             }
 
             else
                 MessageBox.Show("E-posta gönderilirken bir hata oluştu.");
+                await _logger.Warn("E-posta gönderilirken bir hata oluştu.");
         }
 
         private void btnSifrePanel_Click(object sender, EventArgs e)
@@ -372,6 +392,9 @@ namespace dershaneOtomasyonu
                 newKullaniciDersi.KullaniciId = ogrId;
                 newKullaniciDersi.DersId = dersId;
                 await _kullaniciDersRepository.AddAsync(newKullaniciDersi);
+                await _logger.Info($"Ders atama işlemi gerçekleştirildi. " +
+                    $"Öğretmen: {OgretmenlerDataGridView.CurrentRow.Cells[5].Value} {OgretmenlerDataGridView.CurrentRow.Cells[6].Value}" +
+                    $" Ders: {DerslerDataGridView.CurrentRow.Cells[1].Value}");
             }
             await LoadAtanmisDersler(ogrId);
 
@@ -392,6 +415,9 @@ namespace dershaneOtomasyonu
             {
                 await _kullaniciDersRepository.DeleteByOgretmenIdAndDersIdAsync(ogrId, dersId);
                 await LoadAtanmisDersler(ogrId);
+                await _logger.Info($"Ders atama işlemi geri alındı. " +
+                    $"Öğretmen: {OgretmenlerDataGridView.CurrentRow.Cells[5].Value} {OgretmenlerDataGridView.CurrentRow.Cells[6].Value}" +
+                    $" Ders: {DerslerDataGridView.CurrentRow.Cells[1].Value}");
             }
         }
 
@@ -441,6 +467,9 @@ namespace dershaneOtomasyonu
                 await _kullaniciRepository.UpdateAsync(ogrenci);
                 await LoadAtanmisOgrenciler(sinifId);
                 await LoadAtanmamisOgrenciler();
+                await _logger.Info($"Sınıf atama işlemi gerçekleştirildi. " +
+                    $"Sınıf: {siniflarDataGridView.CurrentRow.Cells[1].Value} " +
+                    $"Öğrenci: {sinifsizlarDataGridView.CurrentRow.Cells[5].Value} {sinifsizlarDataGridView.CurrentRow.Cells[6].Value}");
             }
         }
 
@@ -466,6 +495,9 @@ namespace dershaneOtomasyonu
                 await _kullaniciRepository.UpdateAsync(ogrenci);
                 await LoadAtanmisOgrenciler(sinifId);
                 await LoadAtanmamisOgrenciler();
+                await _logger.Info($"Sınıf atama işlemi geri alındı. " +
+                    $"Sınıf: {siniflarDataGridView.CurrentRow.Cells[1].Value} " +
+                    $"Öğrenci: {SinifinOgrDataGridView.CurrentRow.Cells[5].Value} {SinifinOgrDataGridView.CurrentRow.Cells[6].Value}");
             }
         }
 

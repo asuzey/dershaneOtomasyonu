@@ -17,5 +17,6 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositorie
         Task<List<KullaniciDto>> GetAllAsDtoAsync();
         Task<List<Kullanici>> GetAllTeachersAsync();
         Task<List<Kullanici>> GetAllStudentsAsync();
+        Task<List<RaporYoklamaDto>> GetAllYoklamaRaporByOgrenciIdAsync(int ogrenciId);
     }
 }

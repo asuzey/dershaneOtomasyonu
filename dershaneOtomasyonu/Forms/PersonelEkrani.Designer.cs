@@ -70,6 +70,15 @@ namespace dershaneOtomasyonu
             DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
             bunifuGradientPanel1 = new Bunifu.UI.WinForms.BunifuGradientPanel();
             label1 = new Label();
             CikisYap = new Button();
@@ -118,6 +127,12 @@ namespace dershaneOtomasyonu
             monthCalendar1 = new MonthCalendar();
             pictureBox1 = new PictureBox();
             panelRaporlama = new Bunifu.UI.WinForms.BunifuPanel();
+            RaporDegerlendirmeChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            RaporYoklamaDataGrid = new Bunifu.UI.WinForms.BunifuDataGridView();
+            label17 = new Label();
+            OgrListDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
+            label16 = new Label();
+            cbSiniflar = new ComboBox();
             bunifuGradientPanel1.SuspendLayout();
             bunifuPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
@@ -136,6 +151,10 @@ namespace dershaneOtomasyonu
             ((System.ComponentModel.ISupportInitialize)GorusmeOgrencilerDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)gorusmeSiniflarDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelRaporlama.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)RaporDegerlendirmeChart).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)RaporYoklamaDataGrid).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)OgrListDataGridView).BeginInit();
             SuspendLayout();
             // 
             // bunifuGradientPanel1
@@ -2047,6 +2066,12 @@ namespace dershaneOtomasyonu
             panelRaporlama.BorderColor = Color.Transparent;
             panelRaporlama.BorderRadius = 3;
             panelRaporlama.BorderThickness = 1;
+            panelRaporlama.Controls.Add(RaporDegerlendirmeChart);
+            panelRaporlama.Controls.Add(RaporYoklamaDataGrid);
+            panelRaporlama.Controls.Add(label17);
+            panelRaporlama.Controls.Add(OgrListDataGridView);
+            panelRaporlama.Controls.Add(label16);
+            panelRaporlama.Controls.Add(cbSiniflar);
             panelRaporlama.Location = new Point(241, 80);
             panelRaporlama.Name = "panelRaporlama";
             panelRaporlama.ShowBorders = true;
@@ -2054,14 +2079,185 @@ namespace dershaneOtomasyonu
             panelRaporlama.TabIndex = 42;
             panelRaporlama.Visible = false;
             // 
+            // RaporDegerlendirmeChart
+            // 
+            chartArea1.Name = "ChartArea1";
+            RaporDegerlendirmeChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            RaporDegerlendirmeChart.Legends.Add(legend1);
+            RaporDegerlendirmeChart.Location = new Point(337, 334);
+            RaporDegerlendirmeChart.Name = "RaporDegerlendirmeChart";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            RaporDegerlendirmeChart.Series.Add(series1);
+            RaporDegerlendirmeChart.Size = new Size(697, 276);
+            RaporDegerlendirmeChart.TabIndex = 24;
+            RaporDegerlendirmeChart.Text = "chart1";
+            // 
+            // RaporYoklamaDataGrid
+            // 
+            RaporYoklamaDataGrid.AllowCustomTheming = false;
+            dataGridViewCellStyle31.BackColor = Color.FromArgb(248, 251, 255);
+            dataGridViewCellStyle31.ForeColor = Color.Black;
+            RaporYoklamaDataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle31;
+            RaporYoklamaDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            RaporYoklamaDataGrid.BorderStyle = BorderStyle.None;
+            RaporYoklamaDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            RaporYoklamaDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle32.BackColor = Color.DodgerBlue;
+            dataGridViewCellStyle32.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            dataGridViewCellStyle32.ForeColor = Color.White;
+            dataGridViewCellStyle32.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            dataGridViewCellStyle32.SelectionForeColor = Color.White;
+            dataGridViewCellStyle32.WrapMode = DataGridViewTriState.True;
+            RaporYoklamaDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
+            RaporYoklamaDataGrid.ColumnHeadersHeight = 40;
+            RaporYoklamaDataGrid.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
+            RaporYoklamaDataGrid.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            RaporYoklamaDataGrid.CurrentTheme.AlternatingRowsStyle.ForeColor = Color.Black;
+            RaporYoklamaDataGrid.CurrentTheme.AlternatingRowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            RaporYoklamaDataGrid.CurrentTheme.AlternatingRowsStyle.SelectionForeColor = Color.Black;
+            RaporYoklamaDataGrid.CurrentTheme.BackColor = Color.White;
+            RaporYoklamaDataGrid.CurrentTheme.GridColor = Color.FromArgb(221, 238, 255);
+            RaporYoklamaDataGrid.CurrentTheme.HeaderStyle.BackColor = Color.DodgerBlue;
+            RaporYoklamaDataGrid.CurrentTheme.HeaderStyle.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            RaporYoklamaDataGrid.CurrentTheme.HeaderStyle.ForeColor = Color.White;
+            RaporYoklamaDataGrid.CurrentTheme.HeaderStyle.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            RaporYoklamaDataGrid.CurrentTheme.HeaderStyle.SelectionForeColor = Color.White;
+            RaporYoklamaDataGrid.CurrentTheme.Name = null;
+            RaporYoklamaDataGrid.CurrentTheme.RowsStyle.BackColor = Color.White;
+            RaporYoklamaDataGrid.CurrentTheme.RowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            RaporYoklamaDataGrid.CurrentTheme.RowsStyle.ForeColor = Color.Black;
+            RaporYoklamaDataGrid.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            RaporYoklamaDataGrid.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle33.BackColor = Color.White;
+            dataGridViewCellStyle33.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle33.ForeColor = Color.Black;
+            dataGridViewCellStyle33.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            dataGridViewCellStyle33.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle33.WrapMode = DataGridViewTriState.False;
+            RaporYoklamaDataGrid.DefaultCellStyle = dataGridViewCellStyle33;
+            RaporYoklamaDataGrid.Enabled = false;
+            RaporYoklamaDataGrid.EnableHeadersVisualStyles = false;
+            RaporYoklamaDataGrid.GridColor = Color.FromArgb(221, 238, 255);
+            RaporYoklamaDataGrid.HeaderBackColor = Color.DodgerBlue;
+            RaporYoklamaDataGrid.HeaderBgColor = Color.Empty;
+            RaporYoklamaDataGrid.HeaderForeColor = Color.White;
+            RaporYoklamaDataGrid.Location = new Point(337, 24);
+            RaporYoklamaDataGrid.Name = "RaporYoklamaDataGrid";
+            RaporYoklamaDataGrid.RowHeadersVisible = false;
+            RaporYoklamaDataGrid.RowTemplate.Height = 40;
+            RaporYoklamaDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            RaporYoklamaDataGrid.Size = new Size(697, 276);
+            RaporYoklamaDataGrid.TabIndex = 21;
+            RaporYoklamaDataGrid.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.BackColor = Color.Transparent;
+            label17.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label17.ForeColor = SystemColors.InfoText;
+            label17.Location = new Point(17, 157);
+            label17.Name = "label17";
+            label17.Size = new Size(106, 22);
+            label17.TabIndex = 20;
+            label17.Text = "Öğrenciler";
+            // 
+            // OgrListDataGridView
+            // 
+            OgrListDataGridView.AllowCustomTheming = false;
+            dataGridViewCellStyle34.BackColor = Color.FromArgb(248, 251, 255);
+            dataGridViewCellStyle34.ForeColor = Color.Black;
+            OgrListDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle34;
+            OgrListDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            OgrListDataGridView.BorderStyle = BorderStyle.None;
+            OgrListDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            OgrListDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle35.BackColor = Color.DodgerBlue;
+            dataGridViewCellStyle35.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            dataGridViewCellStyle35.ForeColor = Color.White;
+            dataGridViewCellStyle35.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            dataGridViewCellStyle35.SelectionForeColor = Color.White;
+            dataGridViewCellStyle35.WrapMode = DataGridViewTriState.True;
+            OgrListDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle35;
+            OgrListDataGridView.ColumnHeadersHeight = 40;
+            OgrListDataGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
+            OgrListDataGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            OgrListDataGridView.CurrentTheme.AlternatingRowsStyle.ForeColor = Color.Black;
+            OgrListDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            OgrListDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionForeColor = Color.Black;
+            OgrListDataGridView.CurrentTheme.BackColor = Color.White;
+            OgrListDataGridView.CurrentTheme.GridColor = Color.FromArgb(221, 238, 255);
+            OgrListDataGridView.CurrentTheme.HeaderStyle.BackColor = Color.DodgerBlue;
+            OgrListDataGridView.CurrentTheme.HeaderStyle.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
+            OgrListDataGridView.CurrentTheme.HeaderStyle.ForeColor = Color.White;
+            OgrListDataGridView.CurrentTheme.HeaderStyle.SelectionBackColor = Color.FromArgb(24, 115, 204);
+            OgrListDataGridView.CurrentTheme.HeaderStyle.SelectionForeColor = Color.White;
+            OgrListDataGridView.CurrentTheme.Name = null;
+            OgrListDataGridView.CurrentTheme.RowsStyle.BackColor = Color.White;
+            OgrListDataGridView.CurrentTheme.RowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            OgrListDataGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
+            OgrListDataGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            OgrListDataGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle36.BackColor = Color.White;
+            dataGridViewCellStyle36.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            dataGridViewCellStyle36.ForeColor = Color.Black;
+            dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(210, 232, 255);
+            dataGridViewCellStyle36.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle36.WrapMode = DataGridViewTriState.False;
+            OgrListDataGridView.DefaultCellStyle = dataGridViewCellStyle36;
+            OgrListDataGridView.EnableHeadersVisualStyles = false;
+            OgrListDataGridView.GridColor = Color.FromArgb(221, 238, 255);
+            OgrListDataGridView.HeaderBackColor = Color.DodgerBlue;
+            OgrListDataGridView.HeaderBgColor = Color.Empty;
+            OgrListDataGridView.HeaderForeColor = Color.White;
+            OgrListDataGridView.Location = new Point(17, 197);
+            OgrListDataGridView.Name = "OgrListDataGridView";
+            OgrListDataGridView.RowHeadersVisible = false;
+            OgrListDataGridView.RowTemplate.Height = 40;
+            OgrListDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            OgrListDataGridView.Size = new Size(294, 413);
+            OgrListDataGridView.TabIndex = 19;
+            OgrListDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
+            OgrListDataGridView.MouseClick += OgrListDataGridView_MouseClick;
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.BackColor = Color.Transparent;
+            label16.Font = new Font("Century Gothic", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label16.ForeColor = SystemColors.InfoText;
+            label16.Location = new Point(17, 63);
+            label16.Name = "label16";
+            label16.Size = new Size(65, 22);
+            label16.TabIndex = 18;
+            label16.Text = "Sınıflar";
+            // 
+            // cbSiniflar
+            // 
+            cbSiniflar.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSiniflar.Font = new Font("Century Gothic", 12F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            cbSiniflar.FormattingEnabled = true;
+            cbSiniflar.Location = new Point(17, 88);
+            cbSiniflar.Name = "cbSiniflar";
+            cbSiniflar.Size = new Size(294, 29);
+            cbSiniflar.TabIndex = 3;
+            cbSiniflar.SelectedIndexChanged += cbSiniflar_SelectedIndexChanged;
+            // 
             // PersonelEkrani
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1298, 727);
-            Controls.Add(PanelGorusme);
-            Controls.Add(panelDersBaslat);
             Controls.Add(panelRaporlama);
+            Controls.Add(panelDersBaslat);
+            Controls.Add(PanelGorusme);
             Controls.Add(Panel_SiniflarVeOgrenciler);
             Controls.Add(panelDosyaGonderme);
             Controls.Add(bunifuGradientPanel1);
@@ -2072,6 +2268,7 @@ namespace dershaneOtomasyonu
             Controls.Add(label15);
             Controls.Add(monthCalendar1);
             Name = "PersonelEkrani";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form4";
             bunifuGradientPanel1.ResumeLayout(false);
             bunifuGradientPanel1.PerformLayout();
@@ -2097,6 +2294,11 @@ namespace dershaneOtomasyonu
             ((System.ComponentModel.ISupportInitialize)GorusmeOgrencilerDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)gorusmeSiniflarDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panelRaporlama.ResumeLayout(false);
+            panelRaporlama.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)RaporDegerlendirmeChart).EndInit();
+            ((System.ComponentModel.ISupportInitialize)RaporYoklamaDataGrid).EndInit();
+            ((System.ComponentModel.ISupportInitialize)OgrListDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -2155,5 +2357,11 @@ namespace dershaneOtomasyonu
         private MonthCalendar monthCalendar1;
         private PictureBox pictureBox1;
         private Bunifu.UI.WinForms.BunifuPanel panelRaporlama;
+        private Label label17;
+        private Bunifu.UI.WinForms.BunifuDataGridView OgrListDataGridView;
+        private Label label16;
+        private ComboBox cbSiniflar;
+        private Bunifu.UI.WinForms.BunifuDataGridView RaporYoklamaDataGrid;
+        private System.Windows.Forms.DataVisualization.Charting.Chart RaporDegerlendirmeChart;
     }
 }

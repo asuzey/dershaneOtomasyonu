@@ -13,8 +13,10 @@ namespace dershaneOtomasyonu.Database.Tables
         public string? Aciklama { get; set; }
         public int KullaniciId { get; set; }
         public int CreatorId { get; set; }
+        public int DersId { get; set; }
 
         public Kullanici Kullanici { get; set; }
         public Kullanici Creator { get; set; }
+        public Ders Ders { get; set; }
     }
 }

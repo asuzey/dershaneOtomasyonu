@@ -23,7 +23,7 @@ namespace dershaneOtomasyonu.Forms
             label2.Text = $"{kullanici.Adi} {kullanici.Soyadi}";
 
             // Mesaj içeriği için TextBox oluştur ve ekle
-            var messageTextBox = CreateSelectableLabelWithMaxWidth(message, 532, label2.Font);
+            var messageTextBox = CreateSelectableLabelWithMaxWidth(message, 532, label2.Font, isOwnMessage);
             messageTextBox.Location = new Point(13, 29); // Konum
             this.Controls.Add(messageTextBox);
 
@@ -37,7 +37,7 @@ namespace dershaneOtomasyonu.Forms
             }
         }
 
-        private TextBox CreateSelectableLabelWithMaxWidth(string text, int maxWidth, Font font)
+        private TextBox CreateSelectableLabelWithMaxWidth(string text, int maxWidth, Font font, bool isOwnMessage)
         {
             // TextBox oluştur
             TextBox textBox = new TextBox
@@ -45,7 +45,7 @@ namespace dershaneOtomasyonu.Forms
                 Multiline = true,
                 ReadOnly = true,
                 BorderStyle = BorderStyle.None,
-                BackColor = Color.FromArgb(156, 173, 199),
+                BackColor = isOwnMessage ? Color.FromArgb(156, 173, 199) : SystemColors.Control,
                 TabStop = false,
                 Cursor = Cursors.IBeam,
                 Font = font, // Yazı tipi

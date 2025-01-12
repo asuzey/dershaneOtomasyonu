@@ -89,6 +89,13 @@ namespace dershaneOtomasyonu.Database
                 .HasForeignKey(y => y.KullaniciId)
                 .OnDelete(DeleteBehavior.Restrict); // Kaskadlı silmeyi önle
 
+            // Kullanicilar ilişkisi
+            modelBuilder.Entity<DersKayit>()
+                .HasOne(y => y.Ders)
+                .WithMany(k => k.DersKayitlari)
+                .HasForeignKey(y => y.DersId)
+                .OnDelete(DeleteBehavior.Restrict); // Kaskadlı silmeyi önle
+
             modelBuilder.Entity<LogEntry>()
                 .HasOne(le => le.Kullanici)
                 .WithMany()
@@ -106,7 +113,7 @@ namespace dershaneOtomasyonu.Database
             // Yoklamalar
             modelBuilder.Entity<Yoklama>()
                 .HasKey(y => new { y.DersKayitId, y.KullaniciId });
-            
+
             // Kullanici Dosyalari
             modelBuilder.Entity<KullaniciDosya>()
                 .HasKey(y => new { y.DosyaId, y.KullaniciId });

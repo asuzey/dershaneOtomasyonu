@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 using TheArtOfDev.HtmlRenderer.Adapters;
 
 namespace dershaneOtomasyonu
@@ -126,12 +127,28 @@ namespace dershaneOtomasyonu
         } // dosya işlemleri
 
 
-        private void CikisYap_Click(object sender, EventArgs e)
+        private async void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani form1 = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository, _kullaniciNotRepository, _notRepository, _yoklamaRepository); // form4e geçiş
+            GirisEkrani form1 = new GirisEkrani(_logger,
+                _kullaniciRepository,
+                _roleRepository,
+                _baseLogRepository,
+                _logRepository,
+                _sinifRepository,
+                _derslerRepository,
+                _kullaniciDersRepository,
+                _baseDosyaRepository,
+                _kullaniciDosyaRepository,
+                _dersKayitRepository,
+                _degerlendirmeRepository,
+                _gorusmeRepository,
+                _kullaniciNotRepository,
+                _notRepository,
+                _yoklamaRepository); // form4e geçiş
             form1.Show(); // form4ü açıyor
             this.Hide(); // form1i gizleyecek
             form1.FormClosed += (s, args) => this.Close();
+            await _logger.Info($"Çıkış yapıldı. {GlobalData.Kullanici?.Adi}");
         }
 
 
@@ -226,6 +243,7 @@ namespace dershaneOtomasyonu
                 if (userChoice == DialogResult.Yes)
                 {
                     await OpenFileSelection();
+                    await _logger.Info($"Yeni dosya yükleme işlemi gerçekleştirildi. {GlobalData.Kullanici?.Adi}");
                 }
             }
             else
@@ -240,6 +258,7 @@ namespace dershaneOtomasyonu
                 if (userChoice == DialogResult.Yes)
                 {
                     await OpenFileSelection();
+                    await _logger.Info($"Dosya paylaşma işlemi yapıldı. {GlobalData.Kullanici?.Adi}");
                 }
             }
 
@@ -452,12 +471,20 @@ namespace dershaneOtomasyonu
 
             if (userChoice == DialogResult.Yes)
             {
-
                 var sinifId = 0;
                 if (chattingSinifDataGridView.CurrentRow != null) { sinifId = Convert.ToInt32(chattingSinifDataGridView.CurrentRow.Cells[0].Value); } else if (sinifId == 0) { return; } else { return; }
-
                 var sinifAdi = chattingSinifDataGridView.CurrentRow.Cells[1].Value.ToString();
                 var dersKayit = await _dersKayitRepository.GetActiveDersBySinifAndOgretmenIdAsync(sinifId, GlobalData.Kullanici.Id);
+
+                int? dersId = null;
+                dersId = dersKayit == null ? await ShowInputDialogCombobox() : dersKayit.DersId;
+
+                if (dersId == null)
+                {
+                    MessageBox.Show("Lütfen bir ders seçimi yapınız.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 if (dersKayit == null)
                 {
                     dersKayit = new DersKayit();
@@ -465,9 +492,11 @@ namespace dershaneOtomasyonu
                     dersKayit.KullaniciId = GlobalData.Kullanici!.Id;
                     dersKayit.Oda = $"{sinifAdi}-{GlobalData.Kullanici.Id}-{DateTime.Now}";
                     dersKayit.Durum = true;
+                    dersKayit.BaslangicTarihi = DateTime.Now;
+                    dersKayit.DersId = (int)dersId;
                     await _dersKayitRepository.AddAsync(dersKayit);
+                    await _logger.Info($"Ders başlatıldı. {GlobalData.Kullanici?.Adi}");
                 }
-
 
                 _chattingForm = new ChattingForm(dersKayit, _dersKayitRepository, _yoklamaRepository);
                 _chattingForm.FormClosed += _chattingForm_FormClosed;
@@ -482,11 +511,13 @@ namespace dershaneOtomasyonu
         {
             Thread.Sleep(2000); // 2000 milisaniye (2 saniye)
             await LoadActiveDerslerData();
+            await _logger.Info($"Ders sonlandırıldı. {GlobalData.Kullanici?.Adi}");
         }
         private async void _chattingFormGorusme_FormClosed(object sender, FormClosedEventArgs e)
         {
             Thread.Sleep(2000); // 2000 milisaniye (2 saniye)
             await LoadActiveDerslerData();
+            await _logger.Info($"Görüşme sonlandırıldı. {GlobalData.Kullanici?.Adi}");
         }
 
         private async Task LoadActiveDerslerData()// aktif dersleri çekiyorduk
@@ -501,12 +532,12 @@ namespace dershaneOtomasyonu
             activeDerslerDataGrid.Columns[0].Visible = false;
         }
 
-        public static Tuple<int, string> ShowInputDialog()
+        public async Task<Tuple<int, string, int>> ShowInputDialog()
         {
             Form prompt = new Form()
             {
                 Width = 400,
-                Height = 200,
+                Height = 250,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 Text = "Değer Girişi",
                 StartPosition = FormStartPosition.CenterScreen
@@ -518,8 +549,17 @@ namespace dershaneOtomasyonu
             Label descLabel = new Label() { Left = 20, Top = 60, Text = "Açıklama (isteğe bağlı):", AutoSize = true };
             TextBox descInput = new TextBox() { Left = 150, Top = 60, Width = 200 };
 
-            Button confirmation = new Button() { Text = "Tamam", Left = 150, Width = 90, Top = 120 };
-            Button cancel = new Button() { Text = "İptal", Left = 260, Width = 90, Top = 120, DialogResult = DialogResult.Cancel };
+            Label comboLabel = new Label() { Left = 20, Top = 100, Text = "Ders Seçimi:", AutoSize = true };
+            ComboBox comboBox = new ComboBox() { Left = 150, Top = 100, Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
+
+            // Dersler tablosundan verileri doldurmak için EF Core kullanımı
+            var dersler = await _derslerRepository.GetAllByOgretmenIdAsync(GlobalData.Kullanici!.Id);
+            comboBox.DataSource = dersler;
+            comboBox.DisplayMember = "Adi"; // Görünecek sütun
+            comboBox.ValueMember = "Id";       // Seçildiğinde alacağınız ID sütunu
+
+            Button confirmation = new Button() { Text = "Tamam", Left = 150, Width = 90, Top = 150 };
+            Button cancel = new Button() { Text = "İptal", Left = 260, Width = 90, Top = 150, DialogResult = DialogResult.Cancel };
 
             confirmation.Click += (sender, e) =>
             {
@@ -527,6 +567,13 @@ namespace dershaneOtomasyonu
                 if (!int.TryParse(rateInput.Text, out int rate) || rate < 0 || rate > 100)
                 {
                     MessageBox.Show("Lütfen 0 ile 100 arasında geçerli bir sayısal puan değeri girin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; // Form kapanmaz
+                }
+
+                // Zorunlu ComboBox seçimi kontrolü
+                if (comboBox.SelectedValue == null)
+                {
+                    MessageBox.Show("Lütfen bir ders seçin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return; // Form kapanmaz
                 }
 
@@ -539,6 +586,8 @@ namespace dershaneOtomasyonu
             prompt.Controls.Add(rateInput);
             prompt.Controls.Add(descLabel);
             prompt.Controls.Add(descInput);
+            prompt.Controls.Add(comboLabel);
+            prompt.Controls.Add(comboBox);
             prompt.Controls.Add(confirmation);
             prompt.Controls.Add(cancel);
 
@@ -549,12 +598,65 @@ namespace dershaneOtomasyonu
             {
                 int rate = int.Parse(rateInput.Text); // Rate doğrulandığından kesin parse edilir
                 string description = descInput.Text; // Description opsiyonel
-                return Tuple.Create(rate, description);
+                int selectedDersId = (int)comboBox.SelectedValue; // ComboBox'tan seçilen ID
+                return Tuple.Create(rate, description, selectedDersId);
             }
 
             return null; // Kullanıcı iptal ettiyse
         }
+        public async Task<int?> ShowInputDialogCombobox()
+        {
+            Form prompt = new Form()
+            {
+                Width = 400,
+                Height = 150,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = "Değer Girişi",
+                StartPosition = FormStartPosition.CenterScreen
+            };
 
+            Label comboLabel = new Label() { Left = 20, Top = 20, Text = "Ders Seçimi:", AutoSize = true };
+            ComboBox comboBox = new ComboBox() { Left = 150, Top = 20, Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
+
+            // Dersler tablosundan verileri doldurmak için EF Core kullanımı
+            var dersler = await _derslerRepository.GetAllByOgretmenIdAsync(GlobalData.Kullanici!.Id);
+            comboBox.DataSource = dersler;
+            comboBox.DisplayMember = "Adi"; // Görünecek sütun
+            comboBox.ValueMember = "Id";       // Seçildiğinde alacağınız ID sütunu
+
+            Button confirmation = new Button() { Text = "Tamam", Left = 150, Width = 90, Top = 60 };
+            Button cancel = new Button() { Text = "İptal", Left = 260, Width = 90, Top = 60, DialogResult = DialogResult.Cancel };
+
+            confirmation.Click += (sender, e) =>
+            {
+                // Zorunlu ComboBox seçimi kontrolü
+                if (comboBox.SelectedValue == null)
+                {
+                    MessageBox.Show("Lütfen bir ders seçin!", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return; // Form kapanmaz
+                }
+
+                // Validasyon başarılı, form kapatılır
+                prompt.DialogResult = DialogResult.OK;
+                prompt.Close();
+            };
+
+            prompt.Controls.Add(comboLabel);
+            prompt.Controls.Add(comboBox);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(cancel);
+
+            prompt.AcceptButton = confirmation;
+            prompt.CancelButton = cancel;
+
+            if (prompt.ShowDialog() == DialogResult.OK)
+            {
+                int selectedDersId = (int)comboBox.SelectedValue; // ComboBox'tan seçilen ID
+                return selectedDersId;
+            }
+
+            return null; // Kullanıcı iptal ettiyse
+        }
 
         private async void BtnDegerlendirmeYap_Click(object sender, EventArgs e)
         {
@@ -564,7 +666,7 @@ namespace dershaneOtomasyonu
                 return;
             }
 
-            var result = ShowInputDialog();
+            var result = await ShowInputDialog();
             if (result != null)
             {
                 var degerlendirme = new Degerlendirme();
@@ -572,8 +674,10 @@ namespace dershaneOtomasyonu
                 degerlendirme.Aciklama = result.Item2;
                 degerlendirme.KullaniciId = Convert.ToInt32(chattingOgrDataGridView.CurrentRow.Cells[0].Value);
                 degerlendirme.CreatorId = GlobalData.Kullanici!.Id;
+                degerlendirme.DersId = result.Item3;
                 await _degerlendirmeRepository.AddAsync(degerlendirme);
                 MessageBox.Show($"Değerlendirme kaydedildi.", "Bilgi");
+                await _logger.Info($"Değerlendirme yapıldı. {GlobalData.Kullanici?.Adi}");
             }
             else ShowInputDialog(); // eğer hatalı veri girişi yapılırsa diyalog box tekrar açılıyor.
         }
@@ -648,6 +752,7 @@ namespace dershaneOtomasyonu
                     aktifGorusme.Oda = $"{GlobalData.Kullanici.Id}-{ogrenciId}-{DateTime.Now}";
                     aktifGorusme.Durum = true;
                     await _gorusmeRepository.AddAsync(aktifGorusme);
+                    await _logger.Info($"Görüşme başlatıldı. {GlobalData.Kullanici?.Adi}");
                 }
 
                 _chattingForm = new ChattingForm(aktifGorusme, _gorusmeRepository);
@@ -658,9 +763,18 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private void BtnRaporlamaPanel_Click(object sender, EventArgs e)
+        private async void BtnRaporlamaPanel_Click(object sender, EventArgs e)
         {
+            await LoadClassRoomsOnReportPanel();
             TogglePanel(panelRaporlama);
+        }
+
+        private async Task LoadClassRoomsOnReportPanel()
+        {
+            var siniflar = await _sinifRepository.GetAllAsync();
+            cbSiniflar.DataSource = siniflar;
+            cbSiniflar.DisplayMember = "Kodu"; // görünen
+            cbSiniflar.ValueMember = "Id"; // seçilen
         }
 
         private async void activeDerslerDataGrid_MouseClick(object sender, MouseEventArgs e)
@@ -719,6 +833,202 @@ namespace dershaneOtomasyonu
                 }
             }
         }
+
+        private async void cbSiniflar_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!int.TryParse(cbSiniflar.SelectedValue?.ToString(), out int selectedValue))
+            {
+                return;
+            }
+            int sinifId = Convert.ToInt32(cbSiniflar.SelectedValue);
+            var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
+            var sinifinOgrencileri = ogrenciler.Where(o => o.SinifId == sinifId).ToList();
+            OgrListDataGridView.DataSource = sinifinOgrencileri;
+            foreach (DataGridViewColumn column in OgrListDataGridView.Columns)
+            {
+                column.Visible = false;
+            }
+            OgrListDataGridView.Columns[5].Visible = true;
+            OgrListDataGridView.Columns[6].Visible = true;
+        }
+
+        private async void OgrListDataGridView_MouseClick(object sender, MouseEventArgs e)
+        {
+            var ogrenciId = 0;
+            if (OgrListDataGridView.CurrentRow != null) ogrenciId = Convert.ToInt32(OgrListDataGridView.CurrentRow.Cells[0].Value);
+            if (ogrenciId != 0) await LoadOgrenciReport(ogrenciId);
+        }
+
+        private async Task LoadOgrenciReport(int ogrenciId)
+        {
+            // Yoklama verilerini al
+            var yoklamaRaporu = await _kullaniciRepository.GetAllYoklamaRaporByOgrenciIdAsync(ogrenciId);
+
+            if (!yoklamaRaporu.Any())
+            {
+                MessageBox.Show("Bu öğrenci için yoklama verisi bulunamadı.");
+                return;
+            }
+
+            // DataGridView'i temizle
+            RaporYoklamaDataGrid.Rows.Clear();
+            RaporYoklamaDataGrid.Columns.Clear();
+
+            // Tarih sütunlarını oluştur
+            var tarihListesi = yoklamaRaporu
+                .Select(r => r.Tarih.Date) // Sadece tarih kısmını alıyoruz
+                .Distinct()
+                .OrderBy(t => t)
+                .ToList();
+
+            foreach (var tarih in tarihListesi)
+            {
+                var column = new DataGridViewCheckBoxColumn
+                {
+                    HeaderText = tarih.ToShortDateString(), // Tarihi sütun başlığına yaz
+                    Name = tarih.ToShortDateString(),
+                    ReadOnly = true // Checkbox'lar düzenlenemez olacak
+                };
+                RaporYoklamaDataGrid.Columns.Add(column);
+            }
+
+            // Ders adlarını satır başlığı olarak ekle
+            var dersListesi = yoklamaRaporu
+                .Select(r => r.DersAdi) // Ders adlarını alıyoruz
+                .Distinct()
+                .OrderBy(d => d)
+                .ToList();
+
+            foreach (var dersAdi in dersListesi)
+            {
+                var rowIndex = RaporYoklamaDataGrid.Rows.Add();
+                RaporYoklamaDataGrid.Rows[rowIndex].HeaderCell.Value = dersAdi; // Satır başlığına ders adını ekle
+
+                // Her tarih için bu dersin kaydı olup olmadığını kontrol et
+                foreach (var tarih in tarihListesi)
+                {
+                    var dersTarihi = yoklamaRaporu.FirstOrDefault(r => r.DersAdi == dersAdi && r.Tarih.Date == tarih);
+
+                    var cell = RaporYoklamaDataGrid.Rows[rowIndex].Cells[tarihListesi.IndexOf(tarih)];
+
+                    if (dersTarihi == null)
+                    {
+                        // Dersin bu tarihte kaydı yok, hücreyi boş bırak
+                        cell.Value = DBNull.Value;
+                    }
+                    else
+                    {
+                        // Ders kaydı varsa, katılım durumunu ayarla
+                        cell.Value = dersTarihi.Katildi;
+
+                        // Hücre rengini ayarla
+                        cell.Style.BackColor = dersTarihi.Katildi
+                            ? Color.FromArgb(200, 255, 200) // Hafif yeşil
+                            : Color.FromArgb(255, 200, 200); // Hafif kırmızı
+                    }
+                }
+            }
+
+            // DataGridView düzenleme
+            RaporYoklamaDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Sütun genişliklerini otomatik ayarla
+            RaporYoklamaDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders; // Satır başlıklarını otomatik genişlet
+            RaporYoklamaDataGrid.AllowUserToAddRows = false; // Kullanıcının yeni satır eklemesini engelle
+            RaporYoklamaDataGrid.RowHeadersVisible = true; // Satır başlıklarını görünür yap
+            RaporYoklamaDataGrid.ClearSelection();
+
+            await InitializeGraph(ogrenciId);
+        }
+
+        private async Task InitializeGraph(int ogrenciId)
+        {
+            // Verileri alın
+            var degerlendirmeler = await _degerlendirmeRepository.GetDegerlendirmelerByKullaniciIdAsync(ogrenciId);
+            if (degerlendirmeler.Count == 0)
+            {
+                MessageBox.Show("Belirtilen kullanıcı için değerlendirme bulunamadı.");
+                return;
+            }
+
+            // Verileri ders ID’lerine göre gruplandırın
+            var kullaniciDegerlendirmeleri = degerlendirmeler
+                .GroupBy(d => new { d.Ders.Id, d.Ders.Adi }) // Hem Ders ID hem de Ders Adı
+                .OrderBy(g => g.Key.Id) // ID’ye göre sıralayın
+                .ToList();
+
+            // Chart kontrolünü temizle ve ayarla
+            RaporDegerlendirmeChart.Series.Clear();
+            RaporDegerlendirmeChart.Titles.Clear();
+            RaporDegerlendirmeChart.ChartAreas.Clear();
+            RaporDegerlendirmeChart.Legends.Clear();
+
+            // ChartArea ekle
+            var chartArea = new ChartArea("ChartArea");
+            RaporDegerlendirmeChart.ChartAreas.Add(chartArea);
+
+            // Ortalama ve son puanlar için iki seri oluştur
+            var ortalamaSerisi = new Series("Ortalama Puan")
+            {
+                ChartType = SeriesChartType.Column, // Kolon grafiği
+                XValueType = ChartValueType.Int32   // X ekseni ID için integer
+            };
+            var sonPuanSerisi = new Series("Son Puan")
+            {
+                ChartType = SeriesChartType.Column, // Kolon grafiği
+                XValueType = ChartValueType.Int32   // X ekseni ID için integer
+            };
+
+            // Verileri serilere ekle
+            foreach (var dersGrubu in kullaniciDegerlendirmeleri)
+            {
+                int dersId = dersGrubu.Key.Id; // Ders ID
+                string dersAdi = dersGrubu.Key.Adi; // Ders Adı
+                var puanlar = dersGrubu.Select(d => d.Puan).ToList();
+
+                double ortalamaPuan = puanlar.Average(); // Ortalama puan
+                int sonPuan = puanlar.Last(); // Son puan
+
+                // Ortalama ve son puanı serilere ekle
+                var ortalamaPoint = ortalamaSerisi.Points.AddXY(dersId, ortalamaPuan);
+                ortalamaSerisi.Points[ortalamaPoint].Label = dersAdi; // Ders adı kolonun üstüne
+
+                var sonPuanPoint = sonPuanSerisi.Points.AddXY(dersId, sonPuan);
+                sonPuanSerisi.Points[sonPuanPoint].Label = dersAdi; // Ders adı kolonun üstüne
+            }
+
+            // Serileri grafiğe ekle
+            RaporDegerlendirmeChart.Series.Add(ortalamaSerisi);
+            RaporDegerlendirmeChart.Series.Add(sonPuanSerisi);
+
+            // X ve Y eksenlerini ayarla
+            chartArea.AxisX.Title = "Ders ID";
+            chartArea.AxisY.Title = "Puan";
+            chartArea.AxisX.Interval = 1; // Her bir X ekseni elemanını göstermek için
+            chartArea.AxisX.IsLabelAutoFit = true;
+            chartArea.AxisY.Minimum = 0; // Y ekseni sıfırdan başlasın
+            chartArea.RecalculateAxesScale(); // Ekseni yeniden hesapla
+
+            // X ekseni yazı tiplerini ayarla
+            chartArea.AxisX.LabelStyle.Font = new System.Drawing.Font("Arial", 10);
+            chartArea.AxisY.LabelStyle.Font = new System.Drawing.Font("Arial", 10);
+
+            // Çubukların görünümünü özelleştirme
+            ortalamaSerisi.Color = Color.FromArgb(30, 24, 97);
+            sonPuanSerisi.Color = Color.FromArgb(183, 183, 229);
+            ortalamaSerisi["PointWidth"] = "0.4";
+            sonPuanSerisi["PointWidth"] = "0.4";
+
+            // Legend (açıklama) ekle
+            RaporDegerlendirmeChart.Legends.Add(new Legend("Legend")
+            {
+                Docking = Docking.Top,
+                Alignment = System.Drawing.StringAlignment.Center
+            });
+
+            // Grafik başlığı ekle
+            RaporDegerlendirmeChart.Titles.Add("Derslere Göre Ortalama ve Son Puan");
+
+        }
+
     }
 
 }

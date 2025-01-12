@@ -78,6 +78,46 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositorie
             }
             return kullanicilar;
         }
+
+        public async Task<List<RaporYoklamaDto>> GetAllYoklamaRaporByOgrenciIdAsync(int ogrenciId)
+        {
+            // Öğrenci bilgisi ve sınıf ID'si
+            var ogrenci = await _context.Kullanicilar
+                .Where(k => k.Id == ogrenciId)
+                .Select(k => new { k.Adi, k.Soyadi, k.SinifId })
+                .FirstOrDefaultAsync()
+                ?? throw new Exception("Öğrenci bulunamadı.");
+
+            // Öğrencinin sınıfındaki son 14 ders kaydı (tarihe göre sıralı)
+            var sonDersKayitlari = await _context.DersKayitlari
+                .Include(d => d.Ders) // Ders navigation property’sini dahil et
+                .Where(d => d.SinifId == ogrenci.SinifId)
+                .OrderByDescending(d => d.BaslangicTarihi)
+                .Take(14)
+                .Select(d => new { d.Id, d.BaslangicTarihi, d.Ders.Adi }) // Ders adını da seç
+                .ToListAsync();
+
+            // Öğrencinin yoklama verileri
+            var yoklamaVerileri = await _context.Yoklamalar
+                .Where(y => y.KullaniciId == ogrenciId && sonDersKayitlari.Select(d => d.Id).Contains(y.DersKayitId))
+                .Select(y => new { y.DersKayitId, y.KatilmaTarihi.Date })
+                .ToListAsync();
+
+            // Son 14 ders kaydı üzerinden rapor oluştur
+            return sonDersKayitlari
+                .OrderBy(d => d.BaslangicTarihi) // Eski tarihler önce gelsin
+                .Select((ders, index) => new RaporYoklamaDto
+                {
+                    Tarih = ders.BaslangicTarihi,
+                    AdiSoyadi = $"{ogrenci.Adi} {ogrenci.Soyadi}",
+                    DersAdi = ders.Adi, // Ders adını doldur
+                    XValue = index, // Dersin sırası (0-13)
+                    YValue = ders.Id, // Ders ID
+                    Katildi = yoklamaVerileri.Any(y => y.DersKayitId == ders.Id) // Katılım durumu
+                })
+                .ToList();
+        }
+
     }
 
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dershaneOtomasyonu.Database;
 
@@ -11,9 +12,11 @@ using dershaneOtomasyonu.Database;
 namespace dershaneOtomasyonu.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250112120118_degerlendirme-dersid-addcolumn")]
+    partial class degerlendirmedersidaddcolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +91,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.Property<DateTime>("BaslangicTarihi")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DersId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Durum")
                         .HasColumnType("bit");
 
@@ -108,8 +108,6 @@ namespace dershaneOtomasyonu.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DersId");
 
                     b.HasIndex("KullaniciId");
 
@@ -421,12 +419,6 @@ namespace dershaneOtomasyonu.Migrations
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.DersKayit", b =>
                 {
-                    b.HasOne("dershaneOtomasyonu.Database.Tables.Ders", "Ders")
-                        .WithMany("DersKayitlari")
-                        .HasForeignKey("DersId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Kullanici")
                         .WithMany("DersKayitlari")
                         .HasForeignKey("KullaniciId")
@@ -438,8 +430,6 @@ namespace dershaneOtomasyonu.Migrations
                         .HasForeignKey("SinifId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Ders");
 
                     b.Navigation("Kullanici");
 
@@ -581,8 +571,6 @@ namespace dershaneOtomasyonu.Migrations
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.Ders", b =>
                 {
-                    b.Navigation("DersKayitlari");
-
                     b.Navigation("KullaniciDersleri");
                 });
 

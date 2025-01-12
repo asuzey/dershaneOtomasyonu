@@ -26,6 +26,7 @@ using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories
 using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
 using dershaneOtomasyonu.Forms;
 using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace dershaneOtomasyonu
 {
@@ -94,12 +95,28 @@ namespace dershaneOtomasyonu
 
         public static BunifuPanel[] panels;
 
-        private void CikisYap_Click(object sender, EventArgs e)
+        private async void CikisYap_Click(object sender, EventArgs e)
         {
-            GirisEkrani OgrenciEkrani = new GirisEkrani(_logger, _kullaniciRepository, _roleRepository, _baseLogRepository, _logRepository, _sinifRepository, _derslerRepository, _kullaniciDersRepository, _baseDosyaRepository, _kullaniciDosyaRepository, _dersKayitRepository, _degerlendirmeRepository, _gorusmeRepository, _kullaniciNotRepository, _notRepository, _yoklamaRepository); // form3e geçiş
+            GirisEkrani OgrenciEkrani = new GirisEkrani(_logger,
+                _kullaniciRepository,
+                _roleRepository,
+                _baseLogRepository,
+                _logRepository,
+                _sinifRepository,
+                _derslerRepository,
+                _kullaniciDersRepository,
+                _baseDosyaRepository,
+                _kullaniciDosyaRepository,
+                _dersKayitRepository,
+                _degerlendirmeRepository,
+                _gorusmeRepository,
+                _kullaniciNotRepository,
+                _notRepository,
+                _yoklamaRepository); // form3e geçiş
             OgrenciEkrani.Show(); // form3ü açıyor
             this.Hide(); // form1i gizleyecek
             OgrenciEkrani.FormClosed += (s, args) => this.Close();
+            await _logger.Info($"Çıkış yapıldı. {GlobalData.Kullanici?.Adi}");
         }
 
         private void OgrenciEkrani_Load(object sender, EventArgs e)
@@ -250,6 +267,7 @@ namespace dershaneOtomasyonu
             {
                 File.WriteAllText(tamDosyaYolu, metin);
                 MessageBox.Show($"Dosya başarıyla kaydedildi:\n{tamDosyaYolu}", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await _logger.Info($"Dosya kaydedildi: {tamDosyaYolu}");
                 var newnot = new Not();
                 newnot.Baslik = txtDosyaAdi.Text;
                 newnot.Icerik = OgrenciNotRichTextBox.Text;
@@ -312,6 +330,8 @@ namespace dershaneOtomasyonu
                 {
                     _chattingForm = new ChattingForm(dersKayit, _dersKayitRepository, _yoklamaRepository);
                     _chattingForm.Show();
+                    var ders = await _derslerRepository.GetByIdAsync(dersKayit.DersId);
+                    await _logger.Info($"Ders başlatıldı: {dersKayit.Ders.Adi}");
 
                     var yoklama = await _yoklamaRepository.GetByKullaniciIdAndDersKayitIdAsync(dersKayitId, GlobalData.Kullanici!.Id);
                     if (yoklama == null)
@@ -321,6 +341,11 @@ namespace dershaneOtomasyonu
                         yoklama.KullaniciId = GlobalData.Kullanici!.Id;
                         yoklama.KatilmaTarihi = DateTime.Now;
                         await _yoklamaRepository.AddAsync(yoklama);
+                    }
+                    else
+                    {
+                        yoklama.AyrilmaTarihi = null;
+                        await _yoklamaRepository.UpdateAsync(yoklama);
                     }
 
 
@@ -350,9 +375,100 @@ namespace dershaneOtomasyonu
             AktifGorusmelerGridView.Columns[0].Visible = false;
         }
 
-        private void BtnBilgilerimpanel_Click(object sender, EventArgs e)
+        private async void BtnBilgilerimpanel_Click(object sender, EventArgs e)
         {
+            await InitializeGraph();
             TogglePanel(panelBilgilerim);
+        }
+
+        private async Task InitializeGraph()
+        {
+            // Verileri alın
+            var degerlendirmeler = await _degerlendirmeRepository.GetDegerlendirmelerByKullaniciIdAsync(GlobalData.Kullanici!.Id);
+            if (degerlendirmeler.Count == 0)
+            {
+                MessageBox.Show("Belirtilen kullanıcı için değerlendirme bulunamadı.");
+                return;
+            }
+
+            // Verileri ders ID’lerine göre gruplandırın
+            var kullaniciDegerlendirmeleri = degerlendirmeler
+                .GroupBy(d => new { d.Ders.Id, d.Ders.Adi }) // Hem Ders ID hem de Ders Adı
+                .OrderBy(g => g.Key.Id) // ID’ye göre sıralayın
+                .ToList();
+
+            // Chart kontrolünü temizle ve ayarla
+            chart1.Series.Clear();
+            chart1.Titles.Clear();
+            chart1.ChartAreas.Clear();
+            chart1.Legends.Clear();
+
+            // ChartArea ekle
+            var chartArea = new ChartArea("ChartArea");
+            chart1.ChartAreas.Add(chartArea);
+
+            // Ortalama ve son puanlar için iki seri oluştur
+            var ortalamaSerisi = new Series("Ortalama Puan")
+            {
+                ChartType = SeriesChartType.Column, // Kolon grafiği
+                XValueType = ChartValueType.Int32   // X ekseni ID için integer
+            };
+            var sonPuanSerisi = new Series("Son Puan")
+            {
+                ChartType = SeriesChartType.Column, // Kolon grafiği
+                XValueType = ChartValueType.Int32   // X ekseni ID için integer
+            };
+
+            // Verileri serilere ekle
+            foreach (var dersGrubu in kullaniciDegerlendirmeleri)
+            {
+                int dersId = dersGrubu.Key.Id; // Ders ID
+                string dersAdi = dersGrubu.Key.Adi; // Ders Adı
+                var puanlar = dersGrubu.Select(d => d.Puan).ToList();
+
+                double ortalamaPuan = puanlar.Average(); // Ortalama puan
+                int sonPuan = puanlar.Last(); // Son puan
+
+                // Ortalama ve son puanı serilere ekle
+                var ortalamaPoint = ortalamaSerisi.Points.AddXY(dersId, ortalamaPuan);
+                ortalamaSerisi.Points[ortalamaPoint].Label = dersAdi; // Ders adı kolonun üstüne
+
+                var sonPuanPoint = sonPuanSerisi.Points.AddXY(dersId, sonPuan);
+                sonPuanSerisi.Points[sonPuanPoint].Label = dersAdi; // Ders adı kolonun üstüne
+            }
+
+            // Serileri grafiğe ekle
+            chart1.Series.Add(ortalamaSerisi);
+            chart1.Series.Add(sonPuanSerisi);
+
+            // X ve Y eksenlerini ayarla
+            chartArea.AxisX.Title = "Ders ID";
+            chartArea.AxisY.Title = "Puan";
+            chartArea.AxisX.Interval = 1; // Her bir X ekseni elemanını göstermek için
+            chartArea.AxisX.IsLabelAutoFit = true;
+            chartArea.AxisY.Minimum = 0; // Y ekseni sıfırdan başlasın
+            chartArea.RecalculateAxesScale(); // Ekseni yeniden hesapla
+
+            // X ekseni yazı tiplerini ayarla
+            chartArea.AxisX.LabelStyle.Font = new System.Drawing.Font("Arial", 10);
+            chartArea.AxisY.LabelStyle.Font = new System.Drawing.Font("Arial", 10);
+
+            // Çubukların görünümünü özelleştirme
+            ortalamaSerisi.Color = Color.FromArgb(30, 24, 97);
+            sonPuanSerisi.Color = Color.FromArgb(183, 183, 229);
+            ortalamaSerisi["PointWidth"] = "0.4";
+            sonPuanSerisi["PointWidth"] = "0.4";
+
+            // Legend (açıklama) ekle
+            chart1.Legends.Add(new Legend("Legend")
+            {
+                Docking = Docking.Top,
+                Alignment = System.Drawing.StringAlignment.Center
+            });
+
+            // Grafik başlığı ekle
+            chart1.Titles.Add("Derslere Göre Ortalama ve Son Puan");
+
         }
 
         private async void BtnGorusmeKatil_Click(object sender, EventArgs e)
@@ -376,7 +492,7 @@ namespace dershaneOtomasyonu
             {
                 // burada görüşme başlatırken sınıf id üzerinden arama yapmak mantıklı değil, çünkü oluşturucu ve kullanıcı idlerine göre aktif görüşmeleri
                 // çekeceğiz, buna göre senin global data'daki kullanıcı ile tabloda seçili öğrencinin id 'sini alarak
-
+                await _logger.Info($"Görüşmeye katılınıyor... {GlobalData.Kullanici?.Adi}");
                 var aktifGorusme = await _gorusmeRepository.GetByIdAsync(gorusmeId);
                 if (aktifGorusme != null)
                 {

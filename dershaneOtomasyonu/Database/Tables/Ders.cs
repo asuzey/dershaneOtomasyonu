@@ -13,6 +13,7 @@ namespace dershaneOtomasyonu.Database.Tables
         public string Aciklama { get; set; }
 
         public ICollection<KullaniciDers> KullaniciDersleri { get; set; }
+        public ICollection<DersKayit> DersKayitlari { get; set; }
     }
 
 }

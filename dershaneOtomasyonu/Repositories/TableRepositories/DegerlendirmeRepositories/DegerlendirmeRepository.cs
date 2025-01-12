@@ -18,12 +18,21 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeReposit
 
         }
 
-        public async Task<List<DegerlendirmeDto>> GetDegerlendirmeByKullaniciIdAsync(int kullaniciId)
+        public async Task<List<DegerlendirmeDto>> GetDegerlendirmelerAsDtoByKullaniciIdAsync(int kullaniciId)
         {
             var degerlendirme = await _context.Degerlendirmeler
                 .Where(d => d.KullaniciId == kullaniciId)
                 .ToListAsync();
             return degerlendirme.Adapt<List<DegerlendirmeDto>>();
+        }
+
+        public async Task<List<Degerlendirme>> GetDegerlendirmelerByKullaniciIdAsync(int kullaniciId)
+        {
+            return await _context.Degerlendirmeler
+                .Where(d => d.KullaniciId == kullaniciId)
+                .OrderBy(d => d.Id)
+                .Include(d => d.Ders)
+                .ToListAsync();
         }
     }
 }
