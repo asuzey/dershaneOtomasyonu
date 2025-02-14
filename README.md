@@ -1,4 +1,5 @@
-Merhabalar bu proje UÜ Görsel Programlama dersim için geliştirilmiş olup geliştirmesinde sayın mentörüm Muhammed Rıfat Türkmen'in emeği büyüktür.
+Merhabalar bu proje UÜ Görsel Programlama dersim için geliştirilmiş olup geliştirmesinde sayın mentörüm Muhammed Rıfat Türkmen'in emeği büyüktür 
+kendisine gelişmemi sağladığı her yön ve bilgi için teşekkürlerimi sunuyorum.
 Otomasyon online mesajlaşma ve dosya gönderme gibi özelliklere sahip olup bu konuda da bazı sınırlaramalara sahip olduğundan henüz tamamlanmamıştır.
 Bu projenin serverlarına ait kodlar yayınlanmayacaktır.
 
