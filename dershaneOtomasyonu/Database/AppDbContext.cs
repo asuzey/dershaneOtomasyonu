@@ -31,6 +31,18 @@ namespace dershaneOtomasyonu.Database
         public DbSet<Gorusme> Gorusmeler { get; set; }
         public DbSet<LogEntry> Logs { get; set; }
 
+        public DbSet<Kopya> Kopyalar { get; set; }
+        public DbSet<OgrenciCevap> OgrenciCevaplari { get; set; }
+        public DbSet<Secenek> Secenekler { get; set; }
+        public DbSet<Sinav> Sinavlar { get; set; }
+        public DbSet<SinavDers> SinavDersleri { get; set; }
+        public DbSet<SinavDersKonu> SinavDersKonulari { get; set; }
+        public DbSet<SinavKategori> SinavKategorileri { get; set; }
+        public DbSet<SinavSoru> SinavSorulari { get; set; }
+        public DbSet<Soru> Sorular { get; set; }
+        public DbSet<SinifSeviye> SinifSeviyeleri { get; set; }
+        public DbSet<OgrenciSinav> OgrenciSinavlari { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -118,6 +130,54 @@ namespace dershaneOtomasyonu.Database
             modelBuilder.Entity<KullaniciDosya>()
                 .HasKey(y => new { y.DosyaId, y.KullaniciId });
 
+            // Kullanici Sinavlari
+            modelBuilder.Entity<OgrenciSinav>()
+                .HasKey(y => new { y.KullaniciId, y.SinavId });
+
+
+
+
+            // Sinav - Kullanici İlişkisi
+            modelBuilder.Entity<Sinav>()
+                .HasOne(g => g.Olusturucu)
+                .WithMany(k => k.SinavlarOlusturucu)
+                .HasForeignKey(g => g.OlusturucuId)
+                .OnDelete(DeleteBehavior.Restrict); // Çift yönlü cascade önlemek için
+
+            modelBuilder.Entity<Soru>()
+                .HasOne(s => s.Sinav)
+                .WithMany()
+                .HasForeignKey(s => s.SinavDersKonuId)
+                .OnDelete(DeleteBehavior.Restrict); // ON DELETE NO ACTION
+
+            modelBuilder.Entity<Soru>()
+                .HasOne(s => s.SinifSeviye)
+                .WithMany()
+                .HasForeignKey(s => s.SinifSeviyeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<SinavSoru>()
+                .HasOne(ss => ss.Sinav)
+                .WithMany()
+                .HasForeignKey(ss => ss.SinavId)
+                .OnDelete(DeleteBehavior.Restrict); // ON DELETE NO ACTION
+
+            modelBuilder.Entity<SinavSoru>()
+                .HasOne(ss => ss.Soru)
+                .WithMany()
+                .HasForeignKey(ss => ss.SoruId)
+                .OnDelete(DeleteBehavior.Restrict); // ON DELETE NO ACTION
+
+            
+
+            // Kullanici Dosyalari
+            modelBuilder.Entity<SinavSoru>()
+                .HasKey(y => new { y.SinavId, y.SoruId });
+
+            // Secenek sayisina default deger verme
+            modelBuilder.Entity<Soru>()
+                .Property(t => t.SecenekSayisi)
+                .HasDefaultValue(4);
 
 
             base.OnModelCreating(modelBuilder);

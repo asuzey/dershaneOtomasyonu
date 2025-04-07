@@ -31,7 +31,7 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositorie
                 .ToListAsync();
         }
 
-        public async Task<Kullanici> GetByUserNameAndPasswordAsync(string userName, string password)
+        public async Task<Kullanici> GetByUserNameAndPasswordAsync(string userName, string password) // hataya düşüyor neden? async oldugu halde
         {
             return await _context.Kullanicilar
                 .FirstOrDefaultAsync(k => k.KullaniciAdi == userName && k.Sifre == password);
