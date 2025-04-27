@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GirisEkrani));
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges2 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges1 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
             label1 = new Label();
             txtAd = new TextBox();
             txtSifre = new TextBox();
@@ -123,11 +123,11 @@
             BtnGirisYap.ButtonTextMarginLeft = 0;
             BtnGirisYap.ColorContrastOnClick = 45;
             BtnGirisYap.ColorContrastOnHover = 45;
-            borderEdges2.BottomLeft = true;
-            borderEdges2.BottomRight = true;
-            borderEdges2.TopLeft = true;
-            borderEdges2.TopRight = true;
-            BtnGirisYap.CustomizableEdges = borderEdges2;
+            borderEdges1.BottomLeft = true;
+            borderEdges1.BottomRight = true;
+            borderEdges1.TopLeft = true;
+            borderEdges1.TopRight = true;
+            BtnGirisYap.CustomizableEdges = borderEdges1;
             BtnGirisYap.DialogResult = DialogResult.None;
             BtnGirisYap.DisabledBorderColor = Color.FromArgb(191, 191, 191);
             BtnGirisYap.DisabledFillColor = Color.Empty;
@@ -198,6 +198,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(bunifuGradientPanel1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
             Name = "GirisEkrani";
             Tag = "";
             bunifuGradientPanel1.ResumeLayout(false);

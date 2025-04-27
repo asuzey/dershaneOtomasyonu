@@ -257,90 +257,6 @@
   <data name="bunifuGradientPanel1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Stretch</value>
   </data>
-  <data name="&gt;&gt;pictureBox3.Name" xml:space="preserve">
-    <value>pictureBox3</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Name" xml:space="preserve">
-    <value>pictureBox2</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Name" xml:space="preserve">
-    <value>pictureBox1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;BtnGirisYap.Name" xml:space="preserve">
-    <value>BtnGirisYap</value>
-  </data>
-  <data name="&gt;&gt;BtnGirisYap.Type" xml:space="preserve">
-    <value>Bunifu.UI.WinForms.BunifuButton.BunifuButton, Bunifu.UI.WinForms, Culture=neutral, PublicKeyToken=e8e24ccd28363fe9</value>
-  </data>
-  <data name="&gt;&gt;BtnGirisYap.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;BtnGirisYap.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="bunifuGradientPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="bunifuGradientPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="bunifuGradientPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 490</value>
-  </data>
-  <data name="bunifuGradientPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.Name" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.Type" xml:space="preserve">
-    <value>Bunifu.UI.WinForms.BunifuGradientPanel, Bunifu.UI.WinForms, Culture=neutral, PublicKeyToken=e8e24ccd28363fe9</value>
-  </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAB4AAAAeACAYAAAAvokrGAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
@@ -5330,6 +5246,30 @@
   </data>
   <data name="&gt;&gt;BtnGirisYap.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="bunifuGradientPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="bunifuGradientPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="bunifuGradientPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>462, 490</value>
+  </data>
+  <data name="bunifuGradientPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;bunifuGradientPanel1.Name" xml:space="preserve">
+    <value>bunifuGradientPanel1</value>
+  </data>
+  <data name="&gt;&gt;bunifuGradientPanel1.Type" xml:space="preserve">
+    <value>Bunifu.UI.WinForms.BunifuGradientPanel, Bunifu.UI.WinForms, Culture=neutral, PublicKeyToken=e8e24ccd28363fe9</value>
+  </data>
+  <data name="&gt;&gt;bunifuGradientPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;bunifuGradientPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
