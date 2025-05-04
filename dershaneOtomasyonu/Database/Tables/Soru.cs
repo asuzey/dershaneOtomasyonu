@@ -18,8 +18,9 @@ namespace dershaneOtomasyonu.Database.Tables
         // Navigation Props
         public SinifSeviye SinifSeviye { get; set; }
         public SinavDersKonu SinavDersKonu { get; set; }
-        public Sinav Sinav { get; set; }
-        public ICollection<Secenek> Secenekler { get; set; } // sorunun seçenekleri
-
+        public ICollection<Secenek> Secenekler { get; set; }
+        //public ICollection<Sinav> Sinavlar { get; set; }
+        public ICollection<SinavSoru> SorununSinavlari { get; set; }
     }
+
 }

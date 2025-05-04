@@ -6,17 +6,19 @@ using System.Threading.Tasks;
 
 namespace dershaneOtomasyonu.Database.Tables
 {
-    public class OgrenciCevap
+    public class SinavSonuc
     {
         public int Id { get; set; }
-        public int SecenekId { get; set; }
         public int KullaniciId { get; set; }
         public int SinavId { get; set; }
-        public int Sure { get; set; }
+        public int ToplamDogrular { get; set; }
+        public int ToplamYanlislar { get; set; }
+        public int ToplamPuan { get; set; }
 
         // Navigation Props
-        public Secenek Secenek { get; set; }
         public Kullanici Kullanici { get; set; }
         public Sinav Sinav { get; set; }
+
+
     }
 }

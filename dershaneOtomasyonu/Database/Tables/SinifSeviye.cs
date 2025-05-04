@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public int Seviye { get; set; }
 
-        // Navigation Props
+        // Navigation
         public ICollection<Soru> Sorular { get; set; } // Sınıf Seviyesinin soruları
     }
 }

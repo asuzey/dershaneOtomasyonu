@@ -39,6 +39,7 @@ namespace dershaneOtomasyonu.Database
         public DbSet<SinavDersKonu> SinavDersKonulari { get; set; }
         public DbSet<SinavKategori> SinavKategorileri { get; set; }
         public DbSet<SinavSoru> SinavSorulari { get; set; }
+        public DbSet<SinavSonuc> SinavSonuclari { get; set; }
         public DbSet<Soru> Sorular { get; set; }
         public DbSet<SinifSeviye> SinifSeviyeleri { get; set; }
         public DbSet<OgrenciSinav> OgrenciSinavlari { get; set; }
@@ -144,40 +145,101 @@ namespace dershaneOtomasyonu.Database
                 .HasForeignKey(g => g.OlusturucuId)
                 .OnDelete(DeleteBehavior.Restrict); // Çift yönlü cascade önlemek için
 
-            modelBuilder.Entity<Soru>()
-                .HasOne(s => s.Sinav)
-                .WithMany()
-                .HasForeignKey(s => s.SinavDersKonuId)
-                .OnDelete(DeleteBehavior.Restrict); // ON DELETE NO ACTION
+            modelBuilder.Entity<Sinav>()
+                .HasOne(s => s.SinavKategori)
+                .WithMany(sk => sk.Sinavlar)
+                .HasForeignKey(s => s.SinavKategoriId)
+                .OnDelete(DeleteBehavior.Restrict); // Kategori silinse bile sınavlar kalsın
 
-            modelBuilder.Entity<Soru>()
-                .HasOne(s => s.SinifSeviye)
-                .WithMany()
-                .HasForeignKey(s => s.SinifSeviyeId)
-                .OnDelete(DeleteBehavior.Restrict);
+
+
+
+            modelBuilder.Entity<SinavSoru>()
+                .HasKey(ss => new { ss.SinavId, ss.SoruId }); // composite PK
 
             modelBuilder.Entity<SinavSoru>()
                 .HasOne(ss => ss.Sinav)
-                .WithMany()
+                .WithMany(s => s.SinavSorulari)
                 .HasForeignKey(ss => ss.SinavId)
-                .OnDelete(DeleteBehavior.Restrict); // ON DELETE NO ACTION
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<SinavSoru>()
                 .HasOne(ss => ss.Soru)
-                .WithMany()
+                .WithMany(s => s.SorununSinavlari)
                 .HasForeignKey(ss => ss.SoruId)
-                .OnDelete(DeleteBehavior.Restrict); // ON DELETE NO ACTION
+                .OnDelete(DeleteBehavior.Restrict);
 
-            
+
+
 
             // Kullanici Dosyalari
             modelBuilder.Entity<SinavSoru>()
                 .HasKey(y => new { y.SinavId, y.SoruId });
 
+            modelBuilder.Entity<Soru>()
+                .HasOne(s => s.SinifSeviye)
+                .WithMany(sv => sv.Sorular)
+                .HasForeignKey(s => s.SinifSeviyeId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Soru>()
+                .HasOne(s => s.SinavDersKonu)
+                .WithMany(sdk => sdk.Sorular)
+                .HasForeignKey(s => s.SinavDersKonuId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Secenek sayisina default deger verme
             modelBuilder.Entity<Soru>()
                 .Property(t => t.SecenekSayisi)
                 .HasDefaultValue(4);
+
+            modelBuilder.Entity<SinavSonuc>()
+                .HasOne(ss => ss.Kullanici)
+                .WithMany(k => k.OgrenciSinavSonuclari)
+                .HasForeignKey(ss => ss.KullaniciId)
+                .OnDelete(DeleteBehavior.Restrict); // Öğrenci silinirse sonuçlar kalsın
+
+            modelBuilder.Entity<SinavSonuc>()
+                .HasOne(ss => ss.Sinav)
+                .WithMany(s => s.SinavSonuclari)
+                .HasForeignKey(ss => ss.SinavId)
+                .OnDelete(DeleteBehavior.Cascade); // Sınav silinirse sonuçlar da silinsin
+
+            modelBuilder.Entity<SinavDers>()
+                .HasOne(sd => sd.SinavKategori)
+                .WithMany(sk => sk.SinavDersleri)
+                .HasForeignKey(sd => sd.SinavKategoriId)
+                .OnDelete(DeleteBehavior.Cascade); // Kategori silinirse dersleri de sil
+
+            modelBuilder.Entity<SinavDersKonu>()
+                .HasOne(sdk => sdk.SinavDers)
+                .WithMany(sd => sd.SinavDersKonulari)
+                .HasForeignKey(sdk => sdk.SinavDersId)
+                .OnDelete(DeleteBehavior.Cascade); // Ders silinirse konuları da sil
+
+            modelBuilder.Entity<Secenek>()
+                .HasOne(s => s.Soru)
+                .WithMany(soru => soru.Secenekler)
+                .HasForeignKey(s => s.SoruId)
+                .OnDelete(DeleteBehavior.Cascade); // Soru silinirse seçenekler de silinir
+
+            modelBuilder.Entity<OgrenciCevap>()
+                .HasOne(oc => oc.Secenek)
+                .WithMany() // Secenek → OgrenciCevap yönü tanımlı değil
+                .HasForeignKey(oc => oc.SecenekId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<OgrenciCevap>()
+                .HasOne(oc => oc.Kullanici)
+                .WithMany() // Kullanici tarafında navigation tanımı yoksa
+                .HasForeignKey(oc => oc.KullaniciId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+
+
+
+
 
 
             base.OnModelCreating(modelBuilder);

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using dershaneOtomasyonu.Database;
 
@@ -11,9 +12,11 @@ using dershaneOtomasyonu.Database;
 namespace dershaneOtomasyonu.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250504164739_soru-cift-kolon-bug-fix")]
+    partial class soruciftkolonbugfix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -379,10 +382,10 @@ namespace dershaneOtomasyonu.Migrations
                     b.Property<int>("KullaniciId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SecenekId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("OlusturmaTarihi")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("SinavId")
+                    b.Property<int>("SecenekId")
                         .HasColumnType("int");
 
                     b.Property<int>("Sure")
@@ -393,8 +396,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.HasIndex("KullaniciId");
 
                     b.HasIndex("SecenekId");
-
-                    b.HasIndex("SinavId");
 
                     b.ToTable("OgrenciCevaplari");
                 });
@@ -550,38 +551,6 @@ namespace dershaneOtomasyonu.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SinavKategorileri");
-                });
-
-            modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.SinavSonuc", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("KullaniciId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SinavId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToplamDogrular")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToplamPuan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ToplamYanlislar")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("KullaniciId");
-
-                    b.HasIndex("SinavId");
-
-                    b.ToTable("SinavSonuclari");
                 });
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.SinavSoru", b =>
@@ -898,7 +867,7 @@ namespace dershaneOtomasyonu.Migrations
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Kullanici")
                         .WithMany()
                         .HasForeignKey("KullaniciId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Secenek", "Secenek")
@@ -907,17 +876,9 @@ namespace dershaneOtomasyonu.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("dershaneOtomasyonu.Database.Tables.Sinav", "Sinav")
-                        .WithMany("OgrenciCevaplari")
-                        .HasForeignKey("SinavId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Kullanici");
 
                     b.Navigation("Secenek");
-
-                    b.Navigation("Sinav");
                 });
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.OgrenciSinav", b =>
@@ -961,7 +922,7 @@ namespace dershaneOtomasyonu.Migrations
                     b.HasOne("dershaneOtomasyonu.Database.Tables.SinavKategori", "SinavKategori")
                         .WithMany("Sinavlar")
                         .HasForeignKey("SinavKategoriId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Olusturucu");
@@ -991,35 +952,16 @@ namespace dershaneOtomasyonu.Migrations
                     b.Navigation("SinavDers");
                 });
 
-            modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.SinavSonuc", b =>
-                {
-                    b.HasOne("dershaneOtomasyonu.Database.Tables.Kullanici", "Kullanici")
-                        .WithMany("OgrenciSinavSonuclari")
-                        .HasForeignKey("KullaniciId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("dershaneOtomasyonu.Database.Tables.Sinav", "Sinav")
-                        .WithMany("SinavSonuclari")
-                        .HasForeignKey("SinavId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Kullanici");
-
-                    b.Navigation("Sinav");
-                });
-
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.SinavSoru", b =>
                 {
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Sinav", "Sinav")
-                        .WithMany("SinavSorulari")
+                        .WithMany()
                         .HasForeignKey("SinavId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("dershaneOtomasyonu.Database.Tables.Soru", "Soru")
-                        .WithMany("SorununSinavlari")
+                        .WithMany()
                         .HasForeignKey("SoruId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1108,8 +1050,6 @@ namespace dershaneOtomasyonu.Migrations
 
                     b.Navigation("OgrenciDegerlendirmeleri");
 
-                    b.Navigation("OgrenciSinavSonuclari");
-
                     b.Navigation("OgretmenDegerlendirmeleri");
 
                     b.Navigation("SinavlarOlusturucu");
@@ -1129,12 +1069,6 @@ namespace dershaneOtomasyonu.Migrations
 
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.Sinav", b =>
                 {
-                    b.Navigation("OgrenciCevaplari");
-
-                    b.Navigation("SinavSonuclari");
-
-                    b.Navigation("SinavSorulari");
-
                     b.Navigation("Sorular");
                 });
 
@@ -1163,8 +1097,6 @@ namespace dershaneOtomasyonu.Migrations
             modelBuilder.Entity("dershaneOtomasyonu.Database.Tables.Soru", b =>
                 {
                     b.Navigation("Secenekler");
-
-                    b.Navigation("SorununSinavlari");
                 });
 #pragma warning restore 612, 618
         }

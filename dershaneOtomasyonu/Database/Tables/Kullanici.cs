@@ -34,5 +34,6 @@ namespace dershaneOtomasyonu.Database.Tables
         public ICollection<Gorusme> GorusmelerKatilimci { get; set; } // Kullanıcının katıldığı görüşmeler
         public ICollection<Degerlendirme> OgretmenDegerlendirmeleri { get; set; } // Kullanıcının
         public ICollection<Degerlendirme> OgrenciDegerlendirmeleri { get; set; } // Kullanıcının
+        public ICollection<SinavSonuc> OgrenciSinavSonuclari { get; set; } // Kullanıcının
     }
 }

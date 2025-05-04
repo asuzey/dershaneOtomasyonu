@@ -20,6 +20,9 @@ namespace dershaneOtomasyonu.Database.Tables
         public SinavKategori SinavKategori { get; set; }
         public Kullanici Olusturucu { get; set; }
         public ICollection<Soru> Sorular { get; set; }
+        public ICollection<OgrenciCevap> OgrenciCevaplari { get; set; }
+        public ICollection<SinavSonuc> SinavSonuclari { get; set; }
+        public ICollection<SinavSoru> SinavSorulari { get; set; }
 
     }
 }
