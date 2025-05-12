@@ -12,5 +12,6 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories
     {
         Task<List<SinifDto>> GetSinifByKodAsync(string kod);
         Task<List<SinifDto>> GetAllAsDtoAsync();
+        Task<List<SinifSeviye>> GetAllSinifSeviyelerAsync();
     }
 }

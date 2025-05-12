@@ -36,11 +36,11 @@
             // 
             label2.AutoSize = true;
             label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Century Gothic", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 162);
+            label2.Font = new Font("Source Sans Pro", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             label2.ForeColor = SystemColors.MenuText;
             label2.Location = new Point(-1, 1);
             label2.Name = "label2";
-            label2.Size = new Size(56, 16);
+            label2.Size = new Size(62, 20);
             label2.TabIndex = 12;
             label2.Text = "Kimden";
             // 
@@ -49,11 +49,11 @@
             label3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label3.AutoSize = true;
             label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Century Gothic", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 162);
+            label3.Font = new Font("Source Sans Pro Light", 11.25F, FontStyle.Italic, GraphicsUnit.Point, 162);
             label3.ForeColor = SystemColors.MenuText;
             label3.Location = new Point(558, 62);
             label3.Name = "label3";
-            label3.Size = new Size(53, 17);
+            label3.Size = new Size(53, 19);
             label3.TabIndex = 14;
             label3.Text = "Zaman";
             label3.TextAlign = ContentAlignment.TopCenter;

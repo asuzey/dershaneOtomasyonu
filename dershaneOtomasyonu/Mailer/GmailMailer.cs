@@ -17,7 +17,7 @@ namespace dershaneOtomasyonu.Mailer
             _smtpServer = "smtp.gmail.com";
             _port = 587; // Google SMTP için TLS portu
             _username = "asu.proje01@gmail.com";
-            _password = "bixg osfi njug vund";//"projec#asu";// bixg osfi njug vund
+            _password = "jwti zhqh xtvm ypit";//"projec#asu";// bixg osfi njug vund
         }
 
         /// <summary>

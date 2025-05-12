@@ -25,6 +25,7 @@ namespace dershaneOtomasyonu
             try
             {
                 await _clientWebSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
+
                 OnConnectionStatusChanged?.Invoke("WebSocket bağlantısı kuruldu.");
 
                 _ = ListenForMessages(); // Mesajları dinlemeye başla

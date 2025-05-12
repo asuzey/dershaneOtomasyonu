@@ -27,6 +27,7 @@ using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
 using dershaneOtomasyonu.Forms;
 using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 using System.Windows.Forms.DataVisualization.Charting;
+using Guna.UI2.WinForms;
 
 namespace dershaneOtomasyonu
 {
@@ -89,11 +90,11 @@ namespace dershaneOtomasyonu
             _notRepository = notRepository;
             _yoklamaRepository = yoklamaRepository;
             _fileService = new FileService();
-            panels = [panelDersNotlari, panelNotlarim, panelSinifGrubu, panelGorusme, panelBilgilerim];
+            panels = [/*panelDersNotlari,*/ panelNotlarim, panelSinifGrubu, panelGorusme, panelBilgilerim, panelESinav];
 
         }
 
-        public static BunifuPanel[] panels;
+        public static Guna2Panel[] panels;
 
         private async void CikisYap_Click(object sender, EventArgs e)
         {
@@ -123,9 +124,15 @@ namespace dershaneOtomasyonu
         {
             kullaniciadogr.Text = $"{GlobalData.Kullanici?.Adi} {GlobalData.Kullanici?.Soyadi}";
             txtKarsilama.Text = $"Hoşgeldin {GlobalData.Kullanici?.Adi} !";
+
+            // Tüm panelleri gizle
+            foreach (var panel in panels)
+            {
+                panel.Visible = false;
+            }
         }
 
-        private void TogglePanel(BunifuPanel panelToToggle)
+        private void TogglePanel(Guna2Panel panelToToggle)
         {
             foreach (var panel in panels)
             {
@@ -142,9 +149,9 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private void BtnDersNotlari_Click(object sender, EventArgs e)
+        private void btnDersNotlari_Click(object sender, EventArgs e)
         {
-            TogglePanel(panelDersNotlari);
+            //TogglePanel(panelDersNotlari);
             InitializeDataGridView();
             RefreshFileList();
         }
@@ -239,12 +246,12 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private async void BtnNotTutmaPanel_Click(object sender, EventArgs e)
+        private async void btnNotTutmaPanel_Click(object sender, EventArgs e)
         {
             TogglePanel(panelNotlarim);
         }
 
-        private async void BtnKaydet_Click(object sender, EventArgs e)
+        private async void btnKaydet_Click(object sender, EventArgs e)
         {
             string dosyaAdi = txtDosyaAdi.Text;
             if (string.IsNullOrWhiteSpace(dosyaAdi))
@@ -286,7 +293,7 @@ namespace dershaneOtomasyonu
 
         }
 
-        private async void BtnSınıfChat_Click(object sender, EventArgs e)
+        private async void btnSınıfChat_Click(object sender, EventArgs e)
         {
             TogglePanel(panelSinifGrubu);
             // chat ekranı yönlendirmesi yapılacak ve datagride dersler doldurulacak aynı zamanda açan öğretmen de bu listede gözükecek.
@@ -357,7 +364,7 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private async void BtnGorusmePanel_Click(object sender, EventArgs e)
+        private async void btnGorusmePanel_Click(object sender, EventArgs e)
         {
             await LoadAktifGorusmeler();
             TogglePanel(panelGorusme);
@@ -371,11 +378,11 @@ namespace dershaneOtomasyonu
                 x.Id,
                 Olusturucu = x.Olusturucu.Adi + " " + x.Olusturucu.Soyadi
             }).ToList();
-            AktifGorusmelerGridView.DataSource = aktifGorusmelerDto;
-            AktifGorusmelerGridView.Columns[0].Visible = false;
+            aktifGorusmelerGridView.DataSource = aktifGorusmelerDto;
+            aktifGorusmelerGridView.Columns[0].Visible = false;
         }
 
-        private async void BtnBilgilerimpanel_Click(object sender, EventArgs e)
+        private async void btnBilgilerimpanel_Click(object sender, EventArgs e)
         {
             await InitializeGraph();
             TogglePanel(panelBilgilerim);
@@ -471,10 +478,10 @@ namespace dershaneOtomasyonu
 
         }
 
-        private async void BtnGorusmeKatil_Click(object sender, EventArgs e)
+        private async void btnGorusmeKatil_Click(object sender, EventArgs e)
         {
             var gorusmeId = 0;
-            if (AktifGorusmelerGridView.CurrentRow != null) gorusmeId = Convert.ToInt32(AktifGorusmelerGridView.CurrentRow.Cells[0].Value);
+            if (aktifGorusmelerGridView.CurrentRow != null) gorusmeId = Convert.ToInt32(aktifGorusmelerGridView.CurrentRow.Cells[0].Value);
             if (gorusmeId == 0)
             {
                 MessageBox.Show("Lütfen görüşme kaydı seçiniz.", "Görüşme Başlatma İşlemi");
@@ -501,6 +508,16 @@ namespace dershaneOtomasyonu
                 }
 
             }
+        }
+
+        private void btnSistemeGir_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnESinavPanel_Click(object sender, EventArgs e)
+        {
+            TogglePanel(panelESinav);
         }
     }
 }

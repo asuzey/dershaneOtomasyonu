@@ -51,7 +51,7 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositorie
 
         public async Task<List<Kullanici>> GetAllTeachersAsync()
         {
-            var role = await _context.Roller.FirstOrDefaultAsync(x => x.RolAdi == "Öğretmen");
+            var role = await _context.Roller.FirstOrDefaultAsync(x => x.RolAdi == "personel");
             List<Kullanici> kullanicilar;
             if (role != null)
             {
@@ -66,7 +66,7 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositorie
 
         public async Task<List<Kullanici>> GetAllStudentsAsync()
         {
-            var role = await _context.Roller.FirstOrDefaultAsync(x => x.RolAdi == "Öğrenci");
+            var role = await _context.Roller.FirstOrDefaultAsync(x => x.RolAdi == "ogrenci");
             List<Kullanici> kullanicilar;
             if (role != null)
             {

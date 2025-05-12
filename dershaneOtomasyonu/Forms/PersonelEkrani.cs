@@ -1,5 +1,4 @@
-﻿using Bunifu.UI.WinForms;
-using dershaneOtomasyonu.Database.Tables;
+﻿using dershaneOtomasyonu.Database.Tables;
 using dershaneOtomasyonu.DTO;
 using dershaneOtomasyonu.Forms;
 using dershaneOtomasyonu.Helpers;
@@ -16,6 +15,7 @@ using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
+using Guna.UI2.WinForms;
 using Mapster;
 using System;
 using System.Collections.Generic;
@@ -87,13 +87,13 @@ namespace dershaneOtomasyonu
             _kullaniciNotRepository = kullaniciNotRepository;
             _notRepository = notRepository;
             _yoklamaRepository = yoklamaRepository;
-            panels = [Panel_SiniflarVeOgrenciler, panelDosyaGonderme, panelDersBaslat, PanelGorusme, panelRaporlama];
+            panels = [panelSiniflarVeOgrenciler, panelDersNotuGonderme, panelDersBaslat, panelGorusme, panelRaporlama, panelESinav];
             _fileService = new FileService();
 
         }
 
 
-        public static BunifuPanel[] panels;
+        public static Guna2Panel[] panels;
 
         private void InitializeDataGridView()
         {
@@ -152,12 +152,12 @@ namespace dershaneOtomasyonu
         }
 
 
-        private async void Btn_SiniflarVeOgrenciler_Click(object sender, EventArgs e)
+        private async void btnSiniflarVeOgrenciler_Click(object sender, EventArgs e)
         {
             var siniflar = await _sinifRepository.GetAllAsync();
             siniflarDataGridView.DataSource = siniflar;
             siniflarDataGridView.Columns[0].Visible = false;
-            TogglePanel(Panel_SiniflarVeOgrenciler);
+            TogglePanel(panelSiniflarVeOgrenciler);
         }
 
         private async Task LoadAtanmisOgrenciler(int sinifId)
@@ -190,16 +190,16 @@ namespace dershaneOtomasyonu
         {
             var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
             var sinifinOgrencileri = ogrenciler.Where(o => o.SinifId == sinifId).ToList();
-            GorusmeOgrencilerDataGridView.DataSource = sinifinOgrencileri;
-            foreach (DataGridViewColumn column in GorusmeOgrencilerDataGridView.Columns)
+            gorusmeOgrencilerDataGridView.DataSource = sinifinOgrencileri;
+            foreach (DataGridViewColumn column in gorusmeOgrencilerDataGridView.Columns)
             {
                 column.Visible = false;
             }
-            GorusmeOgrencilerDataGridView.Columns[5].Visible = true;
-            GorusmeOgrencilerDataGridView.Columns[6].Visible = true;
+            gorusmeOgrencilerDataGridView.Columns[5].Visible = true;
+            gorusmeOgrencilerDataGridView.Columns[6].Visible = true;
         }
 
-        private void TogglePanel(BunifuPanel panelToToggle) // panel geçişleri için
+        private void TogglePanel(Guna2Panel panelToToggle) // panel geçişleri için
         {
             foreach (var panel in panels)
             {
@@ -223,10 +223,10 @@ namespace dershaneOtomasyonu
             if (sinifId != 0) await LoadAtanmisOgrenciler(sinifId);
         }
 
-        private async void Btn_YeniDosyaYukle_Click(object sender, EventArgs e)
+        private async void btnYeniDosyaYukle_Click(object sender, EventArgs e)
         {
             bool isClassSelected;
-            if (SiniflarDosyaDataGridView1.CurrentRow == null)
+            if (SiniflarDosyaDataGridView.CurrentRow == null)
                 isClassSelected = false;
             else
                 isClassSelected = true;
@@ -248,7 +248,7 @@ namespace dershaneOtomasyonu
             }
             else
             {
-                var selectedClass = SiniflarDosyaDataGridView1.CurrentRow.Cells[1].Value.ToString();
+                var selectedClass = SiniflarDosyaDataGridView.CurrentRow.Cells[1].Value.ToString();
                 DialogResult userChoice = MessageBox.Show(
                     $"Seçili dosya {selectedClass} sınıfı ile paylaşılacaktır. Devam edilsin mi?",
                     "Dosya Seçimi",
@@ -288,7 +288,7 @@ namespace dershaneOtomasyonu
                         assignment.DosyaId = newFile.Id;
                         await _kullaniciDosyaRepository.AddAsync(assignment);
                         var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
-                        var selectedClass = SiniflarDosyaDataGridView1.CurrentRow != null ? SiniflarDosyaDataGridView1.CurrentRow.Cells[0] : null;
+                        var selectedClass = SiniflarDosyaDataGridView.CurrentRow != null ? SiniflarDosyaDataGridView.CurrentRow.Cells[0] : null;
 
                         if (selectedClass == null)
                         {
@@ -398,19 +398,19 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private async void BtnNotGondermePanel_Click(object sender, EventArgs e)
+        private async void btnNotGondermePanel_Click(object sender, EventArgs e)
         {
             await LoadClassrooms();
             InitializeDataGridView();
             RefreshFileList();
-            TogglePanel(panelDosyaGonderme);
+            TogglePanel(panelDersNotuGonderme);
         }
 
         private async Task LoadClassrooms()
         {
             var siniflar = await _sinifRepository.GetAllAsync();
-            SiniflarDosyaDataGridView1.DataSource = siniflar;
-            SiniflarDosyaDataGridView1.Columns[0].Visible = false;
+            SiniflarDosyaDataGridView.DataSource = siniflar;
+            SiniflarDosyaDataGridView.Columns[0].Visible = false;
         }
 
         private async Task LoadClassroomsOnPanelGorusme()
@@ -420,10 +420,10 @@ namespace dershaneOtomasyonu
             gorusmeSiniflarDataGridView.Columns[0].Visible = false;
         }
 
-        private void BtnSecimiTemizle_Click_Click(object sender, EventArgs e)
+        private void btnSecimiTemizle_Click(object sender, EventArgs e)
         {
-            SiniflarDosyaDataGridView1.ClearSelection(); // Seçimi temizle
-            SiniflarDosyaDataGridView1.CurrentCell = null; // CurrentRow'u etkisiz yapar
+            SiniflarDosyaDataGridView.ClearSelection(); // Seçimi temizle
+            SiniflarDosyaDataGridView.CurrentCell = null; // CurrentRow'u etkisiz yapar
         }
 
         private void logo_Click(object sender, EventArgs e)
@@ -658,7 +658,7 @@ namespace dershaneOtomasyonu
             return null; // Kullanıcı iptal ettiyse
         }
 
-        private async void BtnDegerlendirmeYap_Click(object sender, EventArgs e)
+        private async void btnDegerlendirmeYap_Click(object sender, EventArgs e)
         {
             if (chattingOgrDataGridView.CurrentRow == null)
             {
@@ -682,11 +682,11 @@ namespace dershaneOtomasyonu
             else ShowInputDialog(); // eğer hatalı veri girişi yapılırsa diyalog box tekrar açılıyor.
         }
 
-        private async void BtnGorusmePanel_Click(object sender, EventArgs e)
+        private async void btnGorusmePanel_Click(object sender, EventArgs e)
         {
             await LoadClassroomsOnPanelGorusme();
             await LoadDevamEdenGorusmeler();
-            TogglePanel(PanelGorusme);
+            TogglePanel(panelGorusme);
         }
 
         private async Task LoadDevamEdenGorusmeler()
@@ -699,10 +699,10 @@ namespace dershaneOtomasyonu
                 OgrenciId = x.Katilimci.Id,
                 Katilimci = x.Katilimci.Adi + " " + x.Katilimci.Soyadi,
             });
-            DevamEdenGorusmeDataGridView.DataSource = gorusmedto.ToList();
-            DevamEdenGorusmeDataGridView.Columns[0].Visible = false;
-            DevamEdenGorusmeDataGridView.Columns[1].Visible = false;
-            DevamEdenGorusmeDataGridView.Columns[2].Visible = false;
+            devamEdenGorusmeDataGridView.DataSource = gorusmedto.ToList();
+            devamEdenGorusmeDataGridView.Columns[0].Visible = false;
+            devamEdenGorusmeDataGridView.Columns[1].Visible = false;
+            devamEdenGorusmeDataGridView.Columns[2].Visible = false;
         }
 
         private async void gorusmeSiniflarDataGridView_MouseClick(object sender, MouseEventArgs e)
@@ -720,10 +720,10 @@ namespace dershaneOtomasyonu
                 await LoadSinifinOgrencileriToDersBaslatOnPanelGorusme(sinifId);
         }
 
-        private async void BtnGorusmeBaslat_Click(object sender, EventArgs e)
+        private async void btnGorusmeBaslat_Click(object sender, EventArgs e)
         {
             // görüşme başlat kodu yazacağım
-            if (gorusmeSiniflarDataGridView.CurrentRow == null || GorusmeOgrencilerDataGridView.CurrentRow == null)
+            if (gorusmeSiniflarDataGridView.CurrentRow == null || gorusmeOgrencilerDataGridView.CurrentRow == null)
             {
                 MessageBox.Show("Lütfen bir sınıf ve bir öğrenci kaydı seçiniz.", "Görüşme Başlatma İşlemi");
                 return;
@@ -741,7 +741,7 @@ namespace dershaneOtomasyonu
                 // burada görüşme başlatırken sınıf id üzerinden arama yapmak mantıklı değil, çünkü oluşturucu ve kullanıcı idlerine göre aktif görüşmeleri
                 // çekeceğiz, buna göre senin global data'daki kullanıcı ile tabloda seçili öğrencinin id 'sini alarak
 
-                var ogrenciId = Convert.ToInt32(GorusmeOgrencilerDataGridView.CurrentRow.Cells[0].Value);
+                var ogrenciId = Convert.ToInt32(gorusmeOgrencilerDataGridView.CurrentRow.Cells[0].Value);
                 var aktifGorusme = await _gorusmeRepository.GetActiveGorusmeByOlusturucuIdAndKullaniciIdAsync(GlobalData.Kullanici!.Id, ogrenciId);
                 if (aktifGorusme == null)
                 {
@@ -763,7 +763,7 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private async void BtnRaporlamaPanel_Click(object sender, EventArgs e)
+        private async void btnRaporlamaPanel_Click(object sender, EventArgs e)
         {
             await LoadClassRoomsOnReportPanel();
             TogglePanel(panelRaporlama);
@@ -800,9 +800,9 @@ namespace dershaneOtomasyonu
 
         private async void DevamEdenGorusmeDataGridView_MouseClick(object sender, MouseEventArgs e)
         {
-            if (DevamEdenGorusmeDataGridView.CurrentRow == null) return;
+            if (devamEdenGorusmeDataGridView.CurrentRow == null) return;
 
-            var selectedId = DevamEdenGorusmeDataGridView.CurrentRow.Cells["SinifId"].Value;
+            var selectedId = devamEdenGorusmeDataGridView.CurrentRow.Cells["SinifId"].Value;
             gorusmeSiniflarDataGridView.ClearSelection();
             foreach (DataGridViewRow row in gorusmeSiniflarDataGridView.Rows)
             {
@@ -820,15 +820,15 @@ namespace dershaneOtomasyonu
                 }
             }
 
-            var selectedOgrenciId = DevamEdenGorusmeDataGridView.CurrentRow.Cells["OgrenciId"].Value;
-            GorusmeOgrencilerDataGridView.ClearSelection();
-            foreach (DataGridViewRow row in GorusmeOgrencilerDataGridView.Rows)
+            var selectedOgrenciId = devamEdenGorusmeDataGridView.CurrentRow.Cells["OgrenciId"].Value;
+            gorusmeOgrencilerDataGridView.ClearSelection();
+            foreach (DataGridViewRow row in gorusmeOgrencilerDataGridView.Rows)
             {
                 if (row.Cells["Id"].Value.Equals(selectedOgrenciId))
                 {
                     row.Selected = true;
-                    GorusmeOgrencilerDataGridView.CurrentCell = row.Cells[5];
-                    GorusmeOgrencilerDataGridView.FirstDisplayedScrollingRowIndex = row.Index;
+                    gorusmeOgrencilerDataGridView.CurrentCell = row.Cells[5];
+                    gorusmeOgrencilerDataGridView.FirstDisplayedScrollingRowIndex = row.Index;
                     break;
                 }
             }
@@ -843,19 +843,19 @@ namespace dershaneOtomasyonu
             int sinifId = Convert.ToInt32(cbSiniflar.SelectedValue);
             var ogrenciler = await _kullaniciRepository.GetAllStudentsAsync();
             var sinifinOgrencileri = ogrenciler.Where(o => o.SinifId == sinifId).ToList();
-            OgrListDataGridView.DataSource = sinifinOgrencileri;
-            foreach (DataGridViewColumn column in OgrListDataGridView.Columns)
+            ogrListDataGridView.DataSource = sinifinOgrencileri;
+            foreach (DataGridViewColumn column in ogrListDataGridView.Columns)
             {
                 column.Visible = false;
             }
-            OgrListDataGridView.Columns[5].Visible = true;
-            OgrListDataGridView.Columns[6].Visible = true;
+            ogrListDataGridView.Columns[5].Visible = true;
+            ogrListDataGridView.Columns[6].Visible = true;
         }
 
-        private async void OgrListDataGridView_MouseClick(object sender, MouseEventArgs e)
+        private async void ogrListDataGridView_MouseClick(object sender, MouseEventArgs e)
         {
             var ogrenciId = 0;
-            if (OgrListDataGridView.CurrentRow != null) ogrenciId = Convert.ToInt32(OgrListDataGridView.CurrentRow.Cells[0].Value);
+            if (ogrListDataGridView.CurrentRow != null) ogrenciId = Convert.ToInt32(ogrListDataGridView.CurrentRow.Cells[0].Value);
             if (ogrenciId != 0) await LoadOgrenciReport(ogrenciId);
         }
 
@@ -871,8 +871,8 @@ namespace dershaneOtomasyonu
             }
 
             // DataGridView'i temizle
-            RaporYoklamaDataGrid.Rows.Clear();
-            RaporYoklamaDataGrid.Columns.Clear();
+            raporYoklamaDataGrid.Rows.Clear();
+            raporYoklamaDataGrid.Columns.Clear();
 
             // Tarih sütunlarını oluştur
             var tarihListesi = yoklamaRaporu
@@ -889,7 +889,7 @@ namespace dershaneOtomasyonu
                     Name = tarih.ToShortDateString(),
                     ReadOnly = true // Checkbox'lar düzenlenemez olacak
                 };
-                RaporYoklamaDataGrid.Columns.Add(column);
+                raporYoklamaDataGrid.Columns.Add(column);
             }
 
             // Ders adlarını satır başlığı olarak ekle
@@ -901,15 +901,15 @@ namespace dershaneOtomasyonu
 
             foreach (var dersAdi in dersListesi)
             {
-                var rowIndex = RaporYoklamaDataGrid.Rows.Add();
-                RaporYoklamaDataGrid.Rows[rowIndex].HeaderCell.Value = dersAdi; // Satır başlığına ders adını ekle
+                var rowIndex = raporYoklamaDataGrid.Rows.Add();
+                raporYoklamaDataGrid.Rows[rowIndex].HeaderCell.Value = dersAdi; // Satır başlığına ders adını ekle
 
                 // Her tarih için bu dersin kaydı olup olmadığını kontrol et
                 foreach (var tarih in tarihListesi)
                 {
                     var dersTarihi = yoklamaRaporu.FirstOrDefault(r => r.DersAdi == dersAdi && r.Tarih.Date == tarih);
 
-                    var cell = RaporYoklamaDataGrid.Rows[rowIndex].Cells[tarihListesi.IndexOf(tarih)];
+                    var cell = raporYoklamaDataGrid.Rows[rowIndex].Cells[tarihListesi.IndexOf(tarih)];
 
                     if (dersTarihi == null)
                     {
@@ -930,11 +930,11 @@ namespace dershaneOtomasyonu
             }
 
             // DataGridView düzenleme
-            RaporYoklamaDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Sütun genişliklerini otomatik ayarla
-            RaporYoklamaDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders; // Satır başlıklarını otomatik genişlet
-            RaporYoklamaDataGrid.AllowUserToAddRows = false; // Kullanıcının yeni satır eklemesini engelle
-            RaporYoklamaDataGrid.RowHeadersVisible = true; // Satır başlıklarını görünür yap
-            RaporYoklamaDataGrid.ClearSelection();
+            raporYoklamaDataGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells; // Sütun genişliklerini otomatik ayarla
+            raporYoklamaDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders; // Satır başlıklarını otomatik genişlet
+            raporYoklamaDataGrid.AllowUserToAddRows = false; // Kullanıcının yeni satır eklemesini engelle
+            raporYoklamaDataGrid.RowHeadersVisible = true; // Satır başlıklarını görünür yap
+            raporYoklamaDataGrid.ClearSelection();
 
             await InitializeGraph(ogrenciId);
         }
@@ -956,14 +956,14 @@ namespace dershaneOtomasyonu
                 .ToList();
 
             // Chart kontrolünü temizle ve ayarla
-            RaporDegerlendirmeChart.Series.Clear();
-            RaporDegerlendirmeChart.Titles.Clear();
-            RaporDegerlendirmeChart.ChartAreas.Clear();
-            RaporDegerlendirmeChart.Legends.Clear();
+            raporDegerlendirmeChart.Series.Clear();
+            raporDegerlendirmeChart.Titles.Clear();
+            raporDegerlendirmeChart.ChartAreas.Clear();
+            raporDegerlendirmeChart.Legends.Clear();
 
             // ChartArea ekle
             var chartArea = new ChartArea("ChartArea");
-            RaporDegerlendirmeChart.ChartAreas.Add(chartArea);
+            raporDegerlendirmeChart.ChartAreas.Add(chartArea);
 
             // Ortalama ve son puanlar için iki seri oluştur
             var ortalamaSerisi = new Series("Ortalama Puan")
@@ -996,8 +996,8 @@ namespace dershaneOtomasyonu
             }
 
             // Serileri grafiğe ekle
-            RaporDegerlendirmeChart.Series.Add(ortalamaSerisi);
-            RaporDegerlendirmeChart.Series.Add(sonPuanSerisi);
+            raporDegerlendirmeChart.Series.Add(ortalamaSerisi);
+            raporDegerlendirmeChart.Series.Add(sonPuanSerisi);
 
             // X ve Y eksenlerini ayarla
             chartArea.AxisX.Title = "Ders ID";
@@ -1018,17 +1018,35 @@ namespace dershaneOtomasyonu
             sonPuanSerisi["PointWidth"] = "0.4";
 
             // Legend (açıklama) ekle
-            RaporDegerlendirmeChart.Legends.Add(new Legend("Legend")
+            raporDegerlendirmeChart.Legends.Add(new Legend("Legend")
             {
                 Docking = Docking.Top,
                 Alignment = System.Drawing.StringAlignment.Center
             });
 
             // Grafik başlığı ekle
-            RaporDegerlendirmeChart.Titles.Add("Derslere Göre Ortalama ve Son Puan");
+            raporDegerlendirmeChart.Titles.Add("Derslere Göre Ortalama ve Son Puan");
 
         }
 
+        private void btnESinavPanel_Click(object sender, EventArgs e)
+        {
+            TogglePanel(panelESinav);
+        }
+
+        private void PersonelEkrani_Load(object sender, EventArgs e)
+        {
+            // Tüm panelleri gizle
+            foreach (var panel in panels)
+            {
+                panel.Visible = false;
+            }
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }

@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GirisEkrani));
-            Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges borderEdges1 = new Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             label1 = new Label();
             txtAd = new TextBox();
             txtSifre = new TextBox();
-            bunifuGradientPanel1 = new Bunifu.UI.WinForms.BunifuGradientPanel();
             pictureBox3 = new PictureBox();
             pictureBox2 = new PictureBox();
             pictureBox1 = new PictureBox();
             label2 = new Label();
-            BtnGirisYap = new Bunifu.UI.WinForms.BunifuButton.BunifuButton();
-            bunifuGradientPanel1.SuspendLayout();
+            btnGirisYap = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -61,26 +60,6 @@
             txtSifre.Cursor = Cursors.IBeam;
             resources.ApplyResources(txtSifre, "txtSifre");
             txtSifre.Name = "txtSifre";
-            // 
-            // bunifuGradientPanel1
-            // 
-            bunifuGradientPanel1.BackColor = Color.Transparent;
-            resources.ApplyResources(bunifuGradientPanel1, "bunifuGradientPanel1");
-            bunifuGradientPanel1.BorderRadius = 1;
-            bunifuGradientPanel1.Controls.Add(pictureBox3);
-            bunifuGradientPanel1.Controls.Add(pictureBox2);
-            bunifuGradientPanel1.Controls.Add(pictureBox1);
-            bunifuGradientPanel1.Controls.Add(label2);
-            bunifuGradientPanel1.Controls.Add(BtnGirisYap);
-            bunifuGradientPanel1.Controls.Add(label1);
-            bunifuGradientPanel1.Controls.Add(txtSifre);
-            bunifuGradientPanel1.Controls.Add(txtAd);
-            bunifuGradientPanel1.GradientBottomLeft = Color.White;
-            bunifuGradientPanel1.GradientBottomRight = Color.White;
-            bunifuGradientPanel1.GradientTopLeft = Color.White;
-            bunifuGradientPanel1.GradientTopRight = Color.White;
-            bunifuGradientPanel1.Name = "bunifuGradientPanel1";
-            bunifuGradientPanel1.Quality = 10;
             // 
             // pictureBox3
             // 
@@ -105,119 +84,52 @@
             resources.ApplyResources(label2, "label2");
             label2.Name = "label2";
             // 
-            // BtnGirisYap
+            // btnGirisYap
             // 
-            BtnGirisYap.AllowAnimations = true;
-            BtnGirisYap.AllowMouseEffects = true;
-            BtnGirisYap.AllowToggling = false;
-            BtnGirisYap.AnimationSpeed = 200;
-            BtnGirisYap.AutoGenerateColors = false;
-            BtnGirisYap.AutoRoundBorders = false;
-            BtnGirisYap.AutoSizeLeftIcon = true;
-            BtnGirisYap.AutoSizeRightIcon = true;
-            BtnGirisYap.BackColor = Color.Transparent;
-            BtnGirisYap.BackColor1 = Color.FromArgb(51, 122, 183);
-            resources.ApplyResources(BtnGirisYap, "BtnGirisYap");
-            BtnGirisYap.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnGirisYap.ButtonText = "Giriş Yap";
-            BtnGirisYap.ButtonTextMarginLeft = 0;
-            BtnGirisYap.ColorContrastOnClick = 45;
-            BtnGirisYap.ColorContrastOnHover = 45;
-            borderEdges1.BottomLeft = true;
-            borderEdges1.BottomRight = true;
-            borderEdges1.TopLeft = true;
-            borderEdges1.TopRight = true;
-            BtnGirisYap.CustomizableEdges = borderEdges1;
-            BtnGirisYap.DialogResult = DialogResult.None;
-            BtnGirisYap.DisabledBorderColor = Color.FromArgb(191, 191, 191);
-            BtnGirisYap.DisabledFillColor = Color.Empty;
-            BtnGirisYap.DisabledForecolor = Color.Empty;
-            BtnGirisYap.FocusState = Bunifu.UI.WinForms.BunifuButton.BunifuButton.ButtonStates.Pressed;
-            BtnGirisYap.ForeColor = Color.White;
-            BtnGirisYap.IconLeft = null;
-            BtnGirisYap.IconLeftAlign = ContentAlignment.MiddleLeft;
-            BtnGirisYap.IconLeftCursor = Cursors.Default;
-            BtnGirisYap.IconLeftPadding = new Padding(11, 3, 3, 3);
-            BtnGirisYap.IconMarginLeft = 11;
-            BtnGirisYap.IconPadding = 10;
-            BtnGirisYap.IconRight = null;
-            BtnGirisYap.IconRightAlign = ContentAlignment.MiddleRight;
-            BtnGirisYap.IconRightCursor = Cursors.Default;
-            BtnGirisYap.IconRightPadding = new Padding(3, 3, 7, 3);
-            BtnGirisYap.IconSize = 25;
-            BtnGirisYap.IdleBorderColor = Color.Empty;
-            BtnGirisYap.IdleBorderRadius = 0;
-            BtnGirisYap.IdleBorderThickness = 0;
-            BtnGirisYap.IdleFillColor = Color.Empty;
-            BtnGirisYap.IdleIconLeftImage = null;
-            BtnGirisYap.IdleIconRightImage = null;
-            BtnGirisYap.IndicateFocus = false;
-            BtnGirisYap.Name = "BtnGirisYap";
-            BtnGirisYap.OnDisabledState.BorderColor = Color.FromArgb(191, 191, 191);
-            BtnGirisYap.OnDisabledState.BorderRadius = 40;
-            BtnGirisYap.OnDisabledState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Dash;
-            BtnGirisYap.OnDisabledState.BorderThickness = 0;
-            BtnGirisYap.OnDisabledState.FillColor = Color.FromArgb(204, 204, 204);
-            BtnGirisYap.OnDisabledState.ForeColor = Color.FromArgb(168, 160, 168);
-            BtnGirisYap.OnDisabledState.IconLeftImage = null;
-            BtnGirisYap.OnDisabledState.IconRightImage = null;
-            BtnGirisYap.onHoverState.BorderColor = Color.Black;
-            BtnGirisYap.onHoverState.BorderRadius = 40;
-            BtnGirisYap.onHoverState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Dash;
-            BtnGirisYap.onHoverState.BorderThickness = 0;
-            BtnGirisYap.onHoverState.FillColor = Color.Black;
-            BtnGirisYap.onHoverState.ForeColor = Color.White;
-            BtnGirisYap.onHoverState.IconLeftImage = null;
-            BtnGirisYap.onHoverState.IconRightImage = null;
-            BtnGirisYap.OnIdleState.BorderColor = Color.Black;
-            BtnGirisYap.OnIdleState.BorderRadius = 40;
-            BtnGirisYap.OnIdleState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnGirisYap.OnIdleState.BorderThickness = 0;
-            BtnGirisYap.OnIdleState.FillColor = Color.Black;
-            BtnGirisYap.OnIdleState.ForeColor = Color.White;
-            BtnGirisYap.OnIdleState.IconLeftImage = null;
-            BtnGirisYap.OnIdleState.IconRightImage = null;
-            BtnGirisYap.OnPressedState.BorderColor = Color.Black;
-            BtnGirisYap.OnPressedState.BorderRadius = 40;
-            BtnGirisYap.OnPressedState.BorderStyle = Bunifu.UI.WinForms.BunifuButton.BunifuButton.BorderStyles.Solid;
-            BtnGirisYap.OnPressedState.BorderThickness = 0;
-            BtnGirisYap.OnPressedState.FillColor = Color.FromArgb(64, 64, 64);
-            BtnGirisYap.OnPressedState.ForeColor = Color.White;
-            BtnGirisYap.OnPressedState.IconLeftImage = null;
-            BtnGirisYap.OnPressedState.IconRightImage = null;
-            BtnGirisYap.TextAlign = ContentAlignment.MiddleCenter;
-            BtnGirisYap.TextAlignment = HorizontalAlignment.Center;
-            BtnGirisYap.TextMarginLeft = 0;
-            BtnGirisYap.TextPadding = new Padding(1);
-            BtnGirisYap.UseDefaultRadiusAndThickness = true;
-            BtnGirisYap.Click += BtnGirisYap_Click;
+            btnGirisYap.BorderRadius = 25;
+            btnGirisYap.CustomizableEdges = customizableEdges5;
+            btnGirisYap.DisabledState.BorderColor = Color.DarkGray;
+            btnGirisYap.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnGirisYap.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnGirisYap.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnGirisYap.FillColor = Color.Black;
+            resources.ApplyResources(btnGirisYap, "btnGirisYap");
+            btnGirisYap.ForeColor = Color.White;
+            btnGirisYap.Name = "btnGirisYap";
+            btnGirisYap.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnGirisYap.Click += BtnGirisYap_Click;
             // 
             // GirisEkrani
             // 
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(bunifuGradientPanel1);
+            Controls.Add(btnGirisYap);
+            Controls.Add(pictureBox2);
+            Controls.Add(pictureBox3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(txtSifre);
+            Controls.Add(pictureBox1);
+            Controls.Add(txtAd);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "GirisEkrani";
             Tag = "";
-            bunifuGradientPanel1.ResumeLayout(false);
-            bunifuGradientPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
         private Label label1;
         private TextBox txtAd;
         private TextBox txtSifre;
-        private Bunifu.UI.WinForms.BunifuGradientPanel bunifuGradientPanel1;
-        private Bunifu.UI.WinForms.BunifuButton.BunifuButton BtnGirisYap;
         private Label label2;
         private PictureBox pictureBox2;
         private PictureBox pictureBox1;
         private PictureBox pictureBox3;
+        private Guna.UI2.WinForms.Guna2Button btnGirisYap;
     }
 }

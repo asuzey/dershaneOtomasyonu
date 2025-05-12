@@ -155,7 +155,7 @@ namespace dershaneOtomasyonu.Forms
             TxtMesaj.Clear();
         }
 
-        private async void bunifuButton1_Click(object sender, EventArgs e)
+        private async void btnGonder_Click(object sender, EventArgs e)
         {
             await PressSend();
         }

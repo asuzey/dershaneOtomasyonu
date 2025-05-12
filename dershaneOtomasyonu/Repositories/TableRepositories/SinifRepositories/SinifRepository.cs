@@ -30,5 +30,10 @@ namespace dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories
             var siniflar = await _context.Siniflar.ToListAsync();
             return siniflar.Adapt<List<SinifDto>>();
         }
+
+        public async Task<List<SinifSeviye>> GetAllSinifSeviyelerAsync()
+        {
+            return await _context.SinifSeviyeleri.ToListAsync();
+        }
     }
 }

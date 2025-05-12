@@ -123,13 +123,13 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Century Gothic, 15.75pt</value>
+    <value>Source Sans Pro, 21.75pt, style=Bold, Italic</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>151, 102</value>
+    <value>115, 121</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>143, 24</value>
+    <value>197, 36</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -144,16 +144,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="txtAd.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Century Gothic, 15.25pt</value>
+    <value>Source Sans Pro, 15pt, style=Italic</value>
   </data>
   <data name="txtAd.Location" type="System.Drawing.Point, System.Drawing">
-    <value>99, 186</value>
+    <value>99, 218</value>
   </data>
   <data name="txtAd.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -174,16 +174,16 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtAd.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;txtAd.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="txtSifre.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Century Gothic, 15.25pt</value>
+    <value>Source Sans Pro, 15pt, style=Italic</value>
   </data>
   <data name="txtSifre.Location" type="System.Drawing.Point, System.Drawing">
-    <value>99, 253</value>
+    <value>99, 291</value>
   </data>
   <data name="txtSifre.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -207,55 +207,10 @@
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;txtSifre.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;txtSifre.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <metadata name="bunifuGradientPanel1.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="bunifuGradientPanel1.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAc4AAAHqCAYAAACN266QAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAdSSURBVHhe7dWxDYBAAAOxH43R2Dw09HC9LUXKBne2Xdtu
-        MzMz+955DwDwg3ACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCc
-        ABAIJwAEwgkAgXACQCCcABAIJwAEwgkAgXACQCCcABAIJwAEwgkAwQPWSVUmThoOlwAAAABJRU5ErkJg
-        gg==
-</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="bunifuGradientPanel1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Stretch</value>
+    <value>5</value>
   </data>
   <data name="pictureBox3.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4764,11 +4719,12 @@
 </value>
   </data>
   <data name="pictureBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>156, 12</value>
+    <value>144, 38</value>
   </data>
   <data name="pictureBox3.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 69</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pictureBox3.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
   </data>
@@ -4782,10 +4738,10 @@
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBox3.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4946,10 +4902,10 @@
 </value>
   </data>
   <data name="pictureBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>38, 248</value>
+    <value>23, 282</value>
   </data>
   <data name="pictureBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 42</value>
+    <value>51, 46</value>
   </data>
   <data name="pictureBox2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -4964,7 +4920,7 @@
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBox2.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox2.ZOrder" xml:space="preserve">
     <value>1</value>
@@ -5155,10 +5111,10 @@
 </value>
   </data>
   <data name="pictureBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>42, 186</value>
+    <value>23, 212</value>
   </data>
   <data name="pictureBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 36</value>
+    <value>51, 42</value>
   </data>
   <data name="pictureBox1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>StretchImage</value>
@@ -5173,19 +5129,22 @@
     <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBox1.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Source Sans Pro, 12pt, style=Italic</value>
+  </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>31, 461</value>
+    <value>20, 461</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>402, 20</value>
+    <value>387, 20</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -5200,88 +5159,46 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
+    <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="BtnGirisYap.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAAM0AAAA1CAYAAADifW8dAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAK3SURBVHhe7d2tj9RQFMbhVyKRK5FI5Er+AoIhQSIJagUC
-        gUCS4BAIHAmOBEeyahMUWYVAkCBISCBLIITvbwF5S2czPff0trPMJrPT30kec/sxFT3T3tvbHun/4oSk
-        i5KuSdqR9FjSW0l/gBXh89Hn5aP2PL0i6WQ8kQ87nCg3JL2S9FnS1+RAgVX1W9LHNpnuSNqMJ/gyY0PS
-        3TZR4oEAR9X79i7JF4OlxvU2O38lPwqsA18Mbks6Fk/+ReO4pIeSvic/Aqwb37o9ae+qDhS+XD3l6oIJ
-        eiHpVEyIoXDC7CU7A6bC5//oxPEt2fNkJ8DUeIR41ADBrqSfyQ6AKXo2NDhwk04/0OE+/XZMlFl4xMDD
-        ynEjYOo+9PVv7jNSBvTyVJxOOIucTXFFAP84P87OJ82tZCUAXZ70uR/MTAaGeZCsGUnzNGkGAIBhzpPz
-        TpotST+SFQCU7jlp/E5BXAAg14yiuXMTFwDIuf/PPDNgAX59QN+SBQD6FQ0A6ooGAHVFA4C6ogFAXdEA
-        oK5oAFBXNACoKxoA1BUNAOqKBgB1RQOAumYCWmwE0K/5imBsBNCveakmNgLINe/T+PXNuABAzpU0mjqE
-        cQGAXPMZp9NtCbW4EECX68u6MHPzHadPyQoAulxicL/0xoNkBQBdTX9mFv5GLd9yBvp9kXR5PmkcfJUG
-        6PcuK+60yYAAkCoqBszHTrIBMHW+C+sNF6l9mWwETNWbMcVqXUXgdbIxMDWeMuPnmKPiDDVrMHHu+F+K
-        iTEU5yTtJTsD1p0vGAsnzCxci5M+DqbEfZjRt2R94cEBvz7Aw0+sM0+R8SjZYKd/kfA4tV9Y887jDwJH
-        letouv9yIZ7wywzv3BnpGZ8WDwJYdS6X6fqZvghczZ70H1ZstNOk/X6BJ7LFAwNWjf/s3dVwnVk/WjlQ
-        /AWcYtOPZ8fykQAAAABJRU5ErkJggg==
-</value>
+  <data name="btnGirisYap.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Source Sans Pro, 12pt</value>
   </data>
-  <data name="BtnGirisYap.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Century Gothic, 15.25pt</value>
+  <data name="btnGirisYap.Location" type="System.Drawing.Point, System.Drawing">
+    <value>119, 364</value>
   </data>
-  <data name="BtnGirisYap.Location" type="System.Drawing.Point, System.Drawing">
-    <value>132, 353</value>
+  <data name="btnGirisYap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>189, 50</value>
   </data>
-  <data name="BtnGirisYap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 53</value>
+  <data name="btnGirisYap.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
   </data>
-  <data name="BtnGirisYap.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+  <data name="btnGirisYap.Text" xml:space="preserve">
+    <value>Giriş Yap</value>
   </data>
-  <data name="&gt;&gt;BtnGirisYap.Name" xml:space="preserve">
-    <value>BtnGirisYap</value>
+  <data name="&gt;&gt;btnGirisYap.Name" xml:space="preserve">
+    <value>btnGirisYap</value>
   </data>
-  <data name="&gt;&gt;BtnGirisYap.Type" xml:space="preserve">
-    <value>Bunifu.UI.WinForms.BunifuButton.BunifuButton, Bunifu.UI.WinForms, Culture=neutral, PublicKeyToken=e8e24ccd28363fe9</value>
+  <data name="&gt;&gt;btnGirisYap.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2Button, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
   </data>
-  <data name="&gt;&gt;BtnGirisYap.Parent" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;BtnGirisYap.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="bunifuGradientPanel1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="bunifuGradientPanel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="bunifuGradientPanel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>462, 490</value>
-  </data>
-  <data name="bunifuGradientPanel1.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.Name" xml:space="preserve">
-    <value>bunifuGradientPanel1</value>
-  </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.Type" xml:space="preserve">
-    <value>Bunifu.UI.WinForms.BunifuGradientPanel, Bunifu.UI.WinForms, Culture=neutral, PublicKeyToken=e8e24ccd28363fe9</value>
-  </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnGirisYap.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;bunifuGradientPanel1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;btnGirisYap.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>9, 20</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>462, 490</value>
+    <value>427, 490</value>
   </data>
   <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Century Gothic, 11.25pt</value>
