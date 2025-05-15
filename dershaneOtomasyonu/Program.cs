@@ -21,6 +21,10 @@ using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories
 using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 using System.Collections.Concurrent;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Drawing.Text;
+
 
 
 namespace dershaneOtomasyonu
@@ -37,6 +41,8 @@ namespace dershaneOtomasyonu
         [STAThread]
         static void Main()
         {
+            LoadFonts(); // fontlarý uygulama baþlarken yükle
+
             // Global Exception Handling
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -136,6 +142,44 @@ namespace dershaneOtomasyonu
             await _logger.Error("Exception", ex);
         }
 
-    }
+        static PrivateFontCollection fontCollection = new PrivateFontCollection();
 
+        static void LoadFonts()
+        {
+            string[] fontFiles = new[]
+            {
+                "SourceSansPro-Regular.otf",
+                "SourceSansPro-Bold.otf",
+                "SourceSansPro-BoldIt.otf",
+                "SourceSansPro-It.otf",
+                "SourceSansPro-Light.otf",
+                "SourceSansPro-LightIt.otf",
+                "SourceSansPro-Semibold.otf",
+                "SourceSansPro-ExtraLight.otf",
+                "SourceSansPro-ExtraLightIt.otf"
+            };
+
+            foreach (var fontFile in fontFiles)
+            {
+                string resourceName = $"dershaneOtomasyonu.Resources.Fonts.{fontFile}";
+
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+                {
+                    if (stream == null)
+                        throw new Exception($"Font bulunamadý: {resourceName}");
+
+                    byte[] fontData = new byte[stream.Length];
+                    stream.Read(fontData, 0, (int)stream.Length);
+
+                    IntPtr fontPtr = Marshal.AllocCoTaskMem(fontData.Length);
+                    Marshal.Copy(fontData, 0, fontPtr, fontData.Length);
+                    fontCollection.AddMemoryFont(fontPtr, fontData.Length);
+                    Marshal.FreeCoTaskMem(fontPtr);
+                }
+            }
+
+            // Örnek: varsayýlan fontu uygula
+            Application.SetDefaultFont(new Font(fontCollection.Families[0], 10f));
+        }
+    }
 }
