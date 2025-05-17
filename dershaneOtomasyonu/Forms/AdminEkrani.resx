@@ -1020,7 +1020,7 @@ Kullanıcı şifresini unuttuğu takdirde kayıt olurken kullandığı mail ile 
   <data name="label30.Text" xml:space="preserve">
     <value>Kopya sisteminde öğrencilerin sınav sırasında kendi yüzleri haricinde farklı bir yüz algıladığı durumlara ait görsel vverileri ve yine sınav sırasında ekran değişikliği yaparak kopya çekme denemelerinine dair ekran görüntülerini de görebilrisiniz.
 
-sınav bazlı olarak listeleyebilir kopya çeken öğrencilerin adını sınıfları üzerinden bularak kopyaya dair ekran görüntülerini inceleyebilirsiniz. Bu durum yanlış bir suçlamanın önüne geçmeyi amaçlamaktadır.</value>
+Sınav bazlı olarak listeleyebilir kopya çeken öğrencilerin adını sınıfları üzerinden bularak kopyaya dair ekran görüntülerini inceleyebilirsiniz. Bu durum yanlış bir suçlamanın önüne geçmeyi amaçlamaktadır.</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
     <value>Sınavların sonuçlarını listelelenmiş şekilde görmek için bu sisteme giriş yapabilirsiniz. 

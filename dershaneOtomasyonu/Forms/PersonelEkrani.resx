@@ -1010,6 +1010,12 @@ Eğer öğrencinz ile birebir şekilde görüşmek istiyorsanız talepte bulunab
 
 </value>
   </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Sahip olduğunuz sınıflara ilişkin kopya durumlarını, kanıtları görmek için bu sistemi kullanabilirsiniz.
+
+Bu sistemde sınav bazlı olarak filtreleme yapabilir sonrasında sahip olduğunuz sınıflar arasından sınıf seçebilir ve bu sınıftaki kopya çekmiş öğrencilerin kopya verilerine ulaşabilrisiniz.
+</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Sınavların sonuçlarını listelelenmiş şekilde görmek için bu sisteme giriş yapabilirsiniz. 
 

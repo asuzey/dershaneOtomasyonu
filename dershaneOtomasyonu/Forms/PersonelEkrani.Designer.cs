@@ -30,57 +30,61 @@ namespace dershaneOtomasyonu
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PersonelEkrani));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges47 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges48 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges65 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges66 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges53 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges54 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges55 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges56 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges57 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges58 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges59 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges60 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges61 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges62 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges63 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges64 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges69 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges70 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges67 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges68 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges75 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges76 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges71 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges72 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges73 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges74 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges77 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges78 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges79 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges80 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges85 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges86 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges81 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges82 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges83 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges84 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges89 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges90 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges87 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges88 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges103 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges104 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges95 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges96 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges97 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges98 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges99 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges100 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges101 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges102 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges91 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges92 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges93 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges94 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             logo = new PictureBox();
             label32 = new Label();
             label33 = new Label();
@@ -143,6 +147,9 @@ namespace dershaneOtomasyonu
             label20 = new Label();
             btnSonucSis = new Guna.UI2.WinForms.Guna2Button();
             btnSinavSis = new Guna.UI2.WinForms.Guna2Button();
+            guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
+            label21 = new Label();
+            btnKopyaSis = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)raporDegerlendirmeChart).BeginInit();
             yanPanel.SuspendLayout();
@@ -167,6 +174,7 @@ namespace dershaneOtomasyonu
             panelESinav.SuspendLayout();
             guna2Panel2.SuspendLayout();
             guna2Panel1.SuspendLayout();
+            guna2Panel3.SuspendLayout();
             SuspendLayout();
             // 
             // logo
@@ -372,16 +380,16 @@ namespace dershaneOtomasyonu
             // 
             // raporDegerlendirmeChart
             // 
-            chartArea1.Name = "ChartArea1";
-            raporDegerlendirmeChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            raporDegerlendirmeChart.Legends.Add(legend1);
+            chartArea2.Name = "ChartArea1";
+            raporDegerlendirmeChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            raporDegerlendirmeChart.Legends.Add(legend2);
             raporDegerlendirmeChart.Location = new Point(386, 359);
             raporDegerlendirmeChart.Name = "raporDegerlendirmeChart";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            raporDegerlendirmeChart.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            raporDegerlendirmeChart.Series.Add(series2);
             raporDegerlendirmeChart.Size = new Size(807, 318);
             raporDegerlendirmeChart.TabIndex = 24;
             raporDegerlendirmeChart.Text = "chart1";
@@ -435,12 +443,12 @@ namespace dershaneOtomasyonu
             yanPanel.Controls.Add(btnESinavPanel);
             yanPanel.Controls.Add(label18);
             yanPanel.Controls.Add(logo);
-            yanPanel.CustomizableEdges = customizableEdges13;
+            yanPanel.CustomizableEdges = customizableEdges65;
             yanPanel.FillColor = Color.Black;
             yanPanel.ForeColor = Color.White;
             yanPanel.Location = new Point(6, 7);
             yanPanel.Name = "yanPanel";
-            yanPanel.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            yanPanel.ShadowDecoration.CustomizableEdges = customizableEdges66;
             yanPanel.Size = new Size(233, 801);
             yanPanel.TabIndex = 49;
             // 
@@ -450,7 +458,7 @@ namespace dershaneOtomasyonu
             btnDersBaslatmaPanel.BorderRadius = 25;
             btnDersBaslatmaPanel.BorderThickness = 1;
             btnDersBaslatmaPanel.Cursor = Cursors.Hand;
-            btnDersBaslatmaPanel.CustomizableEdges = customizableEdges1;
+            btnDersBaslatmaPanel.CustomizableEdges = customizableEdges53;
             btnDersBaslatmaPanel.DisabledState.BorderColor = Color.DarkGray;
             btnDersBaslatmaPanel.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDersBaslatmaPanel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -460,7 +468,7 @@ namespace dershaneOtomasyonu
             btnDersBaslatmaPanel.ForeColor = Color.White;
             btnDersBaslatmaPanel.Location = new Point(3, 483);
             btnDersBaslatmaPanel.Name = "btnDersBaslatmaPanel";
-            btnDersBaslatmaPanel.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnDersBaslatmaPanel.ShadowDecoration.CustomizableEdges = customizableEdges54;
             btnDersBaslatmaPanel.Size = new Size(227, 45);
             btnDersBaslatmaPanel.TabIndex = 25;
             btnDersBaslatmaPanel.Text = "Ders Oluştur";
@@ -472,7 +480,7 @@ namespace dershaneOtomasyonu
             btnSiniflarVeOgrenciler.BorderRadius = 25;
             btnSiniflarVeOgrenciler.BorderThickness = 1;
             btnSiniflarVeOgrenciler.Cursor = Cursors.Hand;
-            btnSiniflarVeOgrenciler.CustomizableEdges = customizableEdges3;
+            btnSiniflarVeOgrenciler.CustomizableEdges = customizableEdges55;
             btnSiniflarVeOgrenciler.DisabledState.BorderColor = Color.DarkGray;
             btnSiniflarVeOgrenciler.DisabledState.CustomBorderColor = Color.DarkGray;
             btnSiniflarVeOgrenciler.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -482,7 +490,7 @@ namespace dershaneOtomasyonu
             btnSiniflarVeOgrenciler.ForeColor = Color.White;
             btnSiniflarVeOgrenciler.Location = new Point(3, 415);
             btnSiniflarVeOgrenciler.Name = "btnSiniflarVeOgrenciler";
-            btnSiniflarVeOgrenciler.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            btnSiniflarVeOgrenciler.ShadowDecoration.CustomizableEdges = customizableEdges56;
             btnSiniflarVeOgrenciler.Size = new Size(227, 45);
             btnSiniflarVeOgrenciler.TabIndex = 24;
             btnSiniflarVeOgrenciler.Text = "Sınıflar ve Öğrenciler";
@@ -494,7 +502,7 @@ namespace dershaneOtomasyonu
             btnNotGondermePanel.BorderRadius = 25;
             btnNotGondermePanel.BorderThickness = 1;
             btnNotGondermePanel.Cursor = Cursors.Hand;
-            btnNotGondermePanel.CustomizableEdges = customizableEdges5;
+            btnNotGondermePanel.CustomizableEdges = customizableEdges57;
             btnNotGondermePanel.DisabledState.BorderColor = Color.DarkGray;
             btnNotGondermePanel.DisabledState.CustomBorderColor = Color.DarkGray;
             btnNotGondermePanel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -504,7 +512,7 @@ namespace dershaneOtomasyonu
             btnNotGondermePanel.ForeColor = Color.White;
             btnNotGondermePanel.Location = new Point(3, 279);
             btnNotGondermePanel.Name = "btnNotGondermePanel";
-            btnNotGondermePanel.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnNotGondermePanel.ShadowDecoration.CustomizableEdges = customizableEdges58;
             btnNotGondermePanel.Size = new Size(227, 45);
             btnNotGondermePanel.TabIndex = 23;
             btnNotGondermePanel.Text = "Ders Notu Gönderme";
@@ -516,7 +524,7 @@ namespace dershaneOtomasyonu
             btnRaporlamaPanel.BorderRadius = 25;
             btnRaporlamaPanel.BorderThickness = 1;
             btnRaporlamaPanel.Cursor = Cursors.Hand;
-            btnRaporlamaPanel.CustomizableEdges = customizableEdges7;
+            btnRaporlamaPanel.CustomizableEdges = customizableEdges59;
             btnRaporlamaPanel.DisabledState.BorderColor = Color.DarkGray;
             btnRaporlamaPanel.DisabledState.CustomBorderColor = Color.DarkGray;
             btnRaporlamaPanel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -526,7 +534,7 @@ namespace dershaneOtomasyonu
             btnRaporlamaPanel.ForeColor = Color.White;
             btnRaporlamaPanel.Location = new Point(3, 347);
             btnRaporlamaPanel.Name = "btnRaporlamaPanel";
-            btnRaporlamaPanel.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            btnRaporlamaPanel.ShadowDecoration.CustomizableEdges = customizableEdges60;
             btnRaporlamaPanel.Size = new Size(227, 45);
             btnRaporlamaPanel.TabIndex = 22;
             btnRaporlamaPanel.Text = "Öğrenci Başarı Durumu";
@@ -538,7 +546,7 @@ namespace dershaneOtomasyonu
             btnGorusmePanel.BorderRadius = 25;
             btnGorusmePanel.BorderThickness = 1;
             btnGorusmePanel.Cursor = Cursors.Hand;
-            btnGorusmePanel.CustomizableEdges = customizableEdges9;
+            btnGorusmePanel.CustomizableEdges = customizableEdges61;
             btnGorusmePanel.DisabledState.BorderColor = Color.DarkGray;
             btnGorusmePanel.DisabledState.CustomBorderColor = Color.DarkGray;
             btnGorusmePanel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -548,7 +556,7 @@ namespace dershaneOtomasyonu
             btnGorusmePanel.ForeColor = Color.White;
             btnGorusmePanel.Location = new Point(3, 551);
             btnGorusmePanel.Name = "btnGorusmePanel";
-            btnGorusmePanel.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnGorusmePanel.ShadowDecoration.CustomizableEdges = customizableEdges62;
             btnGorusmePanel.Size = new Size(227, 45);
             btnGorusmePanel.TabIndex = 21;
             btnGorusmePanel.Text = "Öğrenci Görüşme";
@@ -560,7 +568,7 @@ namespace dershaneOtomasyonu
             btnESinavPanel.BorderRadius = 25;
             btnESinavPanel.BorderThickness = 1;
             btnESinavPanel.Cursor = Cursors.Hand;
-            btnESinavPanel.CustomizableEdges = customizableEdges11;
+            btnESinavPanel.CustomizableEdges = customizableEdges63;
             btnESinavPanel.DisabledState.BorderColor = Color.DarkGray;
             btnESinavPanel.DisabledState.CustomBorderColor = Color.DarkGray;
             btnESinavPanel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -570,7 +578,7 @@ namespace dershaneOtomasyonu
             btnESinavPanel.ForeColor = Color.White;
             btnESinavPanel.Location = new Point(3, 619);
             btnESinavPanel.Name = "btnESinavPanel";
-            btnESinavPanel.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnESinavPanel.ShadowDecoration.CustomizableEdges = customizableEdges64;
             btnESinavPanel.Size = new Size(227, 45);
             btnESinavPanel.TabIndex = 20;
             btnESinavPanel.Text = "E-Sınav Sistemi";
@@ -595,10 +603,10 @@ namespace dershaneOtomasyonu
             ustPanel.BorderThickness = 1;
             ustPanel.Controls.Add(CikisYap);
             ustPanel.Controls.Add(label19);
-            ustPanel.CustomizableEdges = customizableEdges17;
+            ustPanel.CustomizableEdges = customizableEdges69;
             ustPanel.Location = new Point(245, 7);
             ustPanel.Name = "ustPanel";
-            ustPanel.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            ustPanel.ShadowDecoration.CustomizableEdges = customizableEdges70;
             ustPanel.Size = new Size(1244, 84);
             ustPanel.TabIndex = 48;
             // 
@@ -607,7 +615,7 @@ namespace dershaneOtomasyonu
             CikisYap.BorderRadius = 25;
             CikisYap.BorderThickness = 1;
             CikisYap.Cursor = Cursors.Hand;
-            CikisYap.CustomizableEdges = customizableEdges15;
+            CikisYap.CustomizableEdges = customizableEdges67;
             CikisYap.DisabledState.BorderColor = Color.DarkGray;
             CikisYap.DisabledState.CustomBorderColor = Color.DarkGray;
             CikisYap.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -617,7 +625,7 @@ namespace dershaneOtomasyonu
             CikisYap.ForeColor = Color.White;
             CikisYap.Location = new Point(1115, 19);
             CikisYap.Name = "CikisYap";
-            CikisYap.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            CikisYap.ShadowDecoration.CustomizableEdges = customizableEdges68;
             CikisYap.Size = new Size(108, 47);
             CikisYap.TabIndex = 21;
             CikisYap.Text = "Çıkış Yap";
@@ -646,17 +654,17 @@ namespace dershaneOtomasyonu
             panelDersNotuGonderme.Controls.Add(SiniflarDosyaDataGridView);
             panelDersNotuGonderme.Controls.Add(label4);
             panelDersNotuGonderme.Controls.Add(label3);
-            panelDersNotuGonderme.CustomizableEdges = customizableEdges23;
+            panelDersNotuGonderme.CustomizableEdges = customizableEdges75;
             panelDersNotuGonderme.Location = new Point(244, 102);
             panelDersNotuGonderme.Name = "panelDersNotuGonderme";
-            panelDersNotuGonderme.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            panelDersNotuGonderme.ShadowDecoration.CustomizableEdges = customizableEdges76;
             panelDersNotuGonderme.Size = new Size(1244, 706);
             panelDersNotuGonderme.TabIndex = 53;
             // 
             // btnYeniDosyaYukle
             // 
             btnYeniDosyaYukle.BorderRadius = 25;
-            btnYeniDosyaYukle.CustomizableEdges = customizableEdges19;
+            btnYeniDosyaYukle.CustomizableEdges = customizableEdges71;
             btnYeniDosyaYukle.DisabledState.BorderColor = Color.DarkGray;
             btnYeniDosyaYukle.DisabledState.CustomBorderColor = Color.DarkGray;
             btnYeniDosyaYukle.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -666,7 +674,7 @@ namespace dershaneOtomasyonu
             btnYeniDosyaYukle.ForeColor = Color.White;
             btnYeniDosyaYukle.Location = new Point(672, 632);
             btnYeniDosyaYukle.Name = "btnYeniDosyaYukle";
-            btnYeniDosyaYukle.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            btnYeniDosyaYukle.ShadowDecoration.CustomizableEdges = customizableEdges72;
             btnYeniDosyaYukle.Size = new Size(278, 45);
             btnYeniDosyaYukle.TabIndex = 41;
             btnYeniDosyaYukle.Text = "Yeni Dosya Yükle";
@@ -675,7 +683,7 @@ namespace dershaneOtomasyonu
             // btnSecimiTemizle
             // 
             btnSecimiTemizle.BorderRadius = 25;
-            btnSecimiTemizle.CustomizableEdges = customizableEdges21;
+            btnSecimiTemizle.CustomizableEdges = customizableEdges73;
             btnSecimiTemizle.DisabledState.BorderColor = Color.DarkGray;
             btnSecimiTemizle.DisabledState.CustomBorderColor = Color.DarkGray;
             btnSecimiTemizle.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -685,7 +693,7 @@ namespace dershaneOtomasyonu
             btnSecimiTemizle.ForeColor = Color.White;
             btnSecimiTemizle.Location = new Point(31, 632);
             btnSecimiTemizle.Name = "btnSecimiTemizle";
-            btnSecimiTemizle.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            btnSecimiTemizle.ShadowDecoration.CustomizableEdges = customizableEdges74;
             btnSecimiTemizle.Size = new Size(278, 45);
             btnSecimiTemizle.TabIndex = 40;
             btnSecimiTemizle.Text = "Seçimi Temizle";
@@ -721,10 +729,10 @@ namespace dershaneOtomasyonu
             panelRaporlama.Controls.Add(cbSiniflar);
             panelRaporlama.Controls.Add(label16);
             panelRaporlama.Controls.Add(label17);
-            panelRaporlama.CustomizableEdges = customizableEdges25;
+            panelRaporlama.CustomizableEdges = customizableEdges77;
             panelRaporlama.Location = new Point(244, 102);
             panelRaporlama.Name = "panelRaporlama";
-            panelRaporlama.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            panelRaporlama.ShadowDecoration.CustomizableEdges = customizableEdges78;
             panelRaporlama.Size = new Size(1244, 706);
             panelRaporlama.TabIndex = 54;
             // 
@@ -756,10 +764,10 @@ namespace dershaneOtomasyonu
             panelSiniflarVeOgrenciler.Controls.Add(siniflarDataGridView);
             panelSiniflarVeOgrenciler.Controls.Add(label32);
             panelSiniflarVeOgrenciler.Controls.Add(label33);
-            panelSiniflarVeOgrenciler.CustomizableEdges = customizableEdges27;
+            panelSiniflarVeOgrenciler.CustomizableEdges = customizableEdges79;
             panelSiniflarVeOgrenciler.Location = new Point(244, 102);
             panelSiniflarVeOgrenciler.Name = "panelSiniflarVeOgrenciler";
-            panelSiniflarVeOgrenciler.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            panelSiniflarVeOgrenciler.ShadowDecoration.CustomizableEdges = customizableEdges80;
             panelSiniflarVeOgrenciler.Size = new Size(1244, 706);
             panelSiniflarVeOgrenciler.TabIndex = 55;
             // 
@@ -796,10 +804,10 @@ namespace dershaneOtomasyonu
             panelDersBaslat.Controls.Add(label6);
             panelDersBaslat.Controls.Add(label5);
             panelDersBaslat.Controls.Add(label8);
-            panelDersBaslat.CustomizableEdges = customizableEdges33;
+            panelDersBaslat.CustomizableEdges = customizableEdges85;
             panelDersBaslat.Location = new Point(244, 102);
             panelDersBaslat.Name = "panelDersBaslat";
-            panelDersBaslat.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            panelDersBaslat.ShadowDecoration.CustomizableEdges = customizableEdges86;
             panelDersBaslat.Size = new Size(1244, 706);
             panelDersBaslat.TabIndex = 56;
             // 
@@ -817,7 +825,7 @@ namespace dershaneOtomasyonu
             // btnDersBaslat
             // 
             btnDersBaslat.BorderRadius = 25;
-            btnDersBaslat.CustomizableEdges = customizableEdges29;
+            btnDersBaslat.CustomizableEdges = customizableEdges81;
             btnDersBaslat.DisabledState.BorderColor = Color.DarkGray;
             btnDersBaslat.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDersBaslat.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -827,7 +835,7 @@ namespace dershaneOtomasyonu
             btnDersBaslat.ForeColor = Color.White;
             btnDersBaslat.Location = new Point(770, 560);
             btnDersBaslat.Name = "btnDersBaslat";
-            btnDersBaslat.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            btnDersBaslat.ShadowDecoration.CustomizableEdges = customizableEdges82;
             btnDersBaslat.Size = new Size(180, 45);
             btnDersBaslat.TabIndex = 43;
             btnDersBaslat.Text = "Dersi Başlat";
@@ -836,7 +844,7 @@ namespace dershaneOtomasyonu
             // btnDegerlendirmeYap
             // 
             btnDegerlendirmeYap.BorderRadius = 25;
-            btnDegerlendirmeYap.CustomizableEdges = customizableEdges31;
+            btnDegerlendirmeYap.CustomizableEdges = customizableEdges83;
             btnDegerlendirmeYap.DisabledState.BorderColor = Color.DarkGray;
             btnDegerlendirmeYap.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDegerlendirmeYap.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -846,7 +854,7 @@ namespace dershaneOtomasyonu
             btnDegerlendirmeYap.ForeColor = Color.White;
             btnDegerlendirmeYap.Location = new Point(731, 393);
             btnDegerlendirmeYap.Name = "btnDegerlendirmeYap";
-            btnDegerlendirmeYap.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            btnDegerlendirmeYap.ShadowDecoration.CustomizableEdges = customizableEdges84;
             btnDegerlendirmeYap.Size = new Size(180, 45);
             btnDegerlendirmeYap.TabIndex = 42;
             btnDegerlendirmeYap.Text = "Değerlendirme Yap";
@@ -894,17 +902,17 @@ namespace dershaneOtomasyonu
             panelGorusme.Controls.Add(label10);
             panelGorusme.Controls.Add(label9);
             panelGorusme.Controls.Add(label11);
-            panelGorusme.CustomizableEdges = customizableEdges37;
+            panelGorusme.CustomizableEdges = customizableEdges89;
             panelGorusme.Location = new Point(244, 102);
             panelGorusme.Name = "panelGorusme";
-            panelGorusme.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            panelGorusme.ShadowDecoration.CustomizableEdges = customizableEdges90;
             panelGorusme.Size = new Size(1244, 706);
             panelGorusme.TabIndex = 57;
             // 
             // btnGorusmeBaslat
             // 
             btnGorusmeBaslat.BorderRadius = 25;
-            btnGorusmeBaslat.CustomizableEdges = customizableEdges35;
+            btnGorusmeBaslat.CustomizableEdges = customizableEdges87;
             btnGorusmeBaslat.DisabledState.BorderColor = Color.DarkGray;
             btnGorusmeBaslat.DisabledState.CustomBorderColor = Color.DarkGray;
             btnGorusmeBaslat.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -914,7 +922,7 @@ namespace dershaneOtomasyonu
             btnGorusmeBaslat.ForeColor = Color.White;
             btnGorusmeBaslat.Location = new Point(524, 632);
             btnGorusmeBaslat.Name = "btnGorusmeBaslat";
-            btnGorusmeBaslat.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            btnGorusmeBaslat.ShadowDecoration.CustomizableEdges = customizableEdges88;
             btnGorusmeBaslat.Size = new Size(196, 45);
             btnGorusmeBaslat.TabIndex = 43;
             btnGorusmeBaslat.Text = "Görüşme Başlat";
@@ -953,14 +961,16 @@ namespace dershaneOtomasyonu
             panelESinav.BorderColor = Color.Black;
             panelESinav.BorderRadius = 25;
             panelESinav.BorderThickness = 1;
+            panelESinav.Controls.Add(guna2Panel3);
+            panelESinav.Controls.Add(btnKopyaSis);
             panelESinav.Controls.Add(guna2Panel2);
             panelESinav.Controls.Add(guna2Panel1);
             panelESinav.Controls.Add(btnSonucSis);
             panelESinav.Controls.Add(btnSinavSis);
-            panelESinav.CustomizableEdges = customizableEdges47;
+            panelESinav.CustomizableEdges = customizableEdges103;
             panelESinav.Location = new Point(244, 102);
             panelESinav.Name = "panelESinav";
-            panelESinav.ShadowDecoration.CustomizableEdges = customizableEdges48;
+            panelESinav.ShadowDecoration.CustomizableEdges = customizableEdges104;
             panelESinav.Size = new Size(1244, 706);
             panelESinav.TabIndex = 58;
             // 
@@ -970,10 +980,10 @@ namespace dershaneOtomasyonu
             guna2Panel2.BorderRadius = 25;
             guna2Panel2.BorderThickness = 1;
             guna2Panel2.Controls.Add(label2);
-            guna2Panel2.CustomizableEdges = customizableEdges39;
-            guna2Panel2.Location = new Point(675, 124);
+            guna2Panel2.CustomizableEdges = customizableEdges95;
+            guna2Panel2.Location = new Point(437, 132);
             guna2Panel2.Name = "guna2Panel2";
-            guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            guna2Panel2.ShadowDecoration.CustomizableEdges = customizableEdges96;
             guna2Panel2.Size = new Size(371, 369);
             guna2Panel2.TabIndex = 56;
             // 
@@ -992,10 +1002,10 @@ namespace dershaneOtomasyonu
             guna2Panel1.BorderRadius = 25;
             guna2Panel1.BorderThickness = 1;
             guna2Panel1.Controls.Add(label20);
-            guna2Panel1.CustomizableEdges = customizableEdges41;
-            guna2Panel1.Location = new Point(152, 120);
+            guna2Panel1.CustomizableEdges = customizableEdges97;
+            guna2Panel1.Location = new Point(20, 127);
             guna2Panel1.Name = "guna2Panel1";
-            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges98;
             guna2Panel1.Size = new Size(371, 373);
             guna2Panel1.TabIndex = 55;
             // 
@@ -1012,7 +1022,7 @@ namespace dershaneOtomasyonu
             // 
             btnSonucSis.BackColor = Color.Transparent;
             btnSonucSis.BorderRadius = 25;
-            btnSonucSis.CustomizableEdges = customizableEdges43;
+            btnSonucSis.CustomizableEdges = customizableEdges99;
             btnSonucSis.DisabledState.BorderColor = Color.DarkGray;
             btnSonucSis.DisabledState.CustomBorderColor = Color.DarkGray;
             btnSonucSis.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1020,9 +1030,9 @@ namespace dershaneOtomasyonu
             btnSonucSis.FillColor = Color.Black;
             btnSonucSis.Font = new Font("Source Sans Pro", 9.75F);
             btnSonucSis.ForeColor = Color.White;
-            btnSonucSis.Location = new Point(770, 524);
+            btnSonucSis.Location = new Point(530, 532);
             btnSonucSis.Name = "btnSonucSis";
-            btnSonucSis.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            btnSonucSis.ShadowDecoration.CustomizableEdges = customizableEdges100;
             btnSonucSis.Size = new Size(180, 45);
             btnSonucSis.TabIndex = 40;
             btnSonucSis.Text = "Sonuçları Görüntüleme";
@@ -1032,7 +1042,7 @@ namespace dershaneOtomasyonu
             // 
             btnSinavSis.BackColor = Color.Transparent;
             btnSinavSis.BorderRadius = 25;
-            btnSinavSis.CustomizableEdges = customizableEdges45;
+            btnSinavSis.CustomizableEdges = customizableEdges101;
             btnSinavSis.DisabledState.BorderColor = Color.DarkGray;
             btnSinavSis.DisabledState.CustomBorderColor = Color.DarkGray;
             btnSinavSis.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1040,12 +1050,53 @@ namespace dershaneOtomasyonu
             btnSinavSis.FillColor = Color.Black;
             btnSinavSis.Font = new Font("Source Sans Pro", 9.75F);
             btnSinavSis.ForeColor = Color.White;
-            btnSinavSis.Location = new Point(249, 524);
+            btnSinavSis.Location = new Point(117, 531);
             btnSinavSis.Name = "btnSinavSis";
-            btnSinavSis.ShadowDecoration.CustomizableEdges = customizableEdges46;
+            btnSinavSis.ShadowDecoration.CustomizableEdges = customizableEdges102;
             btnSinavSis.Size = new Size(180, 45);
             btnSinavSis.TabIndex = 39;
             btnSinavSis.Text = "Sınav Gönderme";
+            // 
+            // guna2Panel3
+            // 
+            guna2Panel3.BorderColor = Color.Black;
+            guna2Panel3.BorderRadius = 25;
+            guna2Panel3.BorderThickness = 1;
+            guna2Panel3.Controls.Add(label21);
+            guna2Panel3.CustomizableEdges = customizableEdges91;
+            guna2Panel3.Location = new Point(854, 132);
+            guna2Panel3.Name = "guna2Panel3";
+            guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges92;
+            guna2Panel3.Size = new Size(371, 369);
+            guna2Panel3.TabIndex = 58;
+            // 
+            // label21
+            // 
+            label21.Font = new Font("Source Sans Pro", 14.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label21.Location = new Point(32, 56);
+            label21.Name = "label21";
+            label21.Size = new Size(307, 272);
+            label21.TabIndex = 1;
+            label21.Text = resources.GetString("label21.Text");
+            // 
+            // btnKopyaSis
+            // 
+            btnKopyaSis.BackColor = Color.Transparent;
+            btnKopyaSis.BorderRadius = 25;
+            btnKopyaSis.CustomizableEdges = customizableEdges93;
+            btnKopyaSis.DisabledState.BorderColor = Color.DarkGray;
+            btnKopyaSis.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnKopyaSis.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnKopyaSis.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnKopyaSis.FillColor = Color.Black;
+            btnKopyaSis.Font = new Font("Source Sans Pro", 9.75F);
+            btnKopyaSis.ForeColor = Color.White;
+            btnKopyaSis.Location = new Point(949, 532);
+            btnKopyaSis.Name = "btnKopyaSis";
+            btnKopyaSis.ShadowDecoration.CustomizableEdges = customizableEdges94;
+            btnKopyaSis.Size = new Size(180, 45);
+            btnKopyaSis.TabIndex = 57;
+            btnKopyaSis.Text = "Kopyaları Görüntüleme";
             // 
             // PersonelEkrani
             // 
@@ -1101,6 +1152,7 @@ namespace dershaneOtomasyonu
             panelESinav.ResumeLayout(false);
             guna2Panel2.ResumeLayout(false);
             guna2Panel1.ResumeLayout(false);
+            guna2Panel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1172,5 +1224,8 @@ namespace dershaneOtomasyonu
         private Label label2;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Label label20;
+        private Guna.UI2.WinForms.Guna2Panel guna2Panel3;
+        private Label label21;
+        private Guna.UI2.WinForms.Guna2Button btnKopyaSis;
     }
 }
