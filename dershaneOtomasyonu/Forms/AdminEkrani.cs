@@ -586,5 +586,10 @@ namespace dershaneOtomasyonu
         {
             TogglePanel(panelESinav);
         }
+
+        private void btnKopyaSisGiris_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

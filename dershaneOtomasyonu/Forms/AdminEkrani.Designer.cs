@@ -1713,6 +1713,7 @@
             btnKopyaSisGiris.Size = new Size(180, 45);
             btnKopyaSisGiris.TabIndex = 40;
             btnKopyaSisGiris.Text = "Kopya Bilgileri";
+            btnKopyaSisGiris.Click += btnKopyaSisGiris_Click;
             // 
             // btnSonucSisGiris
             // 

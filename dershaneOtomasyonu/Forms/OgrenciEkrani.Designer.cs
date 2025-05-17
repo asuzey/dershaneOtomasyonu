@@ -28,9 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OgrenciEkrani));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
@@ -69,7 +66,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            DosyaDataGridView = new Bunifu.UI.WinForms.BunifuDataGridView();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             txtKarsilama = new Label();
             kullaniciadogr = new Label();
             logo = new PictureBox();
@@ -107,7 +105,8 @@
             panelESinav = new Guna.UI2.WinForms.Guna2Panel();
             label1 = new Label();
             btnSistemeGir = new Guna.UI2.WinForms.Guna2Button();
-            ((System.ComponentModel.ISupportInitialize)DosyaDataGridView).BeginInit();
+            panelDersNotlari = new Guna.UI2.WinForms.Guna2Panel();
+            DosyaDataGridView = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)logo).BeginInit();
             ((System.ComponentModel.ISupportInitialize)chart1).BeginInit();
             yanPanel.SuspendLayout();
@@ -119,69 +118,9 @@
             ((System.ComponentModel.ISupportInitialize)aktifGorusmelerGridView).BeginInit();
             panelBilgilerim.SuspendLayout();
             panelESinav.SuspendLayout();
+            panelDersNotlari.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)DosyaDataGridView).BeginInit();
             SuspendLayout();
-            // 
-            // DosyaDataGridView
-            // 
-            DosyaDataGridView.AllowCustomTheming = false;
-            DosyaDataGridView.AllowUserToAddRows = false;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 251, 255);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            DosyaDataGridView.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            DosyaDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            DosyaDataGridView.BorderStyle = BorderStyle.None;
-            DosyaDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            DosyaDataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.DodgerBlue;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(24, 115, 204);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            DosyaDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            DosyaDataGridView.ColumnHeadersHeight = 40;
-            DosyaDataGridView.CurrentTheme.AlternatingRowsStyle.BackColor = Color.FromArgb(248, 251, 255);
-            DosyaDataGridView.CurrentTheme.AlternatingRowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            DosyaDataGridView.CurrentTheme.AlternatingRowsStyle.ForeColor = Color.Black;
-            DosyaDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
-            DosyaDataGridView.CurrentTheme.AlternatingRowsStyle.SelectionForeColor = Color.Black;
-            DosyaDataGridView.CurrentTheme.BackColor = Color.White;
-            DosyaDataGridView.CurrentTheme.GridColor = Color.FromArgb(221, 238, 255);
-            DosyaDataGridView.CurrentTheme.HeaderStyle.BackColor = Color.DodgerBlue;
-            DosyaDataGridView.CurrentTheme.HeaderStyle.Font = new Font("Segoe UI Semibold", 11.75F, FontStyle.Bold);
-            DosyaDataGridView.CurrentTheme.HeaderStyle.ForeColor = Color.White;
-            DosyaDataGridView.CurrentTheme.HeaderStyle.SelectionBackColor = Color.FromArgb(24, 115, 204);
-            DosyaDataGridView.CurrentTheme.HeaderStyle.SelectionForeColor = Color.White;
-            DosyaDataGridView.CurrentTheme.Name = null;
-            DosyaDataGridView.CurrentTheme.RowsStyle.BackColor = Color.White;
-            DosyaDataGridView.CurrentTheme.RowsStyle.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            DosyaDataGridView.CurrentTheme.RowsStyle.ForeColor = Color.Black;
-            DosyaDataGridView.CurrentTheme.RowsStyle.SelectionBackColor = Color.FromArgb(210, 232, 255);
-            DosyaDataGridView.CurrentTheme.RowsStyle.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.Black;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(210, 232, 255);
-            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            DosyaDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
-            DosyaDataGridView.EnableHeadersVisualStyles = false;
-            DosyaDataGridView.GridColor = Color.FromArgb(221, 238, 255);
-            DosyaDataGridView.HeaderBackColor = Color.DodgerBlue;
-            DosyaDataGridView.HeaderBgColor = Color.Empty;
-            DosyaDataGridView.HeaderForeColor = Color.White;
-            DosyaDataGridView.Location = new Point(53, 42);
-            DosyaDataGridView.Name = "DosyaDataGridView";
-            DosyaDataGridView.ReadOnly = true;
-            DosyaDataGridView.RowHeadersVisible = false;
-            DosyaDataGridView.RowTemplate.Height = 40;
-            DosyaDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            DosyaDataGridView.Size = new Size(959, 556);
-            DosyaDataGridView.TabIndex = 34;
-            DosyaDataGridView.Theme = Bunifu.UI.WinForms.BunifuDataGridView.PresetThemes.Light;
-            DosyaDataGridView.CellClick += DosyaDataGridView_CellClick;
             // 
             // txtKarsilama
             // 
@@ -201,7 +140,7 @@
             kullaniciadogr.BackColor = Color.Transparent;
             kullaniciadogr.Font = new Font("Century Gothic", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 162);
             kullaniciadogr.ForeColor = Color.White;
-            kullaniciadogr.Location = new Point(39, 188);
+            kullaniciadogr.Location = new Point(59, 186);
             kullaniciadogr.Name = "kullaniciadogr";
             kullaniciadogr.Size = new Size(0, 20);
             kullaniciadogr.TabIndex = 19;
@@ -731,12 +670,37 @@
             btnSistemeGir.Text = "Sisteme Gir";
             btnSistemeGir.Click += btnSistemeGir_Click;
             // 
+            // panelDersNotlari
+            // 
+            panelDersNotlari.BorderColor = Color.Black;
+            panelDersNotlari.BorderRadius = 25;
+            panelDersNotlari.BorderThickness = 1;
+            panelDersNotlari.Controls.Add(DosyaDataGridView);
+            panelDersNotlari.CustomizableEdges = customizableEdges35;
+            panelDersNotlari.Location = new Point(244, 102);
+            panelDersNotlari.Name = "panelDersNotlari";
+            panelDersNotlari.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            panelDersNotlari.Size = new Size(1244, 706);
+            panelDersNotlari.TabIndex = 58;
+            // 
+            // DosyaDataGridView
+            // 
+            DosyaDataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DosyaDataGridView.BackgroundColor = SystemColors.ButtonHighlight;
+            DosyaDataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            DosyaDataGridView.Location = new Point(67, 35);
+            DosyaDataGridView.Name = "DosyaDataGridView";
+            DosyaDataGridView.Size = new Size(1120, 643);
+            DosyaDataGridView.TabIndex = 0;
+            DosyaDataGridView.CellClick += DosyaDataGridView_CellClick;
+            // 
             // OgrenciEkrani
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1494, 811);
+            Controls.Add(panelDersNotlari);
             Controls.Add(panelESinav);
             Controls.Add(panelSinifGrubu);
             Controls.Add(panelNotlarim);
@@ -756,7 +720,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Öğrenci Ekranı";
             Load += OgrenciEkrani_Load;
-            ((System.ComponentModel.ISupportInitialize)DosyaDataGridView).EndInit();
             ((System.ComponentModel.ISupportInitialize)logo).EndInit();
             ((System.ComponentModel.ISupportInitialize)chart1).EndInit();
             yanPanel.ResumeLayout(false);
@@ -773,13 +736,14 @@
             ((System.ComponentModel.ISupportInitialize)aktifGorusmelerGridView).EndInit();
             panelBilgilerim.ResumeLayout(false);
             panelESinav.ResumeLayout(false);
+            panelDersNotlari.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)DosyaDataGridView).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        //private Bunifu.UI.WinForms.BunifuPanel panelDersNotlari;
         private Button CikisYap;
         private PictureBox logo;
         private Label kullaniciadogr;
@@ -788,17 +752,14 @@
         private Label label3;
         private Label label4;
         private Label label5;
-        private Bunifu.UI.WinForms.BunifuDataGridView DosyaDataGridView;
+        //private Bunifu.UI.WinForms.BunifuDataGridView DosyaDataGridView;
         private RichTextBox OgrenciNotRichTextBox;
         private Label label6;
         private TextBox txtDosyaAdi;
         private Button btnKaydet;
         private Label label8;
-        //private Bunifu.UI.WinForms.BunifuPanel panelGorusme1;
         private Label label9;
-        //private Bunifu.UI.WinForms.BunifuButton.BunifuButton2 BtnGorusmeKatil1;
         private Label label7;
-        //private Bunifu.UI.WinForms.BunifuDataGridView AktifGorusmelerGridView1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private Guna.UI2.WinForms.Guna2Panel yanPanel;
         private Guna.UI2.WinForms.Guna2Button btnGorusmePanel;
@@ -822,5 +783,7 @@
         private Guna.UI2.WinForms.Guna2Panel panelESinav;
         private Guna.UI2.WinForms.Guna2Button btnSistemeGir;
         private Label label1;
+        private Guna.UI2.WinForms.Guna2Panel panelDersNotlari;
+        private DataGridView DosyaDataGridView;
     }
 }

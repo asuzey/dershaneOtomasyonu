@@ -238,10 +238,6 @@ namespace dershaneOtomasyonu.Database
 
 
 
-
-
-
-
             base.OnModelCreating(modelBuilder);
         }
     }

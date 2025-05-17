@@ -1,4 +1,4 @@
-using dershaneOtomasyonu.Database;
+ï»¿using dershaneOtomasyonu.Database;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
 using dershaneOtomasyonu.Repositories;
@@ -41,7 +41,7 @@ namespace dershaneOtomasyonu
         [STAThread]
         static void Main()
         {
-            LoadFonts(); // fontları uygulama başlarken yükle
+            LoadFonts(); // fontlarÄ± uygulama baÅŸlarken yÃ¼kle
 
             // Global Exception Handling
             Application.ThreadException += Application_ThreadException;
@@ -49,6 +49,14 @@ namespace dershaneOtomasyonu
 
             var services = ConfigureServices();
             var serviceProvider = services.BuildServiceProvider();
+
+            // â—â— VERÄ°TABANI SEEDLEME KISMI â—â—
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                DershaneInitializer.Seed(context); // â¬…ï¸ burada gÃ¶mÃ¼lÃ¼ veriler oluÅŸur
+            }
+
             _logger = serviceProvider.GetRequiredService<ILogger>();
             StartLogThread(_logger);
             ApplicationConfiguration.Initialize();
@@ -67,19 +75,19 @@ namespace dershaneOtomasyonu
                         // Kuyruktan bir hata al
                         if (_exceptionQueue.TryTake(out var exception, Timeout.Infinite))
                         {
-                            // Hata loglama işlemini yap
+                            // Hata loglama iÅŸlemini yap
                             logger.Error("Exception", exception).Wait();
                         }
                     }
                     catch (Exception ex)
                     {
-                        // Loglama sırasında bir hata oluşursa konsola yaz
-                        Console.WriteLine($"Log thread hatası: {ex.Message}");
+                        // Loglama sÄ±rasÄ±nda bir hata oluÅŸursa konsola yaz
+                        Console.WriteLine($"Log thread hatasÄ±: {ex.Message}");
                     }
                 }
             })
             {
-                IsBackground = true // Uygulama kapanırken otomatik olarak durdurulması için arka plan thread'i
+                IsBackground = true // Uygulama kapanÄ±rken otomatik olarak durdurulmasÄ± iÃ§in arka plan thread'i
             };
             _logThread.Start();
         }
@@ -88,7 +96,7 @@ namespace dershaneOtomasyonu
         {
             var services = new ServiceCollection();
 
-            // DbContext yapılandırması (connection string ekleyin)
+            // DbContext yapÄ±landÄ±rmasÄ± (connection string ekleyin)
             var connectionString = ConfigurationManager.ConnectionStrings["DershaneDB"].ConnectionString;
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -166,7 +174,7 @@ namespace dershaneOtomasyonu
                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
                 {
                     if (stream == null)
-                        throw new Exception($"Font bulunamadı: {resourceName}");
+                        throw new Exception($"Font bulunamadÄ±: {resourceName}");
 
                     byte[] fontData = new byte[stream.Length];
                     stream.Read(fontData, 0, (int)stream.Length);
@@ -178,7 +186,7 @@ namespace dershaneOtomasyonu
                 }
             }
 
-            // Örnek: varsayılan fontu uygula
+            // Ã–rnek: varsayÄ±lan fontu uygula
             Application.SetDefaultFont(new Font(fontCollection.Families[0], 10f));
         }
     }

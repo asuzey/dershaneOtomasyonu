@@ -93,7 +93,7 @@ namespace dershaneOtomasyonu
             _notRepository = notRepository;
             _yoklamaRepository = yoklamaRepository;
             _fileService = new FileService();
-            panels = [/*panelDersNotlari,*/ panelNotlarim, panelSinifGrubu, panelGorusme, panelBilgilerim, panelESinav];
+            panels = [panelDersNotlari, panelNotlarim, panelSinifGrubu, panelGorusme, panelBilgilerim, panelESinav];
 
         }
 
@@ -154,7 +154,7 @@ namespace dershaneOtomasyonu
 
         private void btnDersNotlari_Click(object sender, EventArgs e)
         {
-            //TogglePanel(panelDersNotlari);
+            TogglePanel(panelDersNotlari);
             InitializeDataGridView();
             RefreshFileList();
         }
