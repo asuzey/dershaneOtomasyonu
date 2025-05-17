@@ -83,4 +83,11 @@
     <Folder Include="Migrations\" />
   </ItemGroup>
 
+  <ItemGroup>
+  	<Content Include="Resources\Fonts\*.otf">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  	</Content>
+  </ItemGroup>
+
+
 </Project>

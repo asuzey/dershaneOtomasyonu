@@ -1,4 +1,5 @@
 ﻿using dershaneOtomasyonu.Database.Tables;
+using dershaneOtomasyonu.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -16,6 +17,7 @@ namespace dershaneOtomasyonu.Forms
         public MessageCard(Kullanici kullanici, string message, DateTime date, bool isOwnMessage)
         {
             InitializeComponent();
+            GlobalFontHelper.ApplySourceSansToAllControls(this); // Dinamik tüm kontroller
             _kullanici = kullanici;
             _message = message;
             _date = date;
@@ -93,6 +95,9 @@ namespace dershaneOtomasyonu.Forms
             }
         }
 
+        private void MessageCard_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }

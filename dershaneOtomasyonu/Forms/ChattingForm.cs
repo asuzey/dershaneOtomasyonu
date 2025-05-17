@@ -36,6 +36,7 @@ namespace dershaneOtomasyonu.Forms
             IYoklamaRepository yoklamaRepository)
         {
             InitializeComponent();
+            GlobalFontHelper.ApplySourceSansToAllControls(this); // Dinamik tüm kontroller
             _newDersKayit = newDersKayit;
             _webSocketClient = new WebSocketClient();
             _dersKayitRepository = dersKayitRepository;

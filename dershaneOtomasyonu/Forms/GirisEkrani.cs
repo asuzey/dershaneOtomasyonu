@@ -56,6 +56,7 @@ namespace dershaneOtomasyonu
 
         {
             InitializeComponent();
+            GlobalFontHelper.ApplySourceSansToAllControls(this); // Dinamik tüm kontroller
             _kullaniciRepository = kullaniciRepository;
             _roleRepository = roleRepository;
             _logger = logger;

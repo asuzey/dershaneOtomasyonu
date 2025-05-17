@@ -1,5 +1,6 @@
 ﻿using Bunifu.UI.WinForms;
 using dershaneOtomasyonu.Database.Tables;
+using dershaneOtomasyonu.Forms;
 using dershaneOtomasyonu.Helpers;
 using dershaneOtomasyonu.Repositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
@@ -8,26 +9,27 @@ using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
 using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
+using Guna.UI2.WinForms;
+using Newtonsoft.Json;
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
-using dershaneOtomasyonu.Forms;
-using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
 using System.Windows.Forms.DataVisualization.Charting;
-using Guna.UI2.WinForms;
 
 namespace dershaneOtomasyonu
 {
@@ -73,6 +75,7 @@ namespace dershaneOtomasyonu
 
         {
             InitializeComponent();
+            GlobalFontHelper.ApplySourceSansToAllControls(this); // Dinamik tüm kontroller
             _kullaniciRepository = kullaniciRepository;
             _roleRepository = roleRepository;
             _logger = logger;
@@ -510,9 +513,106 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private void btnSistemeGir_Click(object sender, EventArgs e)
+        private async void btnSistemeGir_Click(object sender, EventArgs e)
         {
+            var kullanici = GlobalData.Kullanici;
+            if (kullanici == null)
+            {
+                MessageBox.Show("Kullanıcı verisi alınamadı.");
+                return;
+            }
 
+            string kullaniciAdi = kullanici.KullaniciAdi;
+            string tcNo = kullanici.Tcno;
+            string klasorYolu = $@"C:\Users\Public\FileServer\YuzTanima\{kullaniciAdi}";
+
+            // 1. Yüz klasörü kontrolü
+            if (!Directory.Exists(klasorYolu))
+            {
+                // Yüz verisi yoksa önce yüz kaydı başlat
+                bool kayitBasarili = await PythonCalistirAsync("yuzKayit.py", $"{tcNo} \"{kullaniciAdi}\"");
+                if (!kayitBasarili)
+                {
+                    MessageBox.Show("Yüz kaydı başarısız.");
+                    return;
+                }
+            }
+
+            // 2. Yüz tanıma çalıştır
+            bool tanimaBasarili = await PythonCalistirAsync("yuzTanima.py", $"{tcNo} \"{kullaniciAdi}\"");
+            if (!tanimaBasarili)
+            {
+                MessageBox.Show("Yüz tanıma başarısız.");
+                return;
+            }
+
+            // 3. e-Sınav uygulamasını çalıştır
+            string jsonData = JsonConvert.SerializeObject(new
+            {
+                kullanici.Id,
+                kullanici.KullaniciAdi,
+                kullanici.Sifre,
+                kullanici.RoleId,
+                kullanici.SinifId,
+                kullanici.Adi,
+                kullanici.Soyadi,
+                kullanici.Tcno,
+                kullanici.DogumTarihi,
+                kullanici.Telefon,
+                kullanici.Email,
+                kullanici.Adres
+            });
+
+            await PythonCalistirAsync("esinav.py", $"\"{jsonData}\"");
+        }
+
+        private async Task<bool> PythonCalistirAsync(string scriptAdi, string args)
+        {
+            try
+            {
+                var psi = new ProcessStartInfo
+                {
+                    FileName = "python",
+                    Arguments = $"\"C:\\Users\\asuze\\Source\\Repos\\dershaneOtomasyonu\\dershaneOtomasyonu\\PythonScripts\\{scriptAdi}\" {args}",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true
+                };
+
+                using (var process = Process.Start(psi))
+                {
+                    string output = await process.StandardOutput.ReadToEndAsync();
+                    string error = await process.StandardError.ReadToEndAsync();
+                    await process.WaitForExitAsync();
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        MessageBox.Show($"Python hatası ({scriptAdi}): {error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+
+                    if (scriptAdi == "yuzTanima.py")
+                    {
+                        if (output.Contains("Giris Basarili"))
+                        {
+                            return true;
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Yüz tanıma başarısız. Çıktı: {output}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Python çalıştırma hatası: {ex.Message}");
+                return false;
+            }
         }
 
         private void btnESinavPanel_Click(object sender, EventArgs e)

@@ -67,6 +67,7 @@
             Controls.Add(label2);
             Name = "MessageCard";
             Size = new Size(614, 82);
+            Load += MessageCard_Load;
             ResumeLayout(false);
             PerformLayout();
         }
