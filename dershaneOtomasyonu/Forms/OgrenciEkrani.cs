@@ -523,14 +523,12 @@ namespace dershaneOtomasyonu
             }
 
             string kullaniciAdi = kullanici.KullaniciAdi;
-            string tcNo = kullanici.Tcno;
-            string klasorYolu = $@"C:\Users\Public\FileServer\YuzTanima\{kullaniciAdi}";
+            string klasorYolu = $@"C:\Users\Public\FileServer\YuzVerileri\{kullaniciAdi}";
 
             // 1. Yüz klasörü kontrolü
-            if (!Directory.Exists(klasorYolu))
+            if (!Directory.Exists(klasorYolu) || Directory.GetFiles(klasorYolu, "yuz_*.jpg").Length < 5)
             {
-                // Yüz verisi yoksa önce yüz kaydı başlat
-                bool kayitBasarili = await PythonCalistirAsync("yuzKayit.py", $"{tcNo} \"{kullaniciAdi}\"");
+                bool kayitBasarili = await PythonCalistirAsync("yuzKayit.py", $"\"{kullaniciAdi}\"");
                 if (!kayitBasarili)
                 {
                     MessageBox.Show("Yüz kaydı başarısız.");
@@ -539,7 +537,7 @@ namespace dershaneOtomasyonu
             }
 
             // 2. Yüz tanıma çalıştır
-            bool tanimaBasarili = await PythonCalistirAsync("yuzTanima.py", $"{tcNo} \"{kullaniciAdi}\"");
+            bool tanimaBasarili = await PythonCalistirAsync("yuzTanima.py", $"\"{kullaniciAdi}\"");
             if (!tanimaBasarili)
             {
                 MessageBox.Show("Yüz tanıma başarısız.");
@@ -563,17 +561,21 @@ namespace dershaneOtomasyonu
                 kullanici.Adres
             });
 
-            await PythonCalistirAsync("esinav.py", $"\"{jsonData}\"");
+            await PythonCalistirAsync("ogrenciESinav.py", $"\"{jsonData}\"");
         }
 
         private async Task<bool> PythonCalistirAsync(string scriptAdi, string args)
         {
             try
             {
+                // Dinamik script yolu (proje dizinine göre)
+                string projeKlasoru = AppDomain.CurrentDomain.BaseDirectory;
+                string scriptYolu = Path.Combine(projeKlasoru, "PythonScripts", scriptAdi);
+
                 var psi = new ProcessStartInfo
                 {
                     FileName = "python",
-                    Arguments = $"\"C:\\Users\\asuze\\Source\\Repos\\dershaneOtomasyonu\\dershaneOtomasyonu\\PythonScripts\\{scriptAdi}\" {args}",
+                    Arguments = $"\"{scriptYolu}\" {args}",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -592,17 +594,10 @@ namespace dershaneOtomasyonu
                         return false;
                     }
 
-                    if (scriptAdi == "yuzTanima.py")
+                    if (scriptAdi == "yuzTanima.py" && !output.Contains("Giris Basarili"))
                     {
-                        if (output.Contains("Giris Basarili"))
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            MessageBox.Show($"Yüz tanıma başarısız. Çıktı: {output}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return false;
-                        }
+                        MessageBox.Show($"Yüz tanıma başarısız. Çıktı: {output}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
                     }
                 }
 

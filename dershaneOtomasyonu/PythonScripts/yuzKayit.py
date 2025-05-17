@@ -50,11 +50,11 @@ def dosya_kaydi_ekle(file_name, file_path, kullanici_id):
     except Exception as e:
         print("Dosya ekleme hatası:", e)
 
-def get_kullanici_bilgisi(tcno):
+def get_kullanici_bilgisi(kullaniciAdi):
     try:
         conn = pyodbc.connect(SQL_BAGLANTI)
         cursor = conn.cursor()
-        cursor.execute("SELECT Adi, Soyadi FROM Kullanicilar WHERE Tcno = ?", tcno)
+        cursor.execute("SELECT Adi, Soyadi FROM Kullanicilar WHERE KullaniciAdi = ?", kullaniciAdi)
         result = cursor.fetchone()
         conn.close()
         if result:
