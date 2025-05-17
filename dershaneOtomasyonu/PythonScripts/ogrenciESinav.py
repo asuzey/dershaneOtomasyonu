@@ -1,3 +1,4 @@
+ï»¿# -*- coding: utf-8 -*-
 import tkinter as tk
 from tkinter import ttk, messagebox
 from tkinter.font import Font
@@ -10,7 +11,7 @@ import threading
 import json
 import logging
 
-# DPI ayarları
+# DPI ayarlarÄ±
 windll.shcore.SetProcessDpiAwareness(1)
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -19,7 +20,7 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 
 
 def get_db_connection():
-    server = r'DESKTOP-DMG34IC\SQLEXPRESS'
+    server = r'localhost\SQLEXPRESS'
     database = 'DERSHANE'
     return pyodbc.connect(
         f'DRIVER={{ODBC Driver 17 for SQL Server}};'
@@ -30,7 +31,7 @@ def get_db_connection():
 
 
 def save_to_json(data, filename='quiz_results.json'):
-    # StringVar gibi serileştirilemeyen objeleri dönüştür
+    # StringVar gibi serileÅŸtirilemeyen objeleri dÃ¶nÃ¼ÅŸtÃ¼r
     def serialize(obj):
         if isinstance(obj, tk.StringVar):
             return obj.get()
@@ -77,10 +78,10 @@ class ThemeManager:
         self.current = "light"
         self._style = ttk.Style()
         self._configure_base_styles()
-        self._is_generating_questions = False  # Soru oluşturma durumunu takip etmek için
+        self._is_generating_questions = False  # Soru oluÅŸturma durumunu takip etmek iÃ§in
 
     def _configure_base_styles(self):
-        """Temel stil ayarlarını yapılandır"""
+        """Temel stil ayarlarÄ±nÄ± yapÄ±landÄ±r"""
         self._style.configure(".", font=('Segoe UI', 10))
         self._style.configure("TFrame", background=THEMES[self.current]['bg'])
         self._style.configure("TLabel",
@@ -89,25 +90,25 @@ class ThemeManager:
                               font=('Segoe UI', 10))
 
     def apply(self, theme_name: str) -> None:
-        """Tema değişikliğini uygula"""
+        """Tema deÄŸiÅŸikliÄŸini uygula"""
         if theme_name not in THEMES:
-            logging.error(f"Geçersiz tema: {theme_name}")
+            logging.error(f"GeÃ§ersiz tema: {theme_name}")
             return
 
         try:
-            # Soru oluşturma durumunu kontrol et
+            # Soru oluÅŸturma durumunu kontrol et
             if hasattr(self.app, 'generating') and self.app.generating:
                 self._is_generating_questions = True
-                logging.info("Soru oluşturma sırasında tema değişikliği yapılıyor")
+                logging.info("Soru oluÅŸturma sÄ±rasÄ±nda tema deÄŸiÅŸikliÄŸi yapÄ±lÄ±yor")
                 return
 
             self.current = theme_name
             theme = THEMES[theme_name]
 
-            # Ana pencere temasını güncelle
+            # Ana pencere temasÄ±nÄ± gÃ¼ncelle
             self.app.root.configure(bg=theme['bg'])
 
-            # Temel stilleri güncelle
+            # Temel stilleri gÃ¼ncelle
             self._configure_base_styles()
 
             # Buton stilleri
@@ -144,7 +145,7 @@ class ThemeManager:
                                 ('selected', theme['accent'])
                             ])
 
-            # Diğer widget stilleri
+            # DiÄŸer widget stilleri
             self._style.configure("TLabelframe",
                                   background=theme['bg'],
                                   foreground=theme['fg'])
@@ -168,23 +169,23 @@ class ThemeManager:
                                   background=theme['accent'],
                                   foreground=theme['bg'])
 
-            # Mevcut ekranı yenile
+            # Mevcut ekranÄ± yenile
             if hasattr(self.app, 'current_screen'):
                 self._refresh_current_screen()
 
-            # Özel stilleri güncelle
+            # Ã–zel stilleri gÃ¼ncelle
             self.app.configure_styles()
 
-            logging.info(f"Tema başarıyla değiştirildi: {theme_name}")
+            logging.info(f"Tema baÅŸarÄ±yla deÄŸiÅŸtirildi: {theme_name}")
 
         except Exception as e:
-            logging.error(f"Tema değiştirme hatası: {str(e)}")
-            messagebox.showerror("Hata", "Tema değiştirilirken bir hata oluştu.")
+            logging.error(f"Tema deÄŸiÅŸtirme hatasÄ±: {str(e)}")
+            messagebox.showerror("Hata", "Tema deÄŸiÅŸtirilirken bir hata oluÅŸtu.")
 
     def _refresh_current_screen(self) -> None:
-        """Mevcut ekranı yenile"""
+        """Mevcut ekranÄ± yenile"""
         try:
-            # Eğer soru oluşturuluyorsa ekranı yenileme
+            # EÄŸer soru oluÅŸturuluyorsa ekranÄ± yenileme
             if self._is_generating_questions:
                 return
 
@@ -203,11 +204,11 @@ class ThemeManager:
                 self.app.show_test_setup()
 
         except Exception as e:
-            logging.error(f"Ekran yenileme hatası: {str(e)}")
-            messagebox.showerror("Hata", "Ekran yenilenirken bir hata oluştu.")
+            logging.error(f"Ekran yenileme hatasÄ±: {str(e)}")
+            messagebox.showerror("Hata", "Ekran yenilenirken bir hata oluÅŸtu.")
 
     def set_generating_state(self, is_generating: bool) -> None:
-        """Soru oluşturma durumunu ayarla"""
+        """Soru oluÅŸturma durumunu ayarla"""
         self._is_generating_questions = is_generating
 
 
@@ -216,19 +217,19 @@ class ScrollableFrame(ttk.Frame):
         super().__init__(container, *args, **kwargs)
         self.theme_name = theme_name
 
-        # Canvas ve scrollbar oluştur
+        # Canvas ve scrollbar oluÅŸtur
         self.canvas = tk.Canvas(self,
                                 highlightthickness=0,
                                 bg=THEMES[theme_name]['bg'])
         self.scrollbar = ttk.Scrollbar(self, orient='vertical', command=self.canvas.yview)
 
-        # Inner frame oluştur
+        # Inner frame oluÅŸtur
         self.inner = ttk.Frame(self.canvas, style='Custom.TFrame')
 
-        # Canvas'ı yapılandır
+        # Canvas'Ä± yapÄ±landÄ±r
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
-        # Widget'ları yerleştir
+        # Widget'larÄ± yerleÅŸtir
         self.canvas.pack(side='left', fill='both', expand=True)
         self.scrollbar.pack(side='right', fill='y')
 
@@ -240,27 +241,27 @@ class ScrollableFrame(ttk.Frame):
         self.canvas.bind('<Configure>', self._on_canvas_configure)
         self.canvas.bind_all('<MouseWheel>', self._on_mousewheel)
 
-        # Tema değişikliği için event binding
+        # Tema deÄŸiÅŸikliÄŸi iÃ§in event binding
         self.bind('<<ThemeChanged>>', self._on_theme_change)
 
     def _on_frame_configure(self, event=None):
-        """Inner frame boyutu değiştiğinde scroll bölgesini güncelle"""
+        """Inner frame boyutu deÄŸiÅŸtiÄŸinde scroll bÃ¶lgesini gÃ¼ncelle"""
         self.canvas.configure(scrollregion=self.canvas.bbox('all'))
 
     def _on_canvas_configure(self, event):
-        """Canvas boyutu değiştiğinde inner frame genişliğini güncelle"""
+        """Canvas boyutu deÄŸiÅŸtiÄŸinde inner frame geniÅŸliÄŸini gÃ¼ncelle"""
         self.canvas.itemconfig(self.canvas_frame, width=event.width)
 
     def _on_mousewheel(self, event):
-        """Mouse tekerleği ile kaydırma"""
+        """Mouse tekerleÄŸi ile kaydÄ±rma"""
         self.canvas.yview_scroll(int(-1 * (event.delta / 120)), 'units')
 
     def _on_theme_change(self, event=None):
-        """Tema değiştiğinde canvas arkaplan rengini güncelle"""
+        """Tema deÄŸiÅŸtiÄŸinde canvas arkaplan rengini gÃ¼ncelle"""
         self.canvas.configure(bg=THEMES[self.theme_name]['bg'])
 
     def update_theme(self, theme_name):
-        """Tema değişikliğini uygula"""
+        """Tema deÄŸiÅŸikliÄŸini uygula"""
         if self.winfo_exists():  # Frame hala mevcutsa
             self.theme_name = theme_name
             self.canvas.configure(bg=THEMES[theme_name]['bg'])
@@ -270,7 +271,7 @@ class ScrollableFrame(ttk.Frame):
 class QuestionApp:
     def __init__(self, root):
         self.root = root
-        self.root.title('Star Soru Çözme Alanı')
+        self.root.title('Star Soru Ã‡Ã¶zme AlanÄ±')
         self.root.geometry('1366x768')
         self.style = ttk.Style()
         self.theme_manager = ThemeManager(self)
@@ -305,16 +306,30 @@ class QuestionApp:
         self.create_menu()
         self.show_main_menu()
 
+        
+
+    def add_navigation_buttons(self, bottom=True):
+        """Geri ve Anasayfa butonlarÄ±nÄ± ekler"""
+        # Geri Butonu (altta)
+        if bottom:
+             self.back_button = ttk.Button(self.root, text="â¬… Geri", command=self.show_main_menu)
+             self.back_button.pack(side='bottom', pady=5)
+
+        # Anasayfa Butonu (Ã¼st saÄŸ)
+        self.home_button = ttk.Button(self.root, text="ğŸ  Anasayfa", command=self.show_main_menu, state="disabled")
+        self.home_button.place(relx=1.0, x=-10, y=10, anchor='ne')
+
+
     def on_close(self):
         if self.conn: self.conn.close()
         self.root.destroy()
 
     def refresh_current_screen(self):
-        """Mevcut ekranı yenile"""
-        # Sadece widget'ların stillerini güncelle
+        """Mevcut ekranÄ± yenile"""
+        # Sadece widget'larÄ±n stillerini gÃ¼ncelle
         theme = THEMES[self.theme_manager.current]
 
-        # Tüm widget'ları güncelle
+        # TÃ¼m widget'larÄ± gÃ¼ncelle
         for widget in self.root.winfo_children():
             if isinstance(widget, ttk.Frame):
                 widget.configure(style='Custom.TFrame')
@@ -332,7 +347,7 @@ class QuestionApp:
             elif isinstance(widget, ttk.Labelframe):
                 widget.configure(style='TLabelframe')
 
-        # ScrollableFrame'i güncelle
+        # ScrollableFrame'i gÃ¼ncelle
         if hasattr(self, 'sf') and self.sf:
             self.sf.update_theme(self.theme_manager.current)
 
@@ -340,9 +355,9 @@ class QuestionApp:
         menu_bar = tk.Menu(self.root)
         settings_menu = tk.Menu(menu_bar, tearoff=0)
         theme_submenu = tk.Menu(settings_menu, tearoff=0)
-        theme_submenu.add_command(label="Açık Tema (Lacivert)", command=lambda: self.theme_manager.apply('light'))
-        theme_submenu.add_command(label="Koyu Tema (Siyah/Yeşil)", command=lambda: self.theme_manager.apply('dark'))
-        settings_menu.add_cascade(label="Tema Ayarları", menu=theme_submenu)
+        theme_submenu.add_command(label="AÃ§Ä±k Tema (Lacivert)", command=lambda: self.theme_manager.apply('light'))
+        theme_submenu.add_command(label="Koyu Tema (Siyah/YeÅŸil)", command=lambda: self.theme_manager.apply('dark'))
+        settings_menu.add_cascade(label="Tema AyarlarÄ±", menu=theme_submenu)
         menu_bar.add_cascade(label="Ayarlar", menu=settings_menu)
         self.root.config(menu=menu_bar)
 
@@ -350,12 +365,14 @@ class QuestionApp:
         for w in self.root.winfo_children():
             if not isinstance(w, tk.Menu):
                 w.destroy()
+        
+
 
     def configure_styles(self):
         style = ttk.Style()
         theme = THEMES[self.theme_manager.current]
 
-        # Mevcut stil ayarlarına ek olarak:
+        # Mevcut stil ayarlarÄ±na ek olarak:
         style.configure('Custom.TFrame',
                         background=theme['bg'])
         style.configure('Custom.TLabel',
@@ -402,21 +419,22 @@ class QuestionApp:
     def show_main_menu(self):
         self.clear()
         self.current_screen = 'main'
-        ttk.Label(self.root, text='Star Soru Çözme Alanı', font=self.title_font).pack(pady=40)
+        ttk.Label(self.root, text='Star Soru Ã‡Ã¶zme AlanÄ±', font=self.title_font).pack(pady=40)
         frame = ttk.Frame(self.root)
         frame.pack(pady=20)
-        ttk.Button(frame, text='E-Sınav', command=lambda: self.configure_mode('exam'), width=20).grid(row=0, column=0,
+        ttk.Button(frame, text='E-SÄ±nav', command=lambda: self.configure_mode('exam'), width=20).grid(row=0, column=0,
                                                                                                       padx=10)
         ttk.Button(frame, text='Test', command=lambda: self.configure_mode('test'), width=20).grid(row=0, column=1,
                                                                                                    padx=10)
 
     def show_category_selection(self):
         self.clear()
-        ttk.Label(self.root, text='Kategori Seçiniz (TYT/AYT)', font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text='Kategori SeÃ§iniz (TYT/AYT)', font=self.title_font).pack(pady=20)
         self.cat_var = tk.StringVar()
         cat_cb = ttk.Combobox(self.root, textvariable=self.cat_var, state='readonly', values=self.get_categories())
         cat_cb.pack()
-        ttk.Button(self.root, text='İleri', command=self.show_ders_selection).pack(pady=10)
+        ttk.Button(self.root, text='Ä°leri', command=self.show_ders_selection).pack(pady=10)
+
 
     def get_categories(self):
         cur = self.conn.cursor()
@@ -425,14 +443,14 @@ class QuestionApp:
 
     def show_ders_selection(self):
         cat = self.cat_var.get()
-        if not cat: return messagebox.showerror('Hata', 'Kategori seçin')
+        if not cat: return messagebox.showerror('Hata', 'Kategori seÃ§in')
         self.test_type = cat
         self.clear()
-        ttk.Label(self.root, text=f'{cat}: Ders Seçiniz', font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text=f'{cat}: Ders SeÃ§iniz', font=self.title_font).pack(pady=20)
         self.ders_var = tk.StringVar()
         ders_cb = ttk.Combobox(self.root, textvariable=self.ders_var, state='readonly', values=self.get_dersler(cat))
         ders_cb.pack()
-        ttk.Button(self.root, text='İleri', command=self.show_konu_selection).pack(pady=10)
+        ttk.Button(self.root, text='Ä°leri', command=self.show_konu_selection).pack(pady=10)
 
     def get_dersler(self, kategori):
         cur = self.conn.cursor()
@@ -445,23 +463,23 @@ class QuestionApp:
     def show_konu_selection(self):
         ders = self.ders_var.get()
         if not ders:
-            messagebox.showerror('Hata', 'Ders seçin')
+            messagebox.showerror('Hata', 'Ders seÃ§in')
             return
 
         self.selected_ders = ders
         self.clear()
-        ttk.Label(self.root, text=f'{ders}: Konu Seçiniz', font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text=f'{ders}: Konu SeÃ§iniz', font=self.title_font).pack(pady=20)
 
         self.konu_var = tk.StringVar()
         konu_cb = ttk.Combobox(self.root, textvariable=self.konu_var, state='readonly', values=self.get_konular(ders))
         konu_cb.pack()
 
-        ttk.Label(self.root, text='Soru Sayısı:').pack(pady=5)
+        ttk.Label(self.root, text='Soru SayÄ±sÄ±:').pack(pady=5)
         self.num_entry = ttk.Entry(self.root)
         self.num_entry.insert(0, '4')
         self.num_entry.pack()
 
-        ttk.Button(self.root, text='Soruları Getir', command=self.generate_questions).pack(pady=10)
+        ttk.Button(self.root, text='SorularÄ± Getir', command=self.generate_questions).pack(pady=10)
 
     def get_konular(self, ders):
         cur = self.conn.cursor()
@@ -475,33 +493,34 @@ class QuestionApp:
         self.clear()
         self.current_screen = 'test'
 
-        # Ana frame oluştur
+        # Ana frame oluÅŸtur
         main_frame = ttk.Frame(self.root)
         main_frame.pack(fill='both', expand=True)
 
-        # Üst çubuk
+        # Ãœst Ã§ubuk
         top = ttk.Frame(main_frame)
         top.pack(fill='x', padx=10, pady=5)
 
-        # Sınavı tamamla butonu
+        # SÄ±navÄ± tamamla butonu
         complete_btn = ttk.Button(top, text="Testi Tamamla", command=self.show_test_results)
         complete_btn.pack(side='right', padx=10)
 
-        # Soru alanı ve Optik Form için container
+        # Soru alanÄ± ve Optik Form iÃ§in container
         content_frame = ttk.Frame(main_frame)
         content_frame.pack(fill='both', expand=True)
 
-        # Soru alanı (Scrollable)
+        # Soru alanÄ± (Scrollable)
         self.sf = ScrollableFrame(content_frame, theme_name=self.theme_manager.current)
         self.sf.pack(side='left', fill='both', expand=True)
 
-        # Optik Form (Sağda)
+        # Optik Form (SaÄŸda)
         opt_frame = ttk.Frame(content_frame, style='Optik.TFrame')
         opt_frame.pack(side='right', fill='y', padx=10, pady=10)
 
         ttk.Label(opt_frame, text="Optik Form", style='Optik.TLabel').pack(pady=5)
 
-        # Optik formu oluştur
+
+        # Optik formu oluÅŸtur
         self.test_optik_circles = []
         for i in range(len(self.test_questions)):
             cell_frame = ttk.Frame(opt_frame, style='Optik.TFrame')
@@ -526,7 +545,7 @@ class QuestionApp:
             self.test_optik_circles.append(circles)
             cell_frame.bind('<Button-1>', lambda e, idx=i: self.scroll_to_test_question(idx))
 
-        # Soruları göster
+        # SorularÄ± gÃ¶ster
         for idx, q in enumerate(self.test_questions):
             fr = ttk.LabelFrame(self.sf.inner, text=f"Soru {idx + 1}", padding=10)
             fr.pack(fill='x', pady=5)
@@ -534,7 +553,7 @@ class QuestionApp:
             # Soru metni
             ttk.Label(fr, text=q.get('question', 'Soru metni yok'), wraplength=800).pack(anchor='w', pady=5)
 
-            # Şıklar
+            # ÅÄ±klar
             options = q.get('options', {})
             for opt in ['A', 'B', 'C', 'D']:
                 if opt in options:
@@ -548,7 +567,7 @@ class QuestionApp:
                     ).pack(anchor='w')
 
     def update_test_optic(self, idx):
-        """Test modülü için optik form güncelleme"""
+        """Test modÃ¼lÃ¼ iÃ§in optik form gÃ¼ncelleme"""
         selected = self.test_selected_answers[idx].get()
         for i, opt in enumerate(['A', 'B', 'C', 'D']):
             btn = self.test_optik_circles[idx][i]
@@ -558,16 +577,16 @@ class QuestionApp:
                 btn.state(['!selected'])
 
     def scroll_to_test_question(self, idx):
-        """Test modülü için soruya kaydırma"""
+        """Test modÃ¼lÃ¼ iÃ§in soruya kaydÄ±rma"""
         if hasattr(self, 'sf') and self.sf:
             self.sf.canvas.yview_moveto(idx / len(self.test_questions))
 
 
     def generate_questions(self):
         self.current_screen = 'test'
-        """Soruları oluştur"""
+        """SorularÄ± oluÅŸtur"""
         self.generating = True
-        self.theme_manager.set_generating_state(True)  # Tema yöneticisine soru oluşturma durumunu bildir
+        self.theme_manager.set_generating_state(True)  # Tema yÃ¶neticisine soru oluÅŸturma durumunu bildir
         self.test_selected_answers = {}
 
         try:
@@ -575,29 +594,29 @@ class QuestionApp:
         except:
             self.num_questions = 4
 
-        # Test modülü için özel işlemler
+        # Test modÃ¼lÃ¼ iÃ§in Ã¶zel iÅŸlemler
         if self.mode == 'test':
             if not hasattr(self, 'selected_konu'):
                 self.selected_konu = self.konu_var.get()
 
             if not self.selected_konu:
-                messagebox.showerror('Hata', 'Lütfen bir konu seçin')
+                messagebox.showerror('Hata', 'LÃ¼tfen bir konu seÃ§in')
                 self.generating = False
                 self.theme_manager.set_generating_state(False)
                 return
 
             prompt = (
                 f"{self.test_type} {self.selected_ders} "
-                f"dersinin {self.selected_konu} konusundan {self.num_questions} adet test sorusu üret. "
-                "Her soru şu formatta olsun:\n\n"
-                "Soru 1: [soru metni]\nA) [şık A]\nB) [şık B]\nC) [şık C]\nD) [şık D]\n"
-                "Cevap: [doğru şık]\nAçıklama: [açıklama metni]\n\nLütfen bu formata kesinlikle uyun!"
+                f"dersinin {self.selected_konu} konusundan {self.num_questions} adet test sorusu Ã¼ret. "
+                "Her soru ÅŸu formatta olsun:\n\n"
+                "Soru 1: [soru metni]\nA) [ÅŸÄ±k A]\nB) [ÅŸÄ±k B]\nC) [ÅŸÄ±k C]\nD) [ÅŸÄ±k D]\n"
+                "Cevap: [doÄŸru ÅŸÄ±k]\nAÃ§Ä±klama: [aÃ§Ä±klama metni]\n\nLÃ¼tfen bu formata kesinlikle uyun!"
             )
 
             try:
-                # Yükleniyor mesajı göster
+                # YÃ¼kleniyor mesajÄ± gÃ¶ster
                 self.clear()
-                ttk.Label(self.root, text='Sorular oluşturuluyor, lütfen bekleyin...',
+                ttk.Label(self.root, text='Sorular oluÅŸturuluyor, lÃ¼tfen bekleyin...',
                           font=self.title_font).pack(pady=200)
                 self.root.update()
 
@@ -610,25 +629,25 @@ class QuestionApp:
 
                 self.show_test_question_page()
 
-                # Her soru için bir StringVar oluştur
+                # Her soru iÃ§in bir StringVar oluÅŸtur
                 self.test_selected_answers = {}
                 for idx in range(len(self.test_questions)):
                     self.test_selected_answers[idx] = tk.StringVar(value="")
 
-                # Sonuçları kaydet
+                # SonuÃ§larÄ± kaydet
                 save_to_json({
                     'mode': self.mode,
                     'kategori': self.test_type,
                     'questions': self.test_questions
                 })
 
-                # Test soru sayfasına git
+                # Test soru sayfasÄ±na git
                 self.show_test_question_page()
                 return
 
             except Exception as e:
-                logging.error(f"Test soruları oluşturulurken hata: {str(e)}")
-                messagebox.showerror("Hata", "Test soruları oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.")
+                logging.error(f"Test sorularÄ± oluÅŸturulurken hata: {str(e)}")
+                messagebox.showerror("Hata", "Test sorularÄ± oluÅŸturulurken bir hata oluÅŸtu. LÃ¼tfen tekrar deneyin.")
                 self.show_main_menu()
                 return
             finally:
@@ -639,24 +658,24 @@ class QuestionApp:
     def show_test_setup(self):
         self.clear()
         self.current_screen = 'test'
-        self.mode = 'test'  # Test modunu açıkça belirt
+        self.mode = 'test'  # Test modunu aÃ§Ä±kÃ§a belirt
 
-        ttk.Label(self.root, text='Test Modu: Kategori ve Konu Seçimi', font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text='Test Modu: Kategori ve Konu SeÃ§imi', font=self.title_font).pack(pady=20)
 
-        # Kategori seçimi
-        ttk.Label(self.root, text='Kategori Seçiniz (TYT/AYT)', font=self.font).pack(pady=10)
+        # Kategori seÃ§imi
+        ttk.Label(self.root, text='Kategori SeÃ§iniz (TYT/AYT)', font=self.font).pack(pady=10)
         self.cat_var = tk.StringVar()
         cat_cb = ttk.Combobox(self.root, textvariable=self.cat_var, state='readonly', values=self.get_categories())
         cat_cb.pack()
 
-        # İleri butonu
-        ttk.Button(self.root, text='İleri', command=self.show_ders_selection).pack(pady=10)
+        # Ä°leri butonu
+        ttk.Button(self.root, text='Ä°leri', command=self.show_ders_selection).pack(pady=10)
 
     def show_exam_setup(self):
         self.clear()
         self.current_screen = 'results'
 
-        ttk.Label(self.root, text="Kullanıcı Seçin", font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text="KullanÄ±cÄ± SeÃ§in", font=self.title_font).pack(pady=20)
 
         self.kullanici_var = tk.StringVar()
         self.kullanici_cb = ttk.Combobox(self.root, textvariable=self.kullanici_var, state="readonly")
@@ -665,7 +684,7 @@ class QuestionApp:
         self.kullanicilar = self.get_users()
         self.kullanici_cb['values'] = [k['KullaniciAdi'] for k in self.kullanicilar]
 
-        ttk.Button(self.root, text="Sınavları Göster", command=self.load_user_exams).pack(pady=10)
+        ttk.Button(self.root, text="SÄ±navlarÄ± GÃ¶ster", command=self.load_user_exams).pack(pady=10)
 
     def get_users(self):
         cur = self.conn.cursor()
@@ -677,28 +696,28 @@ class QuestionApp:
         self.clear()
         self.current_screen = 'results'
 
-        # Başlık
+        # BaÅŸlÄ±k
         title_frame = ttk.Frame(self.root, style='Custom.TFrame')
         title_frame.pack(fill='x', pady=20)
         ttk.Label(title_frame,
-                  text='Test Sonuçları',
+                  text='Test SonuÃ§larÄ±',
                   font=self.title_font,
                   style='Custom.TLabel').pack()
 
-        # Scrollable frame oluştur
+        # Scrollable frame oluÅŸtur
         sf = ScrollableFrame(self.root, theme_name=self.theme_manager.current)
         sf.pack(fill='both', expand=True)
 
-        # Soruları göster
+        # SorularÄ± gÃ¶ster
         for idx, q in enumerate(self.test_questions):
             q_frame = ttk.Frame(sf.inner, style='Custom.TFrame')
             q_frame.pack(fill='x', pady=5, padx=5)
 
-            # Soru numarası ve metni
+            # Soru numarasÄ± ve metni
             is_blank = self.test_selected_answers[idx].get() == ""
             question_title = f"Soru {idx + 1}: {q['question']}"
             if is_blank:
-                question_title = f"??{question_title} | Boş "
+                question_title = f"ğŸŸ {question_title} | BoÅŸ "
             fg_color = 'orange' if is_blank else THEMES[self.theme_manager.current]['fg']
 
             # Soru etiketi
@@ -709,13 +728,13 @@ class QuestionApp:
                      bg=THEMES[self.theme_manager.current]['bg'],
                      font=('Arial', 10, 'bold')).pack(anchor='center', pady=(0, 10))
 
-            # Şıkları gösterme
+            # ÅÄ±klarÄ± gÃ¶sterme
             options = q.get('options', {})
             for opt in ['A', 'B', 'C', 'D']:
                 if opt in options:
-                    # Doğru şık ise yeşil renk
+                    # DoÄŸru ÅŸÄ±k ise yeÅŸil renk
                     is_correct = opt == q['answer']
-                    # Kullanıcının seçtiği şık ise ve yanlışsa kırmızı renk
+                    # KullanÄ±cÄ±nÄ±n seÃ§tiÄŸi ÅŸÄ±k ise ve yanlÄ±ÅŸsa kÄ±rmÄ±zÄ± renk
                     user_selected = self.test_selected_answers[idx].get() == opt
                     is_wrong_selection = user_selected and not is_correct
 
@@ -725,23 +744,23 @@ class QuestionApp:
                         bg_color = '#1f4025' if self.theme_manager.current == 'dark' else '#e6ffe6'
                         text_color = '#00ff88' if self.theme_manager.current == 'dark' else 'green'
                         prefix = ""
-                        suffix = "? "
+                        suffix = "âœ“ "
                     elif is_wrong_selection:
                         bg_color = '#402020' if self.theme_manager.current == 'dark' else '#ffe6e6'
                         text_color = '#ff6666' if self.theme_manager.current == 'dark' else 'red'
                         prefix = ""
-                        suffix = "?  (Sizin Cevabınız)"
+                        suffix = "âœ—  (Sizin CevabÄ±nÄ±z)"
                     else:
                         bg_color = theme['bg']
                         text_color = theme['fg']
                         prefix = ""
                         suffix = ""
 
-                    # Şık frame'i
+                    # ÅÄ±k frame'i
                     option_frame = tk.Frame(q_frame, bg=THEMES[self.theme_manager.current]['bg'])
                     option_frame.pack(fill='x', pady=1)
 
-                    # Şık etiketi
+                    # ÅÄ±k etiketi
                     tk.Label(
                         option_frame,
                         text=f"{prefix}{opt}) {options[opt]}{suffix}",
@@ -752,21 +771,23 @@ class QuestionApp:
                         padx=5, pady=2
                     ).pack(side='left', fill='x', expand=True)
 
-            # Açıklama
+            # AÃ§Ä±klama
             explanation_color = '#7ecbff' if self.theme_manager.current == 'dark' else 'blue'
             tk.Label(q_frame,
-                     text=f"Açıklama: {q.get('explanation', 'Açıklama yok')}",
+                     text=f"AÃ§Ä±klama: {q.get('explanation', 'AÃ§Ä±klama yok')}",
                      fg=explanation_color,
                      bg=THEMES[self.theme_manager.current]['bg'],
                      wraplength=800,
                      font=('Arial', 9, 'italic')).pack(anchor='w', pady=(10, 5))
 
-            # Ayırıcı çizgi
+            # AyÄ±rÄ±cÄ± Ã§izgi
             ttk.Separator(q_frame, orient='horizontal').pack(fill='x', pady=5)
 
-        # Ana menüye dön butonu
-        ttk.Button(self.root, text="Ana Menü", command=self.show_main_menu).pack(pady=20)
-        ttk.Button(self.root, text="Performans Değerlendirmesi", command=self.show_test_rating).pack(pady=10)
+        # Ana menÃ¼ye dÃ¶n butonu
+        ttk.Button(self.root, text="Ana MenÃ¼", command=self.show_main_menu).pack(pady=20)
+        ttk.Button(self.root, text="Performans DeÄŸerlendirmesi", command=self.show_test_rating).pack(pady=10)
+
+
 
     def show_test_rating(self):
         self.clear()
@@ -787,33 +808,33 @@ class QuestionApp:
         ratio = correct / total if total else 0
 
         if ratio >= 0.9:
-            grade = "S+ (Mükemmel)"
+            grade = "S+ (MÃ¼kemmel)"
         elif ratio >= 0.75:
-            grade = "A (İyi)"
+            grade = "A (Ä°yi)"
         elif ratio >= 0.5:
             grade = "B (Orta)"
         else:
-            grade = "C (Zayıf)"
+            grade = "C (ZayÄ±f)"
 
-        ttk.Label(self.root, text="Test Değerlendirme Raporu", font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text="Test DeÄŸerlendirme Raporu", font=self.title_font).pack(pady=20)
         ttk.Label(self.root, text=f"Toplam Soru: {total}").pack()
-        ttk.Label(self.root, text=f"Doğru: {correct} | Yanlış: {wrong} | Boş: {blank}").pack()
-        ttk.Label(self.root, text=f"Başarı Notu: {grade}").pack(pady=10)
-        ttk.Button(self.root, text="Sonuçlara Geri Dön", command=self.show_test_results).pack(pady=20)
+        ttk.Label(self.root, text=f"DoÄŸru: {correct} | YanlÄ±ÅŸ: {wrong} | BoÅŸ: {blank}").pack()
+        ttk.Label(self.root, text=f"BaÅŸarÄ± Notu: {grade}").pack(pady=10)
+        ttk.Button(self.root, text="SonuÃ§lara Geri DÃ¶n", command=self.show_test_results).pack(pady=20)
 
     def start_exam(self, kind):
         self.test_type = kind
 
-        # Kategori bilgilerini çek
+        # Kategori bilgilerini Ã§ek
         kategori = next((k for k in self.get_categories() if k['Adi'] == kind), None)
         if not kategori:
-            messagebox.showerror("Hata", "Kategori bulunamadı!")
+            messagebox.showerror("Hata", "Kategori bulunamadÄ±!")
             return
 
-        # Süreyi veritabanındaki VarsayilanSure'dan al (dakika cinsinden)
+        # SÃ¼reyi veritabanÄ±ndaki VarsayilanSure'dan al (dakika cinsinden)
         self.remaining_sec = kategori['VarsayilanSure']
 
-        # Veritabanından kategoriye ait dersleri çek
+        # VeritabanÄ±ndan kategoriye ait dersleri Ã§ek
         cur = self.conn.cursor()
         cur.execute(
             "SELECT d.Adi FROM SinavDersleri d JOIN SinavKategorileri k ON d.SinavKategoriId=k.Id WHERE k.Adi=?",
@@ -821,23 +842,23 @@ class QuestionApp:
         )
         ders_listesi = [row[0] for row in cur.fetchall()]
 
-        # Modülleri dinamik oluştur (Her ders için varsayılan 5 soru)
+        # ModÃ¼lleri dinamik oluÅŸtur (Her ders iÃ§in varsayÄ±lan 5 soru)
         self.modules = [{'name': ders, 'num': 5} for ders in ders_listesi]
 
         self.clear()
-        ttk.Label(self.root, text='Sorular oluşturuluyor...', font=self.title_font).pack(pady=200)
+        ttk.Label(self.root, text='Sorular oluÅŸturuluyor...', font=self.title_font).pack(pady=200)
         self.root.update()
         self.generate_questions()
 
 
-        # E-sınav modülü için işlemler
+        # E-sÄ±nav modÃ¼lÃ¼ iÃ§in iÅŸlemler
 
     def load_user_exams(self):
         secilen_kadi = self.kullanici_var.get()
         kullanici = next((k for k in self.kullanicilar if k['KullaniciAdi'] == secilen_kadi), None)
 
         if not kullanici:
-            messagebox.showerror("Hata", "Lütfen geçerli bir kullanıcı seçin.")
+            messagebox.showerror("Hata", "LÃ¼tfen geÃ§erli bir kullanÄ±cÄ± seÃ§in.")
             return
 
         sinif_id = kullanici['SinifId']
@@ -850,7 +871,7 @@ class QuestionApp:
         self.uygun_sinavlar = cur.fetchall()
 
         if not self.uygun_sinavlar:
-            messagebox.showinfo("Bilgi", "Bu kullanıcının sınıfına atanmış sınav yok.")
+            messagebox.showinfo("Bilgi", "Bu kullanÄ±cÄ±nÄ±n sÄ±nÄ±fÄ±na atanmÄ±ÅŸ sÄ±nav yok.")
             return
 
         self.selected_user_id = kullanici['Id']
@@ -859,12 +880,12 @@ class QuestionApp:
 
     def show_user_exam_selection(self):
         self.clear()
-        ttk.Label(self.root, text="Sınav Seçiniz", font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text="SÄ±nav SeÃ§iniz", font=self.title_font).pack(pady=20)
         self.sinav_sec_var = tk.StringVar()
         ttk.Combobox(self.root, textvariable=self.sinav_sec_var,
                      values=[s[1] for s in self.uygun_sinavlar],
                      state='readonly').pack(pady=10)
-        ttk.Button(self.root, text="Sınava Başla", command=self.baslat_sinav).pack(pady=10)
+        ttk.Button(self.root, text="SÄ±nava BaÅŸla", command=self.baslat_sinav).pack(pady=10)
 
     def baslat_sinav(self):
         secilen_ad = self.sinav_sec_var.get()
@@ -878,8 +899,8 @@ class QuestionApp:
                 self.show_exam_interface()
                 self.theme_manager.apply(self.theme_manager.current)  # Tema yeniden uygula
             except Exception as e:
-                logging.error(f"Sınav başlatılırken hata: {e}")
-                messagebox.showerror("Hata", "Sınav başlatılamadı. Lütfen tekrar deneyin.")
+                logging.error(f"SÄ±nav baÅŸlatÄ±lÄ±rken hata: {e}")
+                messagebox.showerror("Hata", "SÄ±nav baÅŸlatÄ±lamadÄ±. LÃ¼tfen tekrar deneyin.")
 
     def load_exam_questions(self, sinav_id):
         try:
@@ -893,8 +914,8 @@ class QuestionApp:
             """, sinav_id)
             rows = cur.fetchall()
 
-            # Verileri sorulara dönüştür
-            modules_dict = {}  # ders adı -> sorular listesi
+            # Verileri sorulara dÃ¶nÃ¼ÅŸtÃ¼r
+            modules_dict = {}  # ders adÄ± -> sorular listesi
 
             for row in rows:
                 soru_id, metin, zorluk, konu_id, secenek_sayisi, ders, secenek_aciklama, status = row
@@ -911,16 +932,16 @@ class QuestionApp:
                         'selected_answer': tk.StringVar(value="")
                     }
 
-                # Doğru şık belirle
+                # DoÄŸru ÅŸÄ±k belirle
                 secenek_harfleri = ['A', 'B', 'C', 'D']
                 mevcut_opt_sayisi = len(modules_dict[ders][soru_id]['options'])
                 if mevcut_opt_sayisi < len(secenek_harfleri):
                     harf = secenek_harfleri[mevcut_opt_sayisi]
                     modules_dict[ders][soru_id]['options'][harf] = secenek_aciklama
-                    if status:  # True ise doğru cevap
+                    if status:  # True ise doÄŸru cevap
                         modules_dict[ders][soru_id]['answer'] = harf
 
-            # Dersi modül haline getir
+            # Dersi modÃ¼l haline getir
             self.modules = []
             for ders, sorular_dict in modules_dict.items():
                 soru_listesi = list(sorular_dict.values())
@@ -932,8 +953,8 @@ class QuestionApp:
             self.root.after(0, self.start_timer)
 
         except Exception as e:
-            logging.error(f"Sınav başlatılırken hata: {str(e)}")
-            messagebox.showerror("Hata", "Sorular yüklenirken bir hata oluştu.")
+            logging.error(f"SÄ±nav baÅŸlatÄ±lÄ±rken hata: {str(e)}")
+            messagebox.showerror("Hata", "Sorular yÃ¼klenirken bir hata oluÅŸtu.")
 
     def parse_ai_questions(self, text):
         questions = []
@@ -959,7 +980,7 @@ class QuestionApp:
                 current_q['options'][opt] = line[2:].strip()
             elif line.startswith('Cevap:'):
                 current_q['answer'] = line.split(':', 1)[-1].strip()
-            elif line.startswith('Açıklama:'):
+            elif line.startswith('AÃ§Ä±klama:'):
                 current_q['explanation'] = line.split(':', 1)[-1].strip()
 
         if current_q:
@@ -977,11 +998,11 @@ class QuestionApp:
         self.clear()
 
         self.current_screen = 'exam'
-        # Üst çubuk
+        # Ãœst Ã§ubuk
         top = ttk.Frame(self.root)
         top.pack(fill='x', padx=10, pady=5)
 
-        # Modül butonları
+        # ModÃ¼l butonlarÄ±
         btn_frame = ttk.Frame(top)
         btn_frame.pack(side='left')
         for idx, module in enumerate(self.modules):
@@ -992,15 +1013,15 @@ class QuestionApp:
         self.timer_label = ttk.Label(top, text="00:00", font=self.font)
         self.timer_label.pack(side='right')
 
-        # Sınavı tamamla butonu
-        complete_btn = ttk.Button(top, text="Sınavı Tamamla", command=self.complete_exam)
+        # SÄ±navÄ± tamamla butonu
+        complete_btn = ttk.Button(top, text="SÄ±navÄ± Tamamla", command=self.complete_exam)
         complete_btn.pack(side='right', padx=10)
 
-        # Ana içerik
+        # Ana iÃ§erik
         main_frame = ttk.Frame(self.root)
         main_frame.pack(fill='both', expand=True)
 
-        # Optik Form (Sağda)
+        # Optik Form (SaÄŸda)
         opt_frame = ttk.Frame(main_frame, width=120, style='Optik.TFrame')
         opt_frame.pack(side='right', fill='y', padx=10, pady=10)
 
@@ -1039,14 +1060,14 @@ class QuestionApp:
         self.sf.pack(fill='both', expand=True)
 
         self.q_frames = []
-        self.explanation_labels = []  # Açıklama label'larını saklamak için liste
+        self.explanation_labels = []  # AÃ§Ä±klama label'larÄ±nÄ± saklamak iÃ§in liste
         questions = self.modules[self.current_module]['questions']
 
         for idx, q in enumerate(questions):
             module_name = self.modules[self.current_module]['name']
             unique_key = f"{self.test_type}_{module_name}_{idx}"
 
-            # Daha önce işaretlenmiş şıkkı yükle
+            # Daha Ã¶nce iÅŸaretlenmiÅŸ ÅŸÄ±kkÄ± yÃ¼kle
             q['selected_answer'] = tk.StringVar(value=self.selected_answers.get(unique_key, ""))
 
             fr = ttk.LabelFrame(self.sf.inner, text=f"Soru {idx + 1}", padding=10)
@@ -1055,7 +1076,7 @@ class QuestionApp:
             # Soru metni
             ttk.Label(fr, text=q.get('question', 'Soru metni yok'), wraplength=800).pack(anchor='w', pady=5)
 
-            # Şıklar
+            # ÅÄ±klar
             options = q.get('options', {})
             for opt in ['A', 'B', 'C', 'D']:
                 if opt in options:
@@ -1070,23 +1091,23 @@ class QuestionApp:
                         style='Question.TRadiobutton'
                     ).pack(anchor='w')
 
-            # Açıklama (başlangıçta gizli)
+            # AÃ§Ä±klama (baÅŸlangÄ±Ã§ta gizli)
             explanation = ttk.Label(
                 fr,
-                text=f"Açıklama: {q.get('explanation', 'Açıklama yok')}",
+                text=f"AÃ§Ä±klama: {q.get('explanation', 'AÃ§Ä±klama yok')}",
                 foreground='blue',
                 wraplength=800
             )
-            # Açıklamayı hemen pack yapmıyoruz, sadece oluşturuyoruz
+            # AÃ§Ä±klamayÄ± hemen pack yapmÄ±yoruz, sadece oluÅŸturuyoruz
             self.explanation_labels.append(explanation)  # Listeye ekle
 
             self.q_frames.append(fr)
 
-        # Stil ayarları
+        # Stil ayarlarÄ±
         ttk.Style().configure('Opt.TFrame', background='#f5f5f5')
 
     def update_optik_display(self, question_idx):
-        """optik formdaki görünümü güncelleyen metod"""
+        """optik formdaki gÃ¶rÃ¼nÃ¼mÃ¼ gÃ¼ncelleyen metod"""
         selected = self.modules[self.current_module]['questions'][question_idx]['selected_answer'].get()
         for i, opt in enumerate(['A', 'B', 'C', 'D']):
             btn = self.optik_circles[question_idx][i]
@@ -1099,19 +1120,19 @@ class QuestionApp:
         q = self.modules[self.current_module]['questions'][question_idx]
         selected = q['selected_answer'].get()
 
-        # Seçimi kaydet
+        # SeÃ§imi kaydet
         module_name = self.modules[self.current_module]['name']
         unique_key = f"{self.test_type}_{module_name}_{question_idx}"
         self.selected_answers[unique_key] = selected
 
-        # Optik formu güncelle
+        # Optik formu gÃ¼ncelle
         self.update_optik_display(question_idx)
 
     def switch_module(self, idx):
         self.save_current_module_answers()
         self.current_module = idx
         self.show_exam_interface()
-        # optik formu da güncelle
+        # optik formu da gÃ¼ncelle
         for q_idx in range(len(self.modules[self.current_module]['questions'])):
             self.update_optik_display(q_idx)
 
@@ -1123,7 +1144,7 @@ class QuestionApp:
         if idx < len(self.q_frames):
             self.sf.canvas.yview_moveto(self.q_frames[idx].winfo_y() / self.sf.inner.winfo_height())
 
-            # optik formda seçili hücreyi vurgula
+            # optik formda seÃ§ili hÃ¼creyi vurgula
             for i, circles in enumerate(self.optik_circles):
                 for circle in circles:
                     if i == idx:
@@ -1136,63 +1157,63 @@ class QuestionApp:
             try:
                 if self.remaining_sec > 0 and hasattr(self, 'timer_label') and self.timer_label:
                     m, s = divmod(self.remaining_sec, 60)
-                    self.timer_label.config(text=f"Kalan Süre: {m:02d}:{s:02d}")
+                    self.timer_label.config(text=f"Kalan SÃ¼re: {m:02d}:{s:02d}")
                     self.remaining_sec -= 1
                     self.root.after(1000, tick)
                 elif self.remaining_sec <= 0:
                     if hasattr(self, 'timer_label') and self.timer_label:
-                        self.timer_label.config(text="Süre Doldu!")
-                    messagebox.showinfo("Bilgi", "Sınav süreniz doldu!")
+                        self.timer_label.config(text="SÃ¼re Doldu!")
+                    messagebox.showinfo("Bilgi", "SÄ±nav sÃ¼reniz doldu!")
                     self.show_results()
             except Exception as e:
-                print(f"Timer hatası: {e}")  # Hata ayıklama için
+                print(f"Timer hatasÄ±: {e}")  # Hata ayÄ±klama iÃ§in
 
         tick()
 
     def complete_exam(self):
-        # Tüm cevapları kaydet
+        # TÃ¼m cevaplarÄ± kaydet
         self.save_current_module_answers()
 
-        # Kullanıcıya onay sorusu göster
-        if not messagebox.askyesno("Onay", "Sınavı tamamlamak istediğinize emin misiniz?"):
+        # KullanÄ±cÄ±ya onay sorusu gÃ¶ster
+        if not messagebox.askyesno("Onay", "SÄ±navÄ± tamamlamak istediÄŸinize emin misiniz?"):
             return
 
-        # Süreyi durdur
+        # SÃ¼reyi durdur
         self.remaining_sec = 0
         if hasattr(self, 'timer_label'):
             self.timer_label = None
 
-        # Açıklamaları göster
+        # AÃ§Ä±klamalarÄ± gÃ¶ster
         self.show_results()
 
     def show_results(self):
 
         self.current_screen = 'results'
 
-        # Timer'ı tamamen durdur
+        # Timer'Ä± tamamen durdur
         self.remaining_sec = 0
         self.clear()
 
         theme = THEMES[self.theme_manager.current]
 
-        # Renkleri tema değişkenlerinden al
+        # Renkleri tema deÄŸiÅŸkenlerinden al
         theme = THEMES[self.theme_manager.current]
         correct_bg = theme['highlight'] if self.theme_manager.current == 'dark' else '#e6ffe6'
         correct_fg = '#00ff88' if self.theme_manager.current == 'dark' else 'green'
 
-        # Başlık
+        # BaÅŸlÄ±k
         title_frame = ttk.Frame(self.root, style='Custom.TFrame')
         title_frame.pack(fill='x', pady=20)
         ttk.Label(title_frame,
-                  text='Sınav Sonuçları',
+                  text='SÄ±nav SonuÃ§larÄ±',
                   font=self.title_font,
                   style='Custom.TLabel').pack()
 
-        # Scrollable frame oluştur
+        # Scrollable frame oluÅŸtur
         sf = ScrollableFrame(self.root, theme_name=self.theme_manager.current)
         sf.pack(fill='both', expand=True)
 
-        # Tüm modülleri ve soruları göster
+        # TÃ¼m modÃ¼lleri ve sorularÄ± gÃ¶ster
         for module_idx, module in enumerate(self.modules):
             module_frame = ttk.LabelFrame(sf.inner,
                                           text=module['name'],
@@ -1204,11 +1225,11 @@ class QuestionApp:
                 q_frame = ttk.Frame(module_frame, style='Custom.TFrame')
                 q_frame.pack(fill='x', pady=5, padx=5)
 
-                # Soru numarası ve metni
+                # Soru numarasÄ± ve metni
                 is_blank = q['selected_answer'].get() == ""
                 question_title = f"Soru {q_idx + 1}: {q['question']}"
                 if is_blank:
-                    question_title = f"??{question_title} | Boş "
+                    question_title = f"ğŸŸ {question_title} | BoÅŸ "
                 fg_color = 'orange' if is_blank else THEMES[self.theme_manager.current]['fg']
 
                 # Soru etiketi
@@ -1219,16 +1240,16 @@ class QuestionApp:
                          bg=THEMES[self.theme_manager.current]['bg'],  # Arkaplan rengi
                          font=('Arial', 10, 'bold')).pack(anchor='center', pady=(0, 10))
 
-                # Şıkları gösterme
+                # ÅÄ±klarÄ± gÃ¶sterme
                 options = q.get('options', {})
                 for opt in ['A', 'B', 'C', 'D']:
                     if opt in options:
-                        # Doğru şık ise yeşil renk
+                        # DoÄŸru ÅŸÄ±k ise yeÅŸil renk
                         is_correct = opt == q['answer']
-                        # Kullanıcının seçtiği şık ise ve yanlışsa kırmızı renk
+                        # KullanÄ±cÄ±nÄ±n seÃ§tiÄŸi ÅŸÄ±k ise ve yanlÄ±ÅŸsa kÄ±rmÄ±zÄ± renk
                         user_selected = q['selected_answer'].get() == opt
                         is_wrong_selection = user_selected and not is_correct
-                        # eğer soru boş bırakıldıysa
+                        # eÄŸer soru boÅŸ bÄ±rakÄ±ldÄ±ysa
                         is_blank = q['selected_answer'].get() == ""
 
                         theme = THEMES[self.theme_manager.current]
@@ -1237,23 +1258,23 @@ class QuestionApp:
                             bg_color = '#1f4025' if self.theme_manager.current == 'dark' else '#e6ffe6'
                             text_color = '#00ff88' if self.theme_manager.current == 'dark' else 'green'
                             prefix = ""
-                            suffix = "? "
+                            suffix = "âœ“ "
                         elif is_wrong_selection:
                             bg_color = '#402020' if self.theme_manager.current == 'dark' else '#ffe6e6'
                             text_color = '#ff6666' if self.theme_manager.current == 'dark' else 'red'
                             prefix = ""
-                            suffix = "?  (Sizin Cevabınız)"
+                            suffix = "âœ—  (Sizin CevabÄ±nÄ±z)"
                         else:
                             bg_color = theme['bg']
                             text_color = theme['fg']
                             prefix = ""
                             suffix = ""
 
-                        # Şık frame'i
+                        # ÅÄ±k frame'i
                         option_frame = tk.Frame(q_frame, bg=THEMES[self.theme_manager.current]['bg'])
                         option_frame.pack(fill='x', pady=1)
 
-                        # Şık etiketi
+                        # ÅÄ±k etiketi
                         tk.Label(
                             option_frame,
                             text=f"{prefix}{opt}) {options[opt]}{suffix}",
@@ -1264,28 +1285,29 @@ class QuestionApp:
                             padx=5, pady=2
                         ).pack(side='left', fill='x', expand=True)
 
-                # Açıklama
+                # AÃ§Ä±klama
                 bg = THEMES[self.theme_manager.current]['bg']
                 explanation_color = '#7ecbff' if self.theme_manager.current == 'dark' else 'blue'
                 tk.Label(q_frame,
-                         text=f"Açıklama: {q.get('explanation', 'Açıklama yok')}",
+                         text=f"AÃ§Ä±klama: {q.get('explanation', 'AÃ§Ä±klama yok')}",
                          fg=explanation_color,
                          bg=THEMES[self.theme_manager.current]['bg'],  # <-- Eksikti
                          wraplength=800,
                          font=('Arial', 9, 'italic')).pack(anchor='w', pady=(10, 5))
 
-                # Ayırıcı çizgi
+                # AyÄ±rÄ±cÄ± Ã§izgi
                 ttk.Separator(q_frame, orient='horizontal').pack(fill='x', pady=5)
 
-        # Ana menüye dön butonu
-        ttk.Button(self.root, text="Ana Menü", command=self.show_main_menu).pack(pady=20)
-        ttk.Button(self.root, text="Raporu Görüntüle", command=self.show_exam_report).pack(pady=10)
+        # Ana menÃ¼ye dÃ¶n butonu
+        ttk.Button(self.root, text="Ana MenÃ¼", command=self.show_main_menu).pack(pady=20)
+        ttk.Button(self.root, text="Raporu GÃ¶rÃ¼ntÃ¼le", command=self.show_exam_report).pack(pady=10)
+
 
     def show_exam_report(self):
         self.clear()
         self.current_screen = 'exam_report'
 
-        ttk.Label(self.root, text="Yapay Zeka Destekli Sınav Raporu", font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text="Yapay Zeka Destekli SÄ±nav Raporu", font=self.title_font).pack(pady=20)
 
         total = correct = incorrect = blank = 0
         for module in self.modules:
@@ -1302,15 +1324,15 @@ class QuestionApp:
         accuracy = (correct / total) * 100 if total else 0
 
         yorum = model.generate_content(
-            f"Kullanıcı {total} soruda {correct} doğru, {incorrect} yanlış ve {blank} boş yapmıştır. Performansı nasıl değerlendirirsin?"
+            f"KullanÄ±cÄ± {total} soruda {correct} doÄŸru, {incorrect} yanlÄ±ÅŸ ve {blank} boÅŸ yapmÄ±ÅŸtÄ±r. PerformansÄ± nasÄ±l deÄŸerlendirirsin?"
         )
 
         ttk.Label(self.root, text=f"Toplam Soru: {total}").pack()
-        ttk.Label(self.root, text=f"Doğru: {correct} | Yanlış: {incorrect} | Boş: {blank}").pack(pady=5)
+        ttk.Label(self.root, text=f"DoÄŸru: {correct} | YanlÄ±ÅŸ: {incorrect} | BoÅŸ: {blank}").pack(pady=5)
         ttk.Label(self.root, text="Yorum:", font=('Segoe UI', 10, 'bold')).pack(pady=(10, 2))
         ttk.Label(self.root, text=yorum.text, wraplength=800, justify='center').pack(padx=10, pady=10)
 
-        ttk.Button(self.root, text="Sonuçlara Geri Dön", command=self.show_results).pack(pady=20)
+        ttk.Button(self.root, text="SonuÃ§lara Geri DÃ¶n", command=self.show_results).pack(pady=20)
 
 
 if __name__ == '__main__':

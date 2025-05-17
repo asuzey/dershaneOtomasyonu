@@ -126,10 +126,11 @@ def kamera_dogrulama_ekrani():
 
             if en_yuksek >= 60 and hareket_var and not gecis_yapildi:
                 gecis_yapildi = True
+                print("Giris Basarili")  # C# tarafı burayı dinliyor!
                 messagebox.showinfo("Başarılı", "Kimlik doğrulama başarılı! Sınava geçiliyor...")
                 pencere.destroy()
-                # subprocess.call(["python", "sinav_uygulamasi.py", kullanici])
                 return
+
 
         elif len(yuzler) > 1:
             etiket_arka.config(text="Arka Plan: Birden fazla yüz algılandı", fg="red")

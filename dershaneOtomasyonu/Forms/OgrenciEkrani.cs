@@ -599,6 +599,7 @@ namespace dershaneOtomasyonu
                         MessageBox.Show($"Yüz tanıma başarısız. Çıktı: {output}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return false;
                     }
+
                 }
 
                 return true;
