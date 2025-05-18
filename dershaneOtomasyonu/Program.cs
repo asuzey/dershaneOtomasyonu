@@ -146,9 +146,16 @@ namespace dershaneOtomasyonu
 
         private static async void LogException(Exception ex)
         {
-            // Global Exception Handling
-            await _logger.Error("Exception", ex);
+            if (_logger != null)
+            {
+                await _logger.Error("Exception", ex);
+            }
+            else
+            {
+                Console.WriteLine($"[HATA] Logger başlatılamadı: {ex.Message}");
+            }
         }
+
 
         static PrivateFontCollection fontCollection = new PrivateFontCollection();
 
