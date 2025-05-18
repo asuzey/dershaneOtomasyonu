@@ -183,6 +183,7 @@ namespace dershaneOtomasyonu
             }
         }
 
+
         static PrivateFontCollection fontCollection = new PrivateFontCollection();
 
         static void LoadFonts()
