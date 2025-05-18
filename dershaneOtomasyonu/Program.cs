@@ -24,6 +24,8 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Drawing.Text;
+using System.Windows.Forms; // MessageBox için
+using System.IO; // log.txt için
 
 
 
@@ -50,14 +52,39 @@ namespace dershaneOtomasyonu
             var services = ConfigureServices();
             var serviceProvider = services.BuildServiceProvider();
 
-            // ❗❗ VERİTABANI SEEDLEME KISMI ❗❗
-            using (var scope = serviceProvider.CreateScope())
+            try
             {
-                var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                DershaneInitializer.Seed(context); // ⬅️ burada gömülü veriler oluşur
-            }
+                using (var scope = serviceProvider.CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            _logger = serviceProvider.GetRequiredService<ILogger>();
+                    // Veritabanı yoksa oluştur
+                    if (context.Database.EnsureCreated())
+                    {
+                        DershaneInitializer.Seed(context);
+                    }
+
+                    // İsteğe bağlı log
+                    File.AppendAllText("log.txt", DateTime.Now + ": Veritabanı bağlantısı kuruldu.\n");
+                }
+            }
+            catch (Exception ex)
+            {
+            #if DEBUG
+                MessageBox.Show(
+                    "Veritabanı bağlantısı kurulamadı. Bu hata genellikle SQL Server veya SSMS yüklü olmadığında oluşur.\n\n" +
+                    "Lütfen `localhost` SQL Server örneğinizin açık olduğundan emin olun.\n\n" +
+                    "Detay: " + ex.Message,
+                    "Geliştirici Uyarısı",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            #endif
+
+                // İsteğe bağlı log
+                File.AppendAllText("log.txt", DateTime.Now + ": HATA - " + ex.Message + "\n");
+            }
+                _logger = serviceProvider.GetRequiredService<ILogger>();
             StartLogThread(_logger);
             ApplicationConfiguration.Initialize();
             var girisEkrani = serviceProvider.GetRequiredService<GirisEkrani>();
@@ -146,8 +173,14 @@ namespace dershaneOtomasyonu
 
         private static async void LogException(Exception ex)
         {
-            // Global Exception Handling
-            await _logger.Error("Exception", ex);
+            if (_logger != null)
+            {
+                await _logger.Error("Exception", ex);
+            }
+            else
+            {
+                Console.WriteLine($"[HATA] Logger başlatılamadı: {ex.Message}");
+            }
         }
 
         static PrivateFontCollection fontCollection = new PrivateFontCollection();
