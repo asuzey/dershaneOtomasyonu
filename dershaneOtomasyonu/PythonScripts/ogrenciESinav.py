@@ -10,6 +10,29 @@ import google.generativeai as genai
 import threading
 import json
 import logging
+import tkinterweb
+from tkinterweb import HtmlFrame
+import sys, json
+
+# Komut satırından JSON veriyi oku # added by asu
+selected_user_id   = None
+selected_sinif_id  = None
+if len(sys.argv) > 1:
+    try:
+        data = json.loads(sys.argv[1])
+        selected_user_id  = data.get("KullaniciId")
+        selected_sinif_id = data.get("SinifId")
+    except Exception as e:
+        print("JSON parse hatası:", e)
+
+# Windows’ta varsayılan kodlamayı UTF-8’e çeviriyoruz:
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+else:
+    # Python <3.7 fallback
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
 # DPI ayarları
 windll.shcore.SetProcessDpiAwareness(1)
@@ -21,7 +44,7 @@ model = genai.GenerativeModel('gemini-1.5-flash')
 
 def get_db_connection():
     server = r'localhost\SQLEXPRESS'
-    database = 'DERSHANE'
+    database = 'DERSHANE1'
     return pyodbc.connect(
         f'DRIVER={{ODBC Driver 17 for SQL Server}};'
         f'SERVER={server};'
@@ -215,6 +238,9 @@ class ThemeManager:
 class ScrollableFrame(ttk.Frame):
     def __init__(self, container, theme_name="light", *args, **kwargs):
         super().__init__(container, *args, **kwargs)
+
+        self.root = container # added by asu
+
         self.theme_name = theme_name
 
         # Canvas ve scrollbar oluştur
@@ -239,7 +265,11 @@ class ScrollableFrame(ttk.Frame):
         # Event binding'leri
         self.inner.bind('<Configure>', self._on_frame_configure)
         self.canvas.bind('<Configure>', self._on_canvas_configure)
-        self.canvas.bind_all('<MouseWheel>', self._on_mousewheel)
+        # sadece canvas aktifken wheel olayını al
+        self.canvas.bind('<Leave>', lambda e: self.root.focus_set())
+        self.canvas.bind('<Enter>', lambda e: self.canvas.focus_set())
+        self.canvas.bind('<MouseWheel>', self._on_mousewheel)
+
 
         # Tema değişikliği için event binding
         self.bind('<<ThemeChanged>>', self._on_theme_change)
@@ -278,6 +308,23 @@ class QuestionApp:
         ttk.Style().theme_use('clam')
         self.theme_manager.apply("light")
 
+        self.selected_user_id = None
+        self.selected_sinif_id = None
+        self.kullanici_adi = None
+
+        # eğer C# tarafı JSON göndermişse parse edelim:
+        if len(sys.argv) > 1:
+            try:
+                data = json.loads(sys.argv[1])
+                # JSON anahtarlarının birebir aynı olduğuna dikkat edin:
+                self.selected_user_id  = data.get("KullaniciId")
+                self.selected_sinif_id = data.get("SinifId")
+            except json.JSONDecodeError:
+                # eğer JSON değilse,
+                # eski yönteme (manuel kullanıcı adı) gardiyanı:
+                self.kullanici_adi = sys.argv[1]
+
+
         self.conn = get_db_connection()
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
         self.font = Font(family='Segoe UI', size=12)
@@ -305,20 +352,6 @@ class QuestionApp:
                              foreground=THEMES[self.theme_manager.current]['fg'])
         self.create_menu()
         self.show_main_menu()
-
-        
-
-    def add_navigation_buttons(self, bottom=True):
-        """Geri ve Anasayfa butonlarını ekler"""
-        # Geri Butonu (altta)
-        if bottom:
-             self.back_button = ttk.Button(self.root, text="⬅ Geri", command=self.show_main_menu)
-             self.back_button.pack(side='bottom', pady=5)
-
-        # Anasayfa Butonu (üst sağ)
-        self.home_button = ttk.Button(self.root, text="🏠 Anasayfa", command=self.show_main_menu, state="disabled")
-        self.home_button.place(relx=1.0, x=-10, y=10, anchor='ne')
-
 
     def on_close(self):
         if self.conn: self.conn.close()
@@ -365,8 +398,6 @@ class QuestionApp:
         for w in self.root.winfo_children():
             if not isinstance(w, tk.Menu):
                 w.destroy()
-        
-
 
     def configure_styles(self):
         style = ttk.Style()
@@ -422,10 +453,136 @@ class QuestionApp:
         ttk.Label(self.root, text='Star Soru Çözme Alanı', font=self.title_font).pack(pady=40)
         frame = ttk.Frame(self.root)
         frame.pack(pady=20)
-        ttk.Button(frame, text='E-Sınav', command=lambda: self.configure_mode('exam'), width=20).grid(row=0, column=0,
-                                                                                                      padx=10)
-        ttk.Button(frame, text='Test', command=lambda: self.configure_mode('test'), width=20).grid(row=0, column=1,
-                                                                                                   padx=10)
+        ttk.Button(frame, text='E-Sınav', command=lambda: self.show_exam_setup('exam'), width=20).grid(row=0, column=0,
+                                                                                                       padx=10)
+        ttk.Button(frame, text='Test', command=lambda: self.show_exam_setup('test'), width=20).grid(row=0, column=1,
+                                                                                                    padx=10)
+
+    def get_star_rating(self, difficulty):
+        try:
+            stars = '⭐' * max(1, min(int(difficulty), 5))  # min/max ile 1-5 aralığına sabitleriz
+            return stars
+        except:
+            return ''
+
+    # Öğrencinin test modülü giriş ekranı:
+    def show_test_menu(self):
+        self.clear()
+        # Scrollable alanı tekrar oluştur
+        self.sf = ScrollableFrame(self.root, theme_name=self.theme_manager.current)
+        self.sf.pack(fill="both", expand=True)
+        self.content_frame = self.sf.inner
+
+        ttk.Label(self.content_frame, text="Test Modülü", font=self.title_font).pack(pady=30)
+
+        ttk.Button(self.content_frame, text="📘 Ödevlerim", width=30, command=self.show_odevlerim).pack(pady=10)
+        ttk.Button(self.content_frame, text="🧠 Test Çöz", width=30, command=self.show_category_selection).pack(pady=10)
+        ttk.Button(self.content_frame, text="Ana Menü", width=30, command=self.show_main_menu).pack(pady=10)
+
+    def show_exam_setup(self, mode='exam'): # updated by asu
+        self.clear()
+        self.current_screen = 'user_select'
+        self.kullanicilar = self.get_users()
+
+        # Eğer C# tarafından Id geldiyse, manuel seçim ekranını atla:
+        if self.selected_user_id is not None and self.selected_sinif_id is not None:
+            if mode == 'exam':
+                return self.load_user_exams()
+            else:
+                return self.show_test_menu()
+
+
+            # Buradan sonra normal seçim ekranına geçilsin
+
+        # Aksi halde normal kullanıcı seçim ekranı göster
+        ttk.Label(self.root, text="Kullanıcı Seçin", font=self.title_font).pack(pady=20)
+
+        self.kullanici_var = tk.StringVar()
+        self.kullanici_cb = ttk.Combobox(self.root, textvariable=self.kullanici_var, state="readonly")
+        self.kullanici_cb.pack(pady=10)
+
+        self.kullanicilar = self.get_users()
+        self.kullanici_cb['values'] = [k['KullaniciAdi'] for k in self.kullanicilar]
+
+        # Buradaki buton mode'a göre yönlendirecek:
+        ttk.Button(self.root, text="Giriş Yap", command=lambda: self.on_kullanici_giris(mode)).pack(pady=10)
+        ttk.Button(self.root, text="Geri", command=self.show_main_menu).pack(pady=10)
+
+    def on_kullanici_giris(self, mode='exam'):
+        secilen_kadi = self.kullanici_var.get()
+        kullanici = next((k for k in self.kullanicilar if k['KullaniciAdi'] == secilen_kadi), None)
+
+        if not kullanici:
+            messagebox.showerror("Hata", "Lütfen geçerli bir kullanıcı seçin.")
+            return
+
+        self.selected_user_id = kullanici['Id']
+        self.selected_sinif_id = kullanici['SinifId']
+
+        if mode == 'exam':
+            self.load_user_exams()
+        else:
+            self.show_test_menu()
+
+    def show_odevlerim(self):
+        self.clear()
+        self.sf = ScrollableFrame(self.root, theme_name=self.theme_manager.current)
+        self.sf.pack(fill="both", expand=True)
+        self.content_frame = self.sf.inner
+
+        ttk.Label(self.content_frame, text="📘 Ödevlerim", font=self.title_font).pack(pady=20)
+
+        tree = ttk.Treeview(self.content_frame, columns=("Ad", "Tarih", "Süre", "Soru Sayısı"), show="headings",
+                            height=12)
+        tree.heading("Ad", text="📘 Sınav Adı")
+        tree.heading("Tarih", text="📅 Tarih")
+        tree.heading("Süre", text="⏱ Süre (dk)")
+        tree.heading("Soru Sayısı", text="❓ Soru Sayısı")
+
+        tree.column("Ad", anchor="center", width=300)
+        tree.column("Tarih", anchor="center", width=150)
+        tree.column("Süre", anchor="center", width=100)
+        tree.column("Soru Sayısı", anchor="center", width=120)
+
+        tree.pack(fill="both", expand=True, padx=20, pady=10)
+
+        cur = self.conn.cursor()
+        cur.execute("""
+            SELECT s.Id, s.Adi, s.Tarih, s.Sure,
+                   (SELECT COUNT(*) FROM Sorular WHERE SinavId = s.Id) AS SoruSayisi
+            FROM Sinavlar s
+            LEFT JOIN OgrenciSinavlari os ON s.Id = os.SinavId
+            WHERE (os.KullaniciId = ? OR s.Atanan_Sinif = (
+                SELECT SinifId FROM Kullanicilar WHERE Id = ?
+            ))
+            AND s.Id NOT IN (
+                SELECT SinavId FROM OgrenciCevaplari WHERE KullaniciId = ?
+            )
+        """, (self.selected_user_id, self.selected_user_id, self.selected_user_id))
+
+        for row in cur.fetchall():
+            sinav_id, adi, tarih, sure, soru_sayisi = row
+            tree.insert('', 'end', values=(adi, tarih, sure, soru_sayisi), tags=(sinav_id,))
+
+        tree.bind("<Double-1>", lambda e: self.odev_coz_baslat(tree))
+
+        frame = ttk.Frame(self.root)
+        frame.pack(pady=20)
+        ttk.Button(frame, text='Geri', command=lambda: self.show_exam_setup('test'), width=20).grid(row=0, column=1,
+                                                                                                padx=10)
+
+    def odev_coz_baslat(self, tree):
+        secilen = tree.selection()
+        if not secilen:
+            return
+        sinav_id = int(tree.item(secilen[0], "tags")[0])
+        self.mode = 'test'
+        self.sinav_id = sinav_id
+        self.secilen_sinav_id = sinav_id  # ✅ Bu satır eklenecek
+
+        self.load_test_questions(sinav_id)
+        self.current_screen = 'test'
+        self.show_test_question_page()
 
     def show_category_selection(self):
         self.clear()
@@ -433,13 +590,15 @@ class QuestionApp:
         self.cat_var = tk.StringVar()
         cat_cb = ttk.Combobox(self.root, textvariable=self.cat_var, state='readonly', values=self.get_categories())
         cat_cb.pack()
+        # ileri buton
         ttk.Button(self.root, text='İleri', command=self.show_ders_selection).pack(pady=10)
-
+        # Geri Buton
+        ttk.Button(self.root, text='Geri', command=self.show_main_menu).pack(pady=10)
 
     def get_categories(self):
         cur = self.conn.cursor()
-        cur.execute('SELECT Id, Adi, VarsayilanSure FROM SinavKategorileri')
-        return [{'Id': row[0], 'Adi': row[1], 'VarsayilanSure': row[2]} for row in cur]
+        cur.execute('SELECT Adi FROM SinavKategorileri')
+        return [r[0] for r in cur]
 
     def show_ders_selection(self):
         cat = self.cat_var.get()
@@ -450,7 +609,10 @@ class QuestionApp:
         self.ders_var = tk.StringVar()
         ders_cb = ttk.Combobox(self.root, textvariable=self.ders_var, state='readonly', values=self.get_dersler(cat))
         ders_cb.pack()
+        # ileri buton
         ttk.Button(self.root, text='İleri', command=self.show_konu_selection).pack(pady=10)
+        # geri Buton
+        ttk.Button(self.root, text='Geri', command=self.show_category_selection).pack(pady=10)
 
     def get_dersler(self, kategori):
         cur = self.conn.cursor()
@@ -461,6 +623,7 @@ class QuestionApp:
         return [r[0] for r in cur]
 
     def show_konu_selection(self):
+        self.mode = 'test'
         ders = self.ders_var.get()
         if not ders:
             messagebox.showerror('Hata', 'Ders seçin')
@@ -480,14 +643,182 @@ class QuestionApp:
         self.num_entry.pack()
 
         ttk.Button(self.root, text='Soruları Getir', command=self.generate_questions).pack(pady=10)
+        # geri Buton
+        ttk.Button(self.root, text='Geri', command=self.show_ders_selection).pack(pady=10)
 
     def get_konular(self, ders):
         cur = self.conn.cursor()
         cur.execute(
-            'SELECT k.Ad FROM [dbo].[SinavDersKonulari] k JOIN [dbo].[SinavDersleri] d ON k.SinavDersId = d.Id WHERE d.Adi = ?',
+            'SELECT k.Ad FROM SinavDersKonulari k JOIN SinavDersleri d ON k.SinavDersId = d.Id WHERE d.Adi = ?',
             ders
         )
         return [r[0] for r in cur]
+
+
+    def update_test_optic(self, idx):
+        """Test modülü için optik form güncelleme"""
+        selected = self.test_selected_answers[idx].get()
+        for i, opt in enumerate(['A', 'B', 'C', 'D']):
+            btn = self.test_optik_circles[idx][i]
+            if opt == selected:
+                btn.state(['selected'])
+            else:
+                btn.state(['!selected'])
+
+    def scroll_to_test_question(self, idx):
+        """Test modülü için soruya kaydırma"""
+        if hasattr(self, 'sf') and self.sf:
+            self.sf.canvas.yview_moveto(idx / len(self.test_questions))
+
+    def start_exam(self, sinav_id, kind):
+        self.test_type = kind
+        self.sinav_id = sinav_id
+
+        # Veritabanından kategoriye ait dersleri çek
+        cur = self.conn.cursor()
+        cur.execute("""
+            SELECT d.Adi FROM SinavDersleri d
+            JOIN SinavKategorileri k ON d.SinavKategoriId = k.Id
+            WHERE k.Adi = ?
+        """, kind)
+        ders_listesi = [row[0] for row in cur.fetchall()]
+
+        # Modülleri dinamik oluştur (Her ders için varsayılan 5 soru)
+        self.modules = [{'name': ders, 'num': 5} for ders in ders_listesi]
+
+        self.clear()
+        ttk.Label(self.root, text='Sorular oluşturuluyor...', font=self.title_font).pack(pady=200)
+        self.root.update()
+
+        self.generate_questions()
+
+    def generate_questions(self):
+        def worker():
+            self.generating = True
+            self.theme_manager.set_generating_state(True)
+
+            try:
+                self.num_questions = int(self.num_entry.get())
+            except:
+                self.num_questions = 4
+
+            if self.mode == 'test':
+                if not hasattr(self, 'selected_konu'):
+                    self.selected_konu = self.konu_var.get()
+
+                if not self.selected_konu:
+                    messagebox.showerror('Hata', 'Lütfen bir konu seçin')
+                    self.generating = False
+                    self.theme_manager.set_generating_state(False)
+                    return
+
+                prompt = (
+                    f"{self.test_type} {self.selected_ders} "
+                    f"dersinin {self.selected_konu} konusundan {self.num_questions} adet test sorusu üret. "
+                    "Her soru şu formatta olsun:\n\n"
+                    "Soru 1: [soru metni]\nA) [şık A]\nB) [şık B]\nC) [şık C]\nD) [şık D]\n"
+                    "Cevap: [doğru şık]\nAçıklama: [açıklama metni]\n\nLütfen bu formata kesinlikle uyun!"
+                )
+
+                try:
+                    # Yükleniyor ekranı
+                    self.clear()
+                    progress_frame = ttk.Frame(self.root)
+                    progress_frame.pack(pady=150)
+
+                    ttk.Label(progress_frame, text='Sorular oluşturuluyor, lütfen bekleyin...',
+                              font=self.title_font).pack(pady=10)
+
+                    progress = ttk.Progressbar(progress_frame, mode='indeterminate', length=300)
+                    progress.pack(pady=10)
+                    progress.start()  # animasyonu başlat
+
+                    self.root.update()
+
+                    res = model.generate_content(prompt)
+                    print("[DEBUG] AI çıktısı:\n", res.text)
+                    self.test_questions = self.parse_ai_questions(res.text)
+
+                    if not self.test_questions:
+                        messagebox.showerror("Hata", "AI tarafından geçerli soru üretilemedi.")
+                        self.generating = False
+                        self.theme_manager.set_generating_state(False)
+                        self.show_main_menu()
+                        return
+
+                    self.test_selected_answers = {
+                        idx: tk.StringVar(value="") for idx in range(len(self.test_questions))
+                    }
+
+                    # GUI'ye geri dön
+                    self.root.after(0, self.show_test_question_page)
+
+                except Exception as e:
+                    logging.error(f"[generate_questions] AI üretim hatası: {e}")
+                    messagebox.showerror("Hata", "Soru oluşturulurken bir hata oluştu.")
+
+                finally:
+                    self.generating = False
+                    self.theme_manager.set_generating_state(False)
+
+        # Thread başlat
+        threading.Thread(target=worker).start()
+
+    def parse_ai_questions(self, text):
+        import re
+
+        questions = []
+        current_q = {
+            'question': '',
+            'options': {},
+            'answer': '',
+            'explanation': '',
+            'selected_answer': tk.StringVar(value="")
+        }
+
+        lines = text.split('\n')
+        option_pattern = re.compile(r'^([A-Da-d])[\)|\.]\s*(.+)$')  # A) Şık | A. Şık
+
+        for line in lines:
+            line = line.strip()
+            if line.lower().startswith("soru"):
+                if current_q['question']:
+                    questions.append(current_q)
+                    current_q = {
+                        'question': '',
+                        'options': {},
+                        'answer': '',
+                        'explanation': '',
+                        'selected_answer': tk.StringVar(value="")
+                    }
+                # örnek: Soru 1: ... → iki parçaya böl
+                parts = line.split(':', 1)
+                if len(parts) == 2:
+                    current_q['question'] = parts[1].strip()
+                else:
+                    current_q['question'] = line
+
+            elif option_pattern.match(line):
+                opt, val = option_pattern.match(line).groups()
+                current_q['options'][opt.upper()] = val.strip()
+
+            elif line.lower().startswith("cevap"):
+                current_q['answer'] = line.split(':', 1)[-1].strip().upper()
+
+            elif line.lower().startswith("açıklama"):
+                current_q['explanation'] = line.split(':', 1)[-1].strip()
+
+        if current_q['question']:
+            questions.append(current_q)
+
+        # Temizlik
+        valid_questions = []
+        for q in questions:
+            if q.get('question') and len(q.get('options', {})) >= 4:
+                valid_questions.append(q)
+
+        print(f"[DEBUG] parse_ai_questions sonucu: {len(valid_questions)} geçerli soru bulundu.")
+        return valid_questions
 
     def show_test_question_page(self):
         self.clear()
@@ -518,7 +849,6 @@ class QuestionApp:
         opt_frame.pack(side='right', fill='y', padx=10, pady=10)
 
         ttk.Label(opt_frame, text="Optik Form", style='Optik.TLabel').pack(pady=5)
-
 
         # Optik formu oluştur
         self.test_optik_circles = []
@@ -551,7 +881,26 @@ class QuestionApp:
             fr.pack(fill='x', pady=5)
 
             # Soru metni
-            ttk.Label(fr, text=q.get('question', 'Soru metni yok'), wraplength=800).pack(anchor='w', pady=5)
+            stars = self.get_star_rating(q.get('difficulty', 1))
+
+            # Üst başlık satırı: Soru metni solda, yıldızlar sağda
+            top_row = ttk.Frame(fr)
+            top_row.pack(fill='x', pady=(0, 5))
+
+            # Soru metni (sola yaslı)
+            ttk.Label(top_row,
+                      text=f"Soru {idx + 1}: {q.get('question', 'Soru metni yok')}",
+                      font=('Arial', 10, 'bold'),
+                      wraplength=700,
+                      anchor='w',
+                      justify='left').pack(side='left', fill='x', expand=True)
+
+            # Yıldızlar (sağ üstte)
+            ttk.Label(top_row,
+                      text=stars,
+                      font=('Arial', 12),
+                      foreground='gold',
+                      background=THEMES[self.theme_manager.current]['bg']).pack(side='right')
 
             # Şıklar
             options = q.get('options', {})
@@ -565,94 +914,6 @@ class QuestionApp:
                         command=lambda qidx=idx: self.update_test_optic(qidx),
                         style='Question.TRadiobutton'
                     ).pack(anchor='w')
-
-    def update_test_optic(self, idx):
-        """Test modülü için optik form güncelleme"""
-        selected = self.test_selected_answers[idx].get()
-        for i, opt in enumerate(['A', 'B', 'C', 'D']):
-            btn = self.test_optik_circles[idx][i]
-            if opt == selected:
-                btn.state(['selected'])
-            else:
-                btn.state(['!selected'])
-
-    def scroll_to_test_question(self, idx):
-        """Test modülü için soruya kaydırma"""
-        if hasattr(self, 'sf') and self.sf:
-            self.sf.canvas.yview_moveto(idx / len(self.test_questions))
-
-
-    def generate_questions(self):
-        self.current_screen = 'test'
-        """Soruları oluştur"""
-        self.generating = True
-        self.theme_manager.set_generating_state(True)  # Tema yöneticisine soru oluşturma durumunu bildir
-        self.test_selected_answers = {}
-
-        try:
-            self.num_questions = int(self.num_entry.get())
-        except:
-            self.num_questions = 4
-
-        # Test modülü için özel işlemler
-        if self.mode == 'test':
-            if not hasattr(self, 'selected_konu'):
-                self.selected_konu = self.konu_var.get()
-
-            if not self.selected_konu:
-                messagebox.showerror('Hata', 'Lütfen bir konu seçin')
-                self.generating = False
-                self.theme_manager.set_generating_state(False)
-                return
-
-            prompt = (
-                f"{self.test_type} {self.selected_ders} "
-                f"dersinin {self.selected_konu} konusundan {self.num_questions} adet test sorusu üret. "
-                "Her soru şu formatta olsun:\n\n"
-                "Soru 1: [soru metni]\nA) [şık A]\nB) [şık B]\nC) [şık C]\nD) [şık D]\n"
-                "Cevap: [doğru şık]\nAçıklama: [açıklama metni]\n\nLütfen bu formata kesinlikle uyun!"
-            )
-
-            try:
-                # Yükleniyor mesajı göster
-                self.clear()
-                ttk.Label(self.root, text='Sorular oluşturuluyor, lütfen bekleyin...',
-                          font=self.title_font).pack(pady=200)
-                self.root.update()
-
-                res = model.generate_content(prompt)
-                self.test_questions = self.parse_ai_questions(res.text)
-
-                self.test_selected_answers = {}
-                for idx, q in enumerate(self.test_questions):
-                    self.test_selected_answers[idx] = tk.StringVar(value="")
-
-                self.show_test_question_page()
-
-                # Her soru için bir StringVar oluştur
-                self.test_selected_answers = {}
-                for idx in range(len(self.test_questions)):
-                    self.test_selected_answers[idx] = tk.StringVar(value="")
-
-                # Sonuçları kaydet
-                save_to_json({
-                    'mode': self.mode,
-                    'kategori': self.test_type,
-                    'questions': self.test_questions
-                })
-
-                # Test soru sayfasına git
-                self.show_test_question_page()
-                return
-
-            except Exception as e:
-                logging.error(f"Test soruları oluşturulurken hata: {str(e)}")
-                messagebox.showerror("Hata", "Test soruları oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.")
-                self.show_main_menu()
-                return
-            finally:
-                self.generating = False
-                self.theme_manager.set_generating_state(False)
 
 
     def show_test_setup(self):
@@ -670,29 +931,59 @@ class QuestionApp:
 
         # İleri butonu
         ttk.Button(self.root, text='İleri', command=self.show_ders_selection).pack(pady=10)
-
-    def show_exam_setup(self):
-        self.clear()
-        self.current_screen = 'results'
-
-        ttk.Label(self.root, text="Kullanıcı Seçin", font=self.title_font).pack(pady=20)
-
-        self.kullanici_var = tk.StringVar()
-        self.kullanici_cb = ttk.Combobox(self.root, textvariable=self.kullanici_var, state="readonly")
-        self.kullanici_cb.pack(pady=10)
-
-        self.kullanicilar = self.get_users()
-        self.kullanici_cb['values'] = [k['KullaniciAdi'] for k in self.kullanicilar]
-
-        ttk.Button(self.root, text="Sınavları Göster", command=self.load_user_exams).pack(pady=10)
+        # Geri butonu
+        ttk.Button(self.root, text='Geri', command=self.show_test_menu).pack(pady=5)
 
     def get_users(self):
         cur = self.conn.cursor()
         cur.execute("SELECT Id, KullaniciAdi, SinifId FROM Kullanicilar")
         return [{'Id': row[0], 'KullaniciAdi': row[1], 'SinifId': row[2]} for row in cur.fetchall()]
 
-
     def show_test_results(self):
+        # Test cevaplarını kaydet
+        try:
+            cur = self.conn.cursor()
+            for idx, q in enumerate(self.test_questions):
+                selected = self.test_selected_answers[idx].get()
+                if not selected:
+                    continue
+
+                soru_metin = q['question']
+                secenek_aciklama = q['options'].get(selected)
+                if not secenek_aciklama:
+                    continue
+
+                # Soru ID
+                cur.execute("SELECT Id FROM Sorular WHERE SoruMetni = ?", (soru_metin,))
+                row = cur.fetchone()
+                if not row:
+                    continue
+                soru_id = row[0]
+
+                # SecenekId
+                cur.execute("""
+                    SELECT Id FROM Secenekler 
+                    WHERE SoruId = ? AND Aciklama LIKE ?
+                """, (soru_id, f"%{secenek_aciklama}%"))
+                row = cur.fetchone()
+                if not row:
+                    continue
+                secenek_id = row[0]
+
+                # Kaydet
+                cur.execute("""
+                    INSERT INTO OgrenciCevaplari (SecenekId, KullaniciId, Sure, SinavId)
+                    VALUES (?, ?, ?, ?)
+                """, (
+                    secenek_id,
+                    self.selected_user_id,
+                    0,
+                    self.sinav_id  # test sırasında da set edilmişti
+                ))
+            self.conn.commit()
+        except Exception as e:
+            logging.error(f"Test cevapları kaydedilemedi: {e}")
+
         self.clear()
         self.current_screen = 'results'
 
@@ -713,20 +1004,33 @@ class QuestionApp:
             q_frame = ttk.Frame(sf.inner, style='Custom.TFrame')
             q_frame.pack(fill='x', pady=5, padx=5)
 
-            # Soru numarası ve metni
+            # Öğrenci cevap vermiş mi?
             is_blank = self.test_selected_answers[idx].get() == ""
-            question_title = f"Soru {idx + 1}: {q['question']}"
-            if is_blank:
-                question_title = f"🟠{question_title} | Boş "
             fg_color = 'orange' if is_blank else THEMES[self.theme_manager.current]['fg']
+            stars = self.get_star_rating(q.get('difficulty', 1))
 
-            # Soru etiketi
-            tk.Label(q_frame,
-                     text=question_title,
-                     wraplength=800,
-                     fg=fg_color,
-                     bg=THEMES[self.theme_manager.current]['bg'],
-                     font=('Arial', 10, 'bold')).pack(anchor='center', pady=(0, 10))
+            # Soru başlığı ve yıldızlar hizası
+            top_row = ttk.Frame(q_frame)
+            top_row.pack(fill='x')
+
+            question_text = f"Soru {idx + 1}: {q['question']}"
+            if is_blank:
+                question_text = f"🟠{question_text} | Boş"
+
+            ttk.Label(top_row,
+                      text=question_text,
+                      font=('Arial', 10, 'bold'),
+                      foreground=fg_color,
+                      background=THEMES[self.theme_manager.current]['bg'],
+                      wraplength=700,
+                      anchor='w',
+                      justify='left').pack(side='left', fill='x', expand=True)
+
+            ttk.Label(top_row,
+                      text=stars,
+                      font=('Arial', 12),
+                      foreground='gold',
+                      background=THEMES[self.theme_manager.current]['bg']).pack(side='right')
 
             # Şıkları gösterme
             options = q.get('options', {})
@@ -787,8 +1091,6 @@ class QuestionApp:
         ttk.Button(self.root, text="Ana Menü", command=self.show_main_menu).pack(pady=20)
         ttk.Button(self.root, text="Performans Değerlendirmesi", command=self.show_test_rating).pack(pady=10)
 
-
-
     def show_test_rating(self):
         self.clear()
         self.current_screen = 'test_report'
@@ -822,51 +1124,25 @@ class QuestionApp:
         ttk.Label(self.root, text=f"Başarı Notu: {grade}").pack(pady=10)
         ttk.Button(self.root, text="Sonuçlara Geri Dön", command=self.show_test_results).pack(pady=20)
 
-    def start_exam(self, kind):
-        self.test_type = kind
-
-        # Kategori bilgilerini çek
-        kategori = next((k for k in self.get_categories() if k['Adi'] == kind), None)
-        if not kategori:
-            messagebox.showerror("Hata", "Kategori bulunamadı!")
-            return
-
-        # Süreyi veritabanındaki VarsayilanSure'dan al (dakika cinsinden)
-        self.remaining_sec = kategori['VarsayilanSure']
-
-        # Veritabanından kategoriye ait dersleri çek
-        cur = self.conn.cursor()
-        cur.execute(
-            "SELECT d.Adi FROM SinavDersleri d JOIN SinavKategorileri k ON d.SinavKategoriId=k.Id WHERE k.Adi=?",
-            kind
-        )
-        ders_listesi = [row[0] for row in cur.fetchall()]
-
-        # Modülleri dinamik oluştur (Her ders için varsayılan 5 soru)
-        self.modules = [{'name': ders, 'num': 5} for ders in ders_listesi]
-
-        self.clear()
-        ttk.Label(self.root, text='Sorular oluşturuluyor...', font=self.title_font).pack(pady=200)
-        self.root.update()
-        self.generate_questions()
 
 
         # E-sınav modülü için işlemler
 
     def load_user_exams(self):
-        secilen_kadi = self.kullanici_var.get()
-        kullanici = next((k for k in self.kullanicilar if k['KullaniciAdi'] == secilen_kadi), None)
+   
+        # yeni doğrudan:
+        if self.selected_user_id is None:
+            messagebox.showerror("Hata", "Kullanıcı verisi yok!")
+            return 
 
-        if not kullanici:
-            messagebox.showerror("Hata", "Lütfen geçerli bir kullanıcı seçin.")
-            return
+        sinif_id = self.selected_sinif_id
 
-        sinif_id = kullanici['SinifId']
+        #sınavları çeker
         cur = self.conn.cursor()
         cur.execute("""
             SELECT s.Id, s.Adi
             FROM Sinavlar s
-            WHERE s.Atanan_Sinif = ?
+            WHERE s.Atanan_Sinif = ? AND s.SinavKategoriId IN (4, 5, 6, 10)
         """, (sinif_id,))
         self.uygun_sinavlar = cur.fetchall()
 
@@ -874,18 +1150,62 @@ class QuestionApp:
             messagebox.showinfo("Bilgi", "Bu kullanıcının sınıfına atanmış sınav yok.")
             return
 
-        self.selected_user_id = kullanici['Id']
-        self.selected_sinif_id = sinif_id
         self.show_user_exam_selection()
+
 
     def show_user_exam_selection(self):
         self.clear()
-        ttk.Label(self.root, text="Sınav Seçiniz", font=self.title_font).pack(pady=20)
+        ttk.Label(self.root, text="Sınav Seçimi", font=self.title_font).pack(pady=20)
+
+        ttk.Button(self.root, text="📘 Tanımlanmış Sınavlar", command=self.show_assigned_exams).pack(pady=10)
+        ttk.Button(self.root, text="📚 Geçmiş Sınavlar", command=self.show_previous_exams).pack(pady=10)
+        ttk.Button(self.root, text="↩ Geri", command=self.show_exam_setup).pack(pady=20)
+
+    def show_assigned_exams(self):
+        self.clear()
+        ttk.Label(self.root, text="Tanımlanmış Sınavlar", font=self.title_font).pack(pady=20)
+
+        cur = self.conn.cursor()
+        cur.execute("""
+            SELECT s.Id, s.Adi FROM Sinavlar s
+            WHERE s.Atanan_Sinif = ? AND s.SinavKategoriId IN (4, 5, 6, 10)
+            AND s.Id NOT IN (
+                SELECT SinavId FROM SinavSonuclari WHERE KullaniciId = ?
+            )
+        """, (self.selected_sinif_id, self.selected_user_id))
+
+        self.tanimli_sinavlar = cur.fetchall()
         self.sinav_sec_var = tk.StringVar()
         ttk.Combobox(self.root, textvariable=self.sinav_sec_var,
-                     values=[s[1] for s in self.uygun_sinavlar],
+                     values=[s[1] for s in self.tanimli_sinavlar],
                      state='readonly').pack(pady=10)
+
         ttk.Button(self.root, text="Sınava Başla", command=self.baslat_sinav).pack(pady=10)
+        ttk.Button(self.root, text="↩ Geri", command=self.show_user_exam_selection).pack(pady=10)
+
+    def show_previous_exams(self):
+        if not hasattr(self, 'selected_user_id') or self.selected_user_id is None:
+            messagebox.showerror("Hata", "Önce kullanıcı seçmeniz gerekiyor.")
+            return
+
+        self.clear()
+        ttk.Label(self.root, text="Geçmiş Sınavlar", font=self.title_font).pack(pady=20)
+
+        cur = self.conn.cursor()
+        cur.execute("""
+            SELECT s.Id, s.Adi FROM SinavSonuclari ss
+            JOIN Sinavlar s ON ss.SinavId = s.Id
+            WHERE ss.KullaniciId = ?
+        """, (self.selected_user_id,))
+
+        self.gecmis_sinavlar = cur.fetchall()
+        self.sinav_sec_var = tk.StringVar()
+        ttk.Combobox(self.root, textvariable=self.sinav_sec_var,
+                     values=[s[1] for s in self.gecmis_sinavlar],
+                     state='readonly').pack(pady=10)
+
+        ttk.Button(self.root, text="Sonuçları Gör", command=self.goster_sonuc_raporu).pack(pady=10)
+        ttk.Button(self.root, text="↩ Geri", command=self.show_user_exam_selection).pack(pady=10)
 
     def baslat_sinav(self):
         secilen_ad = self.sinav_sec_var.get()
@@ -894,105 +1214,190 @@ class QuestionApp:
             self.secilen_sinav_id = sinav[0]
 
             try:
+                cur = self.conn.cursor()
+
+                # 1. Kategori adını al
+                cur.execute("""
+                    SELECT k.Adi
+                    FROM Sinavlar s
+                    JOIN SinavKategorileri k ON s.SinavKategoriId = k.Id
+                    WHERE s.Id = ?
+                """, (self.secilen_sinav_id,))
+                row_kategori = cur.fetchone()
+                if not row_kategori:
+                    messagebox.showerror("Hata", "Kategori alınamadı!")
+                    return
+                kategori_adi = row_kategori[0]
+
+                # 2. Süreyi al
+                cur.execute("""
+                    SELECT K.VarsayilanSure  -- ← sütun adın 'Sure' değilse düzelt
+                    FROM Sinavlar S
+                    JOIN SinavKategorileri K ON S.SinavKategoriId = K.Id
+                    WHERE S.Id = ?
+                """, (self.secilen_sinav_id,))
+                row_sure = cur.fetchone()
+                if row_sure:
+                    self.remaining_sec = int(row_sure[0]) * 60
+                else:
+                    self.remaining_sec = 30 * 60  # Default süre
+
+                # 3. Soruları yükle ve arayüzü başlat
                 self.load_exam_questions(self.secilen_sinav_id)
                 self.current_screen = 'exam'
                 self.show_exam_interface()
-                self.theme_manager.apply(self.theme_manager.current)  # Tema yeniden uygula
+                self.theme_manager.apply(self.theme_manager.current)
+                self.start_timer()
+
             except Exception as e:
-                logging.error(f"Sınav başlatılırken hata: {e}")
-                messagebox.showerror("Hata", "Sınav başlatılamadı. Lütfen tekrar deneyin.")
+               logging.error(f"Sınav başlatılırken hata: {e}")
+               messagebox.showerror("Hata", "Sınav başlatılamadı. Lütfen tekrar deneyin.")
+               return
+
+            # 2) C# tarafı için sinav başlatıldı mesajı:
+            print("Sinav basladi") # , flush=True
+            
+            # 3) İsteğe bağlı kullanıcıya bilgi:
+            messagebox.showinfo("Başarılı", "Sınav başlatılıyor...")
+            
 
     def load_exam_questions(self, sinav_id):
+        print("Kullanıcı ID:", self.selected_user_id)
         try:
             cur = self.conn.cursor()
+
+            # Cevaplar: {SoruId: SecenekId}
             cur.execute("""
-                SELECT s.Id, s.SoruMetni, s.YildizSeviyesi, s.SinavDersKonuId, s.SecenekSayisi, s.Ders,
-                       o.Aciklama, o.Status
-                FROM Sorular s
-                JOIN Secenekler o ON s.Id = o.SoruId
-                WHERE s.SinavId = ?
+                SELECT SoruId, SecenekId
+                FROM OgrenciCevaplari
+                WHERE KullaniciId = ? AND SinavId = ?
+            """, (self.selected_user_id, sinav_id))
+            cevaplar = cur.fetchall()
+            soru_cevaplari = {soru_id: secenek_id for soru_id, secenek_id in cevaplar}
+
+            # Sorular ve seçenekler
+            cur.execute("""
+                SELECT s.Id, s.SoruMetni, s.YildizSeviyesi, s.SinavDersKonuId, s.SecenekSayisi,
+                       d.Adi as DersAdi, o.Aciklama, o.Status, o.Id as SecenekId
+                  FROM Sorular s
+                  JOIN Secenekler o ON s.Id = o.SoruId
+                  JOIN SinavDersKonulari k ON s.SinavDersKonuId = k.Id
+                  JOIN SinavDersleri d ON k.SinavDersId = d.Id
+                 WHERE s.SinavId = ?
             """, sinav_id)
             rows = cur.fetchall()
 
-            # Verileri sorulara dönüştür
-            modules_dict = {}  # ders adı -> sorular listesi
-
+            modules_dict = {}
             for row in rows:
-                soru_id, metin, zorluk, konu_id, secenek_sayisi, ders, secenek_aciklama, status = row
-
-                if ders not in modules_dict:
-                    modules_dict[ders] = {}
+                soru_id, metin, zorluk, _, _, ders, secenek_aciklama, status, secenek_id = row
+                modules_dict.setdefault(ders, {})
 
                 if soru_id not in modules_dict[ders]:
                     modules_dict[ders][soru_id] = {
+                        'id': soru_id,
                         'question': metin,
+                        'difficulty': zorluk,
                         'options': {},
+                        'secenek_ids': {},
                         'answer': '',
-                        'explanation': '',
-                        'selected_answer': tk.StringVar(value="")
+                        'explanation': ''
                     }
 
-                # Doğru şık belirle
-                secenek_harfleri = ['A', 'B', 'C', 'D']
-                mevcut_opt_sayisi = len(modules_dict[ders][soru_id]['options'])
-                if mevcut_opt_sayisi < len(secenek_harfleri):
-                    harf = secenek_harfleri[mevcut_opt_sayisi]
-                    modules_dict[ders][soru_id]['options'][harf] = secenek_aciklama
-                    if status:  # True ise doğru cevap
-                        modules_dict[ders][soru_id]['answer'] = harf
+                harf = ['A', 'B', 'C', 'D'][len(modules_dict[ders][soru_id]['options'])]
+                modules_dict[ders][soru_id]['options'][harf] = secenek_aciklama
+                modules_dict[ders][soru_id]['secenek_ids'][harf] = secenek_id
 
-            # Dersi modül haline getir
-            self.modules = []
-            for ders, sorular_dict in modules_dict.items():
-                soru_listesi = list(sorular_dict.values())
-                self.modules.append({'name': ders, 'questions': soru_listesi})
+                if status:
+                    modules_dict[ders][soru_id]['answer'] = harf
 
+            # Seçilen cevapları harfe çevirerek set et
+            for ders, sorular in modules_dict.items():
+                for soru_id, q in sorular.items():
+                    selected_value = ""
+                    secenek_id = soru_cevaplari.get(soru_id)
+                    if secenek_id:
+                        for harf, s_id in q['secenek_ids'].items():
+                            if s_id == secenek_id:
+                                selected_value = harf
+                                break
+                    q['selected_answer'] = tk.StringVar(value=selected_value)
+
+            self.modules = [{'name': ders, 'questions': list(sorular.values())} for ders, sorular in
+                            modules_dict.items()]
             self.current_module = 0
-            self.remaining_sec = int(self.modules[0]['questions'][0].get('Sure', 120)) * 60
             self.root.after(0, self.show_exam_interface)
             self.root.after(0, self.start_timer)
+
+            if not self.modules:
+                logging.error("HATA: Modüller boş geldi, sınav yüklenemedi.")
+                messagebox.showerror("Hata", "Bu sınav için yüklenecek soru bulunamadı.")
+                return
+
 
         except Exception as e:
             logging.error(f"Sınav başlatılırken hata: {str(e)}")
             messagebox.showerror("Hata", "Sorular yüklenirken bir hata oluştu.")
 
-    def parse_ai_questions(self, text):
-        questions = []
-        current_q = {}
-        lines = text.split('\n')
+        except Exception as e:
+            logging.error(f"Sınav başlatılırken hata: {str(e)}")
+            messagebox.showerror("Hata", "Sorular yüklenirken bir hata oluştu.")
 
-        for line in lines:
-            line = line.strip()
-            if line.startswith('Soru'):
-                if current_q:
-                    questions.append(current_q)
-                current_q = {
-                    'question': line.split(':', 1)[-1].strip(),
-                    'options': {},
-                    'answer': '',
-                    'explanation': '',
-                    'selected_answer': tk.StringVar(value="")
-                }
-            elif line.startswith(('A)', 'B)', 'C)', 'D)')):
-                opt = line[0]
-                if 'options' not in current_q:
-                    current_q['options'] = {}
-                current_q['options'][opt] = line[2:].strip()
-            elif line.startswith('Cevap:'):
-                current_q['answer'] = line.split(':', 1)[-1].strip()
-            elif line.startswith('Açıklama:'):
-                current_q['explanation'] = line.split(':', 1)[-1].strip()
+    # ✅ TEST/ÖDEV MODÜLÜ FONKSİYONU: Süreyi çeker, veri kaydı yapmaz
+    def load_test_questions(self, sinav_id):
+        try:
+            cur = self.conn.cursor()
 
-        if current_q:
-            questions.append(current_q)
+            cur.execute("""
+                SELECT K.VarsayilanSure
+                FROM Sinavlar S
+                JOIN SinavKategorileri K ON S.SinavKategoriId = K.Id
+                WHERE S.Id = ?
+            """, (sinav_id,))
+            row = cur.fetchone()
+            self.remaining_sec = int(row[0]) * 60 if row else 30 * 60
 
-        # Eksik verileri kontrol et
-        valid_questions = []
-        for q in questions:
-            if 'question' in q and 'options' in q and len(q['options']) >= 4:
-                valid_questions.append(q)
+            cur.execute("""
+                SELECT s.Id, s.SoruMetni, s.YildizSeviyesi, s.SinavDersKonuId, s.SecenekSayisi,
+                       d.Adi as DersAdi, o.Aciklama, o.Status, o.Id as SecenekId
+                  FROM Sorular s
+                  JOIN Secenekler o ON s.Id = o.SoruId
+                  JOIN SinavDersKonulari k ON s.SinavDersKonuId = k.Id
+                  JOIN SinavDersleri d ON k.SinavDersId = d.Id
+                 WHERE s.SinavId = ?
+            """, sinav_id)
+            rows = cur.fetchall()
 
-        return valid_questions
+            modules_dict = {}
+            for row in rows:
+                soru_id, metin, zorluk, _, _, ders, secenek_aciklama, status, secenek_id = row
+                modules_dict.setdefault(ders, {})
+                if soru_id not in modules_dict[ders]:
+                    modules_dict[ders][soru_id] = {
+                        'question': metin,
+                        'difficulty': zorluk,
+                        'options': {},
+                        'secenek_ids': {},
+                        'answer': '',
+                        'explanation': '',
+                        'selected_answer': tk.StringVar(value="")
+                    }
+                harf = ['A', 'B', 'C', 'D'][len(modules_dict[ders][soru_id]['options'])]
+                modules_dict[ders][soru_id]['options'][harf] = secenek_aciklama
+                modules_dict[ders][soru_id]['secenek_ids'][harf] = secenek_id
+                if status:
+                    modules_dict[ders][soru_id]['answer'] = harf
+
+            self.modules = [{'name': ders, 'questions': list(sorular.values())} for ders, sorular in
+                            modules_dict.items()]
+            self.current_module = 0
+            self.root.after(0, self.show_exam_interface)
+            self.root.after(0, self.start_timer)
+
+        except Exception as e:
+            logging.error(f"Test başlatılırken hata: {str(e)}")
+            messagebox.showerror("Hata", "Test soruları yüklenirken bir hata oluştu.")
+
+
 
     def show_exam_interface(self):
         self.clear()
@@ -1067,14 +1472,30 @@ class QuestionApp:
             module_name = self.modules[self.current_module]['name']
             unique_key = f"{self.test_type}_{module_name}_{idx}"
 
-            # Daha önce işaretlenmiş şıkkı yükle
-            q['selected_answer'] = tk.StringVar(value=self.selected_answers.get(unique_key, ""))
 
             fr = ttk.LabelFrame(self.sf.inner, text=f"Soru {idx + 1}", padding=10)
             fr.pack(fill='x', pady=5)
 
-            # Soru metni
-            ttk.Label(fr, text=q.get('question', 'Soru metni yok'), wraplength=800).pack(anchor='w', pady=5)
+            stars = self.get_star_rating(q.get('difficulty', 1))
+
+            # Üst başlık satırı: Soru metni solda, yıldızlar sağda
+            top_row = ttk.Frame(fr)
+            top_row.pack(fill='x', pady=(0, 5))
+
+            # Soru metni (sola yaslı)
+            ttk.Label(top_row,
+                      text=f"Soru {idx + 1}: {q.get('question', 'Soru metni yok')}",
+                      font=('Arial', 10, 'bold'),
+                      wraplength=700,
+                      anchor='w',
+                      justify='left').pack(side='left', fill='x', expand=True)
+
+            # Yıldızlar (sağ üstte)
+            ttk.Label(top_row,
+                      text=stars,
+                      font=('Arial', 12),
+                      foreground='gold',
+                      background=THEMES[self.theme_manager.current]['bg']).pack(side='right')
 
             # Şıklar
             options = q.get('options', {})
@@ -1105,6 +1526,26 @@ class QuestionApp:
 
         # Stil ayarları
         ttk.Style().configure('Opt.TFrame', background='#f5f5f5')
+
+    def start_timer(self):
+        print(f"[DEBUG] start_timer başladı, remaining_sec = {self.remaining_sec}")
+
+        def tick():
+            try:
+                if self.remaining_sec > 0 and hasattr(self, 'timer_label') and self.timer_label:
+                    m, s = divmod(self.remaining_sec, 60)
+                    self.timer_label.config(text=f"Kalan Süre: {m:02d}:{s:02d}")
+                    self.remaining_sec -= 1
+                    self.root.after(1000, tick)
+                elif self.remaining_sec <= 0:
+                    if hasattr(self, 'timer_label') and self.timer_label:
+                        self.timer_label.config(text="Süre Doldu!")
+                    messagebox.showinfo("Bilgi", "Sınav süreniz doldu!")
+                    self.show_results()
+            except Exception as e:
+                print(f"Timer hatası: {e}")  # Hata ayıklama için
+
+        tick()
 
     def update_optik_display(self, question_idx):
         """optik formdaki görünümü güncelleyen metod"""
@@ -1152,39 +1593,103 @@ class QuestionApp:
                     else:
                         circle.config(style='Optik.TRadiobutton')
 
-    def start_timer(self):
-        def tick():
-            try:
-                if self.remaining_sec > 0 and hasattr(self, 'timer_label') and self.timer_label:
-                    m, s = divmod(self.remaining_sec, 60)
-                    self.timer_label.config(text=f"Kalan Süre: {m:02d}:{s:02d}")
-                    self.remaining_sec -= 1
-                    self.root.after(1000, tick)
-                elif self.remaining_sec <= 0:
-                    if hasattr(self, 'timer_label') and self.timer_label:
-                        self.timer_label.config(text="Süre Doldu!")
-                    messagebox.showinfo("Bilgi", "Sınav süreniz doldu!")
-                    self.show_results()
-            except Exception as e:
-                print(f"Timer hatası: {e}")  # Hata ayıklama için
-
-        tick()
-
     def complete_exam(self):
-        # Tüm cevapları kaydet
         self.save_current_module_answers()
 
-        # Kullanıcıya onay sorusu göster
         if not messagebox.askyesno("Onay", "Sınavı tamamlamak istediğinize emin misiniz?"):
             return
 
-        # Süreyi durdur
         self.remaining_sec = 0
         if hasattr(self, 'timer_label'):
             self.timer_label = None
 
-        # Açıklamaları göster
+        # Cevapları OgrenciCevaplari tablosuna kaydet
+        try:
+            cur = self.conn.cursor()
+
+            sinav_id = self.secilen_sinav_id  # Sınav başlatıldığında set edilmiş olmalı
+            sure = 0  # Şimdilik sabit süre, ileride hesaplanabilir
+
+            for module in self.modules:
+                for q in module['questions']:
+                    secilen_sik = q['selected_answer'].get()
+                    soru_metin = q['question']
+
+                    if not secilen_sik:
+                        continue  # Boş bırakılan soruları geç
+
+                    # Soru ID zaten varsa doğrudan kullan (q['id']), yoksa metinden al
+                    soru_id = q.get('id')
+                    if not soru_id:
+                        cur.execute("SELECT Id FROM Sorular WHERE SoruMetni = ?", soru_metin)
+                        row = cur.fetchone()
+                        if not row:
+                            continue
+                        soru_id = row[0]
+
+                    # Seçilen şık açıklaması
+                    secilen_aciklama = q['options'].get(secilen_sik)
+                    if not secilen_aciklama:
+                        continue
+
+                    # SeçenekId'yi bul
+                    cur.execute("""
+                        SELECT Id FROM Secenekler 
+                        WHERE SoruId = ? AND Aciklama LIKE ?
+                    """, (soru_id, f"%{secilen_aciklama}%"))
+                    secenek_row = cur.fetchone()
+                    if not secenek_row:
+                        continue
+                    secenek_id = secenek_row[0]
+
+                    # Cevabı OgrenciCevaplari tablosuna ekle
+                    cur.execute("""
+                        INSERT INTO OgrenciCevaplari (SoruId, SecenekId, KullaniciId, Sure, SinavId)
+                        VALUES (?, ?, ?, ?, ?)
+                    """, (soru_id, secenek_id, self.selected_user_id, sure, sinav_id))
+
+            self.conn.commit()
+
+        except Exception as e:
+            logging.error(f"Cevaplar kaydedilirken hata: {e}")
+            messagebox.showerror("Hata", "Cevaplar kaydedilemedi!")
+
+        # Sınav sonucu genel istatistiklerini kaydet
+        try:
+            cur = self.conn.cursor()
+            toplam_dogru = toplam_yanlis = 0
+
+            for module in self.modules:
+                for q in module['questions']:
+                    selected = q['selected_answer'].get()
+                    if not selected:
+                        continue
+                    if selected == q['answer']:
+                        toplam_dogru += 1
+                    else:
+                        toplam_yanlis += 1
+
+            puan = toplam_dogru * 5  # örnek puan hesaplama
+
+            cur.execute("""
+                INSERT INTO SinavSonuclari (KullaniciId, SinavId, ToplamDogrular, ToplamYanlislar, ToplamPuan)
+                VALUES (?, ?, ?, ?, ?)
+            """, (self.selected_user_id, self.secilen_sinav_id, toplam_dogru, toplam_yanlis, puan))
+            self.conn.commit()
+
+        except Exception as e:
+            logging.error(f"Sonuç kaydında hata: {e}")
+
+        # Sonuç ekranına geç
         self.show_results()
+
+    def goster_sonuc_raporu(self):
+        secilen_ad = self.sinav_sec_var.get()
+        sinav = next((s for s in self.gecmis_sinavlar if s[1] == secilen_ad), None)
+        if sinav:
+            self.secilen_sinav_id = sinav[0]
+            self.load_exam_questions(self.secilen_sinav_id)
+            self.show_results()
 
     def show_results(self):
 
@@ -1225,20 +1730,35 @@ class QuestionApp:
                 q_frame = ttk.Frame(module_frame, style='Custom.TFrame')
                 q_frame.pack(fill='x', pady=5, padx=5)
 
-                # Soru numarası ve metni
+                # Soru bilgileri
                 is_blank = q['selected_answer'].get() == ""
-                question_title = f"Soru {q_idx + 1}: {q['question']}"
-                if is_blank:
-                    question_title = f"🟠{question_title} | Boş "
+                stars = self.get_star_rating(q.get('difficulty', 1))
                 fg_color = 'orange' if is_blank else THEMES[self.theme_manager.current]['fg']
 
-                # Soru etiketi
-                tk.Label(q_frame,
-                         text=question_title,
-                         wraplength=800,
-                         fg=fg_color,
-                         bg=THEMES[self.theme_manager.current]['bg'],  # Arkaplan rengi
-                         font=('Arial', 10, 'bold')).pack(anchor='center', pady=(0, 10))
+                # Yıldız ve soru başlığı ayrı hizalı
+                top_row = ttk.Frame(q_frame)
+                top_row.pack(fill='x')
+
+                # Soru başlığı sol üstte
+                question_text = f"Soru {q_idx + 1}: {q['question']}"
+                if is_blank:
+                    question_text = f"🟠{question_text} | Boş"
+
+                ttk.Label(top_row,
+                          text=question_text,
+                          font=('Arial', 10, 'bold'),
+                          foreground=fg_color,
+                          background=THEMES[self.theme_manager.current]['bg'],
+                          wraplength=700,
+                          anchor='w',
+                          justify='left').pack(side='left', fill='x', expand=True)
+
+                # Yıldızlar sağ üstte
+                ttk.Label(top_row,
+                          text=stars,
+                          font=('Arial', 12),
+                          foreground='gold',
+                          background=THEMES[self.theme_manager.current]['bg']).pack(side='right')
 
                 # Şıkları gösterme
                 options = q.get('options', {})
@@ -1302,12 +1822,14 @@ class QuestionApp:
         ttk.Button(self.root, text="Ana Menü", command=self.show_main_menu).pack(pady=20)
         ttk.Button(self.root, text="Raporu Görüntüle", command=self.show_exam_report).pack(pady=10)
 
-
     def show_exam_report(self):
         self.clear()
         self.current_screen = 'exam_report'
 
-        ttk.Label(self.root, text="Yapay Zeka Destekli Sınav Raporu", font=self.title_font).pack(pady=20)
+        sf = ScrollableFrame(self.root, theme_name=self.theme_manager.current)
+        sf.pack(fill='both', expand=True)
+
+        ttk.Label(sf.inner, text="Yapay Zeka Destekli Sınav Raporu", font=self.title_font).pack(pady=20)
 
         total = correct = incorrect = blank = 0
         for module in self.modules:
@@ -1327,12 +1849,183 @@ class QuestionApp:
             f"Kullanıcı {total} soruda {correct} doğru, {incorrect} yanlış ve {blank} boş yapmıştır. Performansı nasıl değerlendirirsin?"
         )
 
-        ttk.Label(self.root, text=f"Toplam Soru: {total}").pack()
-        ttk.Label(self.root, text=f"Doğru: {correct} | Yanlış: {incorrect} | Boş: {blank}").pack(pady=5)
-        ttk.Label(self.root, text="Yorum:", font=('Segoe UI', 10, 'bold')).pack(pady=(10, 2))
-        ttk.Label(self.root, text=yorum.text, wraplength=800, justify='center').pack(padx=10, pady=10)
+        # Konu bazlı hata analizi
+        konular = {}
+        for module in self.modules:
+            for q in module['questions']:
+                konu = module['name']
+                selected = q['selected_answer'].get()
+                if konu not in konular:
+                    konular[konu] = {'dogru': 0, 'yanlis': 0, 'bos': 0}
+                if selected == "":
+                    konular[konu]['bos'] += 1
+                elif selected == q['answer']:
+                    konular[konu]['dogru'] += 1
+                else:
+                    konular[konu]['yanlis'] += 1
 
-        ttk.Button(self.root, text="Sonuçlara Geri Dön", command=self.show_results).pack(pady=20)
+        ttk.Label(sf.inner, text="\nKonu Bazlı Performans:", font=('Segoe UI', 10, 'bold')).pack(pady=(10, 2))
+        konu_yorum_prompt = "Öğrencinin her konuya ait performans durumu aşağıda verilmiştir:\n"
+        for konu, veriler in konular.items():
+            toplam = veriler['dogru'] + veriler['yanlis'] + veriler['bos']
+            if toplam == 0:
+                continue
+            oran_yanlis = (veriler['yanlis'] / toplam) * 100
+            oran_bos = (veriler['bos'] / toplam) * 100
+            ttk.Label(sf.inner, text=f"{konu}: %{oran_yanlis:.1f} yanlış, %{oran_bos:.1f} boş").pack()
+            konu_yorum_prompt += f"- {konu}: %{oran_yanlis:.1f} yanlış, %{oran_bos:.1f} boş\n"
+
+        konu_yorum_prompt += ("Bu konulara göre öğrenciye kısa bir çalışma planı öner. Herhangi bir emoji ekleme, bold yazı kullanma. Bu verilere"
+                              " göre, özellikle boş bırakılan soruların da eksik öğrenme olarak ele alınması gerektiğini düşünerek öğrenciye hangi konularda eksik olduğu,"
+                              "nasıl çalışması gerektiği hakkında güzel bir rapor hazırla. Öğrenciye 'Çaylak' diye hitap ederek daha samimi bir "
+                              "rapor oluşturabilirsin. Günlük-haftalık raporlamaya gerek yok.")
+        konu_yorum = model.generate_content(konu_yorum_prompt)
+
+        ttk.Label(sf.inner, text="Çalışma Planı:", font=('Segoe UI', 10, 'bold')).pack(pady=(10, 2))
+        ttk.Label(sf.inner, text=konu_yorum.text, wraplength=800, justify='center').pack(padx=10, pady=10)
+
+        ttk.Label(sf.inner, text=f"Toplam Soru: {total}").pack()
+        ttk.Label(sf.inner, text=f"Doğru: {correct} | Yanlış: {incorrect} | Boş: {blank}").pack(pady=5)
+        ttk.Label(sf.inner, text="Yorum:", font=('Segoe UI', 10, 'bold')).pack(pady=(10, 2))
+        ttk.Label(sf.inner, text=yorum.text, wraplength=800, justify='center').pack(padx=10, pady=10)
+
+        ttk.Button(sf.inner, text="🧪 Aç Bitir Testi Oluştur", command=self.baslat_acbitir_test_from_report).pack(
+            pady=10)
+
+        ttk.Button(sf.inner, text="Sonuçlara Geri Dön", command=self.show_results).pack(pady=20)
+
+    def baslat_acbitir_test_from_report(self):
+        self.clear()
+        self.current_screen = 'acbitir_test_hazirlaniyor'
+
+        ttk.Label(self.root, text="Aç Bitir Testi Hazırlanıyor...", font=self.title_font).pack(pady=200)
+        self.root.update()
+
+        # Konu bazlı AI promptunu oluştur
+        konular = {}
+        for module in self.modules:
+            for q in module['questions']:
+                konu = module['name']
+                selected = q['selected_answer'].get()
+                if konu not in konular:
+                    konular[konu] = {'dogru': 0, 'yanlis': 0, 'bos': 0}
+                if selected == "":
+                    konular[konu]['bos'] += 1
+                elif selected == q['answer']:
+                    konular[konu]['dogru'] += 1
+                else:
+                    konular[konu]['yanlis'] += 1
+
+        konu_yorum_prompt = "Öğrencinin her konuya ait performans durumu aşağıda verilmiştir:\n"
+        for konu, veriler in konular.items():
+            toplam = veriler['dogru'] + veriler['yanlis'] + veriler['bos']
+            if toplam == 0:
+                continue
+            oran_yanlis = (veriler['yanlis'] / toplam) * 100
+            oran_bos = (veriler['bos'] / toplam) * 100
+            konu_yorum_prompt += f"- {konu}: %{oran_yanlis:.1f} yanlış, %{oran_bos:.1f} boş\n"
+
+        konu_yorum_prompt += (
+            "\nBu verilere göre, özellikle boş bırakılan soruların da eksik öğrenme olarak ele alınması gerektiğini düşünerek "
+            "öğrenciye 30 soruyu geçmeyecek şekilde eksik olduğu konulardan karışık yeni bir test üret. "
+            "Her sorunun formatı şu şekilde olmalı:\n\n"
+            "Soru 1: [soru metni]\nA) [şık A]\nB) [şık B]\nC) [şık C]\nD) [şık D]\n"
+            "Cevap: [doğru şık]\nAçıklama: [açıklama metni]"
+        )
+
+        try:
+            yanit = model.generate_content(konu_yorum_prompt)
+            self.acbitir_questions = self.parse_ai_questions(yanit.text)
+            self.acbitir_selected = {i: tk.StringVar(value="") for i in range(len(self.acbitir_questions))}
+            self.show_acbitir_question_page()
+        except Exception as e:
+            logging.error(f"Aç Bitir testi oluşturulurken hata: {e}")
+            messagebox.showerror("Hata", "Aç Bitir testi oluşturulamadı.")
+            self.show_exam_report()
+
+    def show_acbitir_question_page(self):
+        self.clear()
+        self.current_screen = 'acbitir_test'
+
+        ttk.Label(self.root, text="Aç Bitir Testi", font=self.title_font).pack(pady=20)
+
+        sf = ScrollableFrame(self.root, theme_name=self.theme_manager.current)
+        sf.pack(fill='both', expand=True)
+
+        for idx, q in enumerate(self.acbitir_questions):
+            fr = ttk.LabelFrame(sf.inner, text=f"Soru {idx + 1}", padding=10)
+            fr.pack(fill='x', pady=5)
+
+            top_row = ttk.Frame(fr)
+            top_row.pack(fill='x', pady=(0, 5))
+
+            ttk.Label(top_row,
+                      text=f"Soru {idx + 1}: {q.get('question', 'Soru metni yok')}",
+                      font=('Arial', 10, 'bold'),
+                      wraplength=700).pack(side='left', fill='x', expand=True)
+
+            ttk.Label(top_row,
+                      text=self.get_star_rating(q.get('difficulty', 1)),
+                      font=('Arial', 12),
+                      foreground='gold',
+                      background=THEMES[self.theme_manager.current]['bg']).pack(side='right')
+
+            for opt in ['A', 'B', 'C', 'D']:
+                if opt in q['options']:
+                    ttk.Radiobutton(
+                        fr,
+                        text=f"{opt}) {q['options'][opt]}",
+                        value=opt,
+                        variable=self.acbitir_selected[idx],
+                        style='Question.TRadiobutton'
+                    ).pack(anchor='w')
+
+        ttk.Button(self.root, text="Testi Bitir", command=self.show_acbitir_results).pack(pady=20)
+
+    def show_acbitir_results(self):
+        self.clear()
+        self.current_screen = 'acbitir_sonuc'
+
+        ttk.Label(self.root, text="Aç Bitir Testi Sonuçları", font=self.title_font).pack(pady=20)
+
+        sf = ScrollableFrame(self.root, theme_name=self.theme_manager.current)
+        sf.pack(fill='both', expand=True)
+
+        for idx, q in enumerate(self.acbitir_questions):
+            fr = ttk.LabelFrame(sf.inner, text=f"Soru {idx + 1}", padding=10)
+            fr.pack(fill='x', pady=5)
+
+            selected = self.acbitir_selected[idx].get()
+            stars = self.get_star_rating(q.get('difficulty', 1))
+            ttk.Label(fr, text=f"{q['question']} {stars}", wraplength=800, font=('Arial', 10, 'bold')).pack(anchor='w')
+
+            for opt in ['A', 'B', 'C', 'D']:
+                if opt in q['options']:
+                    is_correct = opt == q['answer']
+                    user_selected = selected == opt
+                    is_wrong = user_selected and not is_correct
+
+                    if is_correct:
+                        bg = '#e6ffe6'
+                        fg = 'green'
+                        suffix = "✓"
+                    elif is_wrong:
+                        bg = '#ffe6e6'
+                        fg = 'red'
+                        suffix = "✗ (Sizin cevabınız)"
+                    else:
+                        bg = THEMES[self.theme_manager.current]['bg']
+                        fg = THEMES[self.theme_manager.current]['fg']
+                        suffix = ""
+
+                    tk.Label(fr,
+                             text=f"{opt}) {q['options'][opt]} {suffix}",
+                             bg=bg, fg=fg,
+                             wraplength=750,
+                             font=('Arial', 9),
+                             padx=5, pady=2).pack(anchor='w')
+
+        ttk.Button(self.root, text="Ana Menü", command=self.show_main_menu).pack(pady=20)
 
 
 if __name__ == '__main__':

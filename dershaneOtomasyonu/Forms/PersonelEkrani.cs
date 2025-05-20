@@ -21,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -28,6 +30,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using TheArtOfDev.HtmlRenderer.Adapters;
+using static Bunifu.UI.WinForms.Helpers.Transitions.Transition;
 
 namespace dershaneOtomasyonu
 {
@@ -1044,10 +1047,188 @@ namespace dershaneOtomasyonu
             }
         }
 
-        private void guna2Button1_Click(object sender, EventArgs e)
+        private void btnSinavSis_Click(object sender, EventArgs e)
         {
+            // 1) Kullanıcı kontrolü
+            var kullanici = GlobalData.Kullanici;
+            if (kullanici == null)
+            {
+                MessageBox.Show("Kullanıcı verisi alınamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            // 2) Python ve script yolu
+            string pythonExe = "python";  // Veya tam python yolu: @"C:\Python311\python.exe"
+            string projeKlasoru = AppDomain.CurrentDomain.BaseDirectory;
+            string scriptYolu = Path.Combine(projeKlasoru, "PythonScripts", "ogretmenOdev.py");
+
+            // 3) Argümanlar: sadece ID
+            string arguments = $"\"{scriptYolu}\" {kullanici.Id}";
+
+            var psi = new ProcessStartInfo
+            {
+                FileName = pythonExe,
+                Arguments = arguments,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using (var process = Process.Start(psi))
+                {
+                    // Output/error okuma
+                    string output = process.StandardOutput.ReadToEnd();
+                    string error = process.StandardError.ReadToEnd();
+                    process.WaitForExit();
+
+                    if (!string.IsNullOrEmpty(error))
+                    {
+                        MessageBox.Show($"Python hatası:\n{error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // İsteğe bağlı: başarılı açıldığını kontrol etmek
+                    // if (!output.Contains("Giris Basarili")) { ... }
+
+                    // Başarılıysa buraya düşersiniz
+                    // MessageBox.Show("Ödev modülü başlatıldı.", "Bilgi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Python çalıştırma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnKopyaSis_Click(object sender, EventArgs e)
+        {
+            // 1) GlobalData’dan kullanıcı bilgisini al
+            var kullanici = GlobalData.Kullanici;
+            if (kullanici == null)
+            {
+                MessageBox.Show("Kullanıcı verisi alınamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // (isteğe bağlı) Sadece teacher veya admin girebilsin:
+            if (kullanici.RoleId != 2 && kullanici.RoleId != 1)
+            {
+                MessageBox.Show("Bu işleme yetkiniz yok.", "Yetki Hatası", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            int ogretmenId = kullanici.Id;
+            string ogretmenAdi = kullanici.KullaniciAdi;
+
+            // 2) DB bağlantı dizesi
+            string connStr = @"Server=localhost\SQLEXPRESS;Database=DERSHANE;Trusted_Connection=yes;";
+
+            int sinavId;
+
+            // 3) “Size ait” sınavı alın (örneğin en son oluşturduğunuz)
+            using (var conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(
+                    @"SELECT TOP 1 Id 
+              FROM Sinavlar 
+              WHERE OlusturucuId = @tId 
+              ORDER BY Tarih DESC", conn))
+                {
+                    cmd.Parameters.AddWithValue("@tId", ogretmenId);
+                    var result = cmd.ExecuteScalar();
+                    if (result == null)
+                    {
+                        MessageBox.Show("Size ait bir sınav bulunamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    sinavId = Convert.ToInt32(result);
+                }
+            }
+
+            // 3) Python ve script yolu
+            string pythonExe = "python"; // Veya tam yol: @"C:\Python311\python.exe"
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string script = Path.Combine(baseDir, "PythonScripts", "kopyaList.py");
+
+            if (!File.Exists(script))
+            {
+                MessageBox.Show($"Script bulunamadı:\n{script}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 5) Argümanları hazırla
+            //    Şimdi öğrenci tarafı yok, script’inize <sinavId> <ogretmenAdi> bekletirseniz:
+            string args = $"\"{script}\" {sinavId} \"{ogretmenAdi}\"";
+
+            // Eğer script’iniz hâlâ 3 arg bekliyorsa, ikinci argüman olarak 
+            // ogrenciAdi yerine öğretmen adını verebilirsiniz:
+            // string args = $"\"{script}\" \"{ogretmenAdi}\" {sinavId} \"{ogretmenAdi}\"";
+
+            var psi = new ProcessStartInfo(pythonExe, args)
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using var proc = Process.Start(psi);
+                string output = proc.StandardOutput.ReadToEnd();
+                string error = proc.StandardError.ReadToEnd();
+                proc.WaitForExit();
+
+                if (!string.IsNullOrEmpty(error))
+                    MessageBox.Show($"Python hatası:\n{error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // else MessageBox.Show(output, "Bilgi");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Python çalıştırma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSonucSis_Click(object sender, EventArgs e)
+        {
+            // 3) Python ve script yolu
+            string pythonExe = "python"; // Veya tam yol: @"C:\Python311\python.exe"
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string script = Path.Combine(baseDir, "PythonScripts", "rapor.py");
+
+            if (!File.Exists(script))
+            {
+                MessageBox.Show($"Script bulunamadı:\n{script}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var psi = new ProcessStartInfo(pythonExe, args)
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using var proc = Process.Start(psi);
+                string output = proc.StandardOutput.ReadToEnd();
+                string error = proc.StandardError.ReadToEnd();
+                proc.WaitForExit();
+
+                if (!string.IsNullOrEmpty(error))
+                    MessageBox.Show($"Python hatası:\n{error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // else MessageBox.Show(output, "Bilgi");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Python çalıştırma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
-
 }

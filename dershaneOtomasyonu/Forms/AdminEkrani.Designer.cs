@@ -1752,6 +1752,7 @@
             btnSoruSisGiris.Size = new Size(180, 45);
             btnSoruSisGiris.TabIndex = 38;
             btnSoruSisGiris.Text = "Soru Oluşturma";
+            btnSoruSisGiris.Click += btnSoruSisGiris_Click;
             // 
             // AdminEkrani
             // 

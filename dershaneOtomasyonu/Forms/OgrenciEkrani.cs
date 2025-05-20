@@ -544,24 +544,66 @@ namespace dershaneOtomasyonu
                 return;
             }
 
-            // 3. e-Sınav uygulamasını çalıştır
-            string jsonData = JsonConvert.SerializeObject(new
+            // -- JSON payload'u hazırla
+            var payload = new
             {
-                kullanici.Id,
-                kullanici.KullaniciAdi,
-                kullanici.Sifre,
-                kullanici.RoleId,
-                kullanici.SinifId,
-                kullanici.Adi,
-                kullanici.Soyadi,
-                kullanici.Tcno,
-                kullanici.DogumTarihi,
-                kullanici.Telefon,
-                kullanici.Email,
-                kullanici.Adres
-            });
+                KullaniciId = kullanici.Id,
+                SinifId = kullanici.SinifId
+            };
+            string json = JsonConvert.SerializeObject(payload);
 
-            await PythonCalistirAsync("ogrenciESinav.py", $"\"{jsonData}\"");
+            // -- Python script yolu
+            string projeKlasoru = AppDomain.CurrentDomain.BaseDirectory;
+            string esinavScriptYolu = Path.Combine(projeKlasoru, "PythonScripts", "ogrenciESinav.py");
+
+            if (!File.Exists(esinavScriptYolu))
+            {
+                MessageBox.Show($"Script bulunamadı:\n{esinavScriptYolu}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // -- ProcessStartInfo ayarları
+            var psi = new ProcessStartInfo("python", $"\"{esinavScriptYolu}\" \"{json}\"")
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            var process = new Process
+            {
+                StartInfo = psi,
+                EnableRaisingEvents = true
+            };
+
+            // 1) Hata çıktısı anlık göster
+            process.ErrorDataReceived += (s, ea) =>
+            {
+                if (!string.IsNullOrEmpty(ea.Data))
+                {
+                    this.Invoke(() =>
+                        MessageBox.Show($"Python hatası (ogrenciESinav.py):\n{ea.Data}", "Hata",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    );
+                }
+            };
+
+            // 2) “Sinav basladi” satırını yakala ve kopya modülünü başlat
+            process.OutputDataReceived += async (s, ea) =>
+            {
+                if (ea.Data != null && ea.Data.Contains("Sinav basladi"))
+                {
+                    // JSON payload’u aynen kopya modülüne de gönderiyoruz
+                    await PythonCalistirAsync("ogrenciKopya.py", $"\"{json}\"");
+                }
+            };
+
+            // 3) Process’i başlat ve asenkron satır okumayı başlat
+            process.Start();
+            process.BeginOutputReadLine();
+            process.BeginErrorReadLine();
+
         }
 
         private async Task<bool> PythonCalistirAsync(string scriptAdi, string args)

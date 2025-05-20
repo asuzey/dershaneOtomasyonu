@@ -90,11 +90,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="PythonScripts\adminSinav.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="PythonScripts\haarcascade_frontalface_default.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="PythonScripts\kopyaList.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="PythonScripts\ogrenciESinav.py">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="PythonScripts\ogrenciKopya.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="PythonScripts\ogretmenOdev.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="PythonScripts\yuzKayit.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -1,36 +1,37 @@
-﻿using System;
+﻿using dershaneOtomasyonu.Database.Tables;
+using dershaneOtomasyonu.Helpers;
+using dershaneOtomasyonu.Mailer;
+using dershaneOtomasyonu.Repositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
+using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
+using FluentValidation;
+using FluentValidation.Results;
+using Guna.UI2.WinForms;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Configuration;
-using Microsoft.Data.SqlClient;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciRepositories;
-using dershaneOtomasyonu.Database.Tables;
-using dershaneOtomasyonu.Repositories;
-using dershaneOtomasyonu.Mailer;
-using System.IO;
-using dershaneOtomasyonu.Helpers;
-using dershaneOtomasyonu.Repositories.TableRepositories.LogRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.SinifRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.DerslerRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDersRepositories;
-using System.Security.Cryptography;
-using FluentValidation.Results;
-using FluentValidation;
-using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciDosyaRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.DersKayitRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.DegerlendirmeRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.GorusmeRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.KullaniciNotRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.NotRepositories;
-using dershaneOtomasyonu.Repositories.TableRepositories.YoklamaRepositories;
-using Guna.UI2.WinForms;
 
 namespace dershaneOtomasyonu
 {
@@ -589,7 +590,162 @@ namespace dershaneOtomasyonu
 
         private void btnKopyaSisGiris_Click(object sender, EventArgs e)
         {
+            // 1) GlobalData’dan kullanıcı bilgisini al
+            var kullanici = GlobalData.Kullanici;
+            if (kullanici == null)
+            {
+                MessageBox.Show("Kullanıcı verisi alınamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            // (isteğe bağlı) Sadece teacher veya admin girebilsin:
+            if (kullanici.RoleId != 2 && kullanici.RoleId != 1)
+            {
+                MessageBox.Show("Bu işleme yetkiniz yok.", "Yetki Hatası", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            int ogretmenId = kullanici.Id;
+            string ogretmenAdi = kullanici.KullaniciAdi;
+
+            // 2) DB bağlantı dizesi
+            string connStr =
+                 @"Server=localhost\SQLEXPRESS;
+                   Database=DERSHANE;
+                   Trusted_Connection=yes;
+                   Encrypt=True;
+                   TrustServerCertificate=True;";
+
+
+            int sinavId;
+
+            // 3) “Size ait” sınavı alın (örneğin en son oluşturduğunuz)
+            using (var conn = new SqlConnection(connStr))
+            {
+                conn.Open();
+                using (var cmd = new SqlCommand(
+                    @"SELECT TOP 1 Id 
+              FROM Sinavlar 
+              WHERE OlusturucuId = @tId 
+              ORDER BY Tarih DESC", conn))
+                {
+                    cmd.Parameters.AddWithValue("@tId", ogretmenId);
+                    var result = cmd.ExecuteScalar();
+                    if (result == null)
+                    {
+                        MessageBox.Show("Size ait bir sınav bulunamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                    sinavId = Convert.ToInt32(result);
+                }
+            }
+
+            // 3) Python ve script yolu
+            string pythonExe = "python"; // Veya tam yol: @"C:\Python311\python.exe"
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string script = Path.Combine(baseDir, "PythonScripts", "kopyaList.py");
+
+            if (!File.Exists(script))
+            {
+                MessageBox.Show($"Script bulunamadı:\n{script}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // 5) Argümanları hazırla
+            //    Şimdi öğrenci tarafı yok, script’inize <sinavId> <ogretmenAdi> bekletirseniz:
+            string args = $"\"{script}\" {sinavId} \"{ogretmenAdi}\"";
+
+            // Eğer script’iniz hâlâ 3 arg bekliyorsa, ikinci argüman olarak 
+            // ogrenciAdi yerine öğretmen adını verebilirsiniz:
+            // string args = $"\"{script}\" \"{ogretmenAdi}\" {sinavId} \"{ogretmenAdi}\"";
+
+            var psi = new ProcessStartInfo(pythonExe, args)
+            {
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            try
+            {
+                using var proc = Process.Start(psi);
+                string output = proc.StandardOutput.ReadToEnd();
+                string error = proc.StandardError.ReadToEnd();
+                proc.WaitForExit();
+
+                if (!string.IsNullOrEmpty(error))
+                    MessageBox.Show($"Python hatası:\n{error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // else MessageBox.Show(output, "Bilgi");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Python çalıştırma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSoruSisGiris_Click(object sender, EventArgs e)
+        {
+            // --- 1) Oturum açmış kullanıcının admin olup olmadığını kontrol et ---
+            var kullanici = GlobalData.Kullanici;
+            if (kullanici == null)
+            {
+                MessageBox.Show("Kullanıcı verisi alınamadı.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            // RolId == 1 ise admin
+            if (kullanici.RoleId != 1)
+            {
+                MessageBox.Show("Bu işlemi yalnızca adminler gerçekleştirebilir.", "Yetki Hatası", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
+            int adminId = kullanici.Id;
+
+            // --- 2) Python script yolunu oluştur ---
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string script = Path.Combine(baseDir, "PythonScripts", "adminSinav.py");
+            if (!File.Exists(script))
+            {
+                MessageBox.Show($"Python script bulunamadı:\n{script}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // --- 3) ProcessStartInfo hazırlığı ---
+            var psi = new ProcessStartInfo
+            {
+                FileName = "python", // veya @"C:\Python311\python.exe"
+                Arguments = $"\"{script}\" {adminId}",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                CreateNoWindow = true
+            };
+
+            // Eğer .env içindeki GEMINI_API_KEY’i de aktarmak istersen:
+            psi.EnvironmentVariables["GEMINI_API_KEY"] = Environment.GetEnvironmentVariable("GEMINI_API_KEY");
+
+            // --- 4) Python’u çalıştır ve çıktı/hata al ---
+            try
+            {
+                using var proc = Process.Start(psi);
+                string output = proc.StandardOutput.ReadToEnd();
+                string error = proc.StandardError.ReadToEnd();
+                proc.WaitForExit();
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    MessageBox.Show($"Python hatası:\n{error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // İstersen log için:
+                // MessageBox.Show(output, "Python Çıktısı");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Python çalıştırma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
