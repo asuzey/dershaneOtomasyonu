@@ -1195,40 +1195,40 @@ namespace dershaneOtomasyonu
 
         private void btnSonucSis_Click(object sender, EventArgs e)
         {
-            // 3) Python ve script yolu
-            string pythonExe = "python"; // Veya tam yol: @"C:\Python311\python.exe"
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
-            string script = Path.Combine(baseDir, "PythonScripts", "rapor.py");
+            //// 3) Python ve script yolu
+            //string pythonExe = "python"; // Veya tam yol: @"C:\Python311\python.exe"
+            //string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            //string script = Path.Combine(baseDir, "PythonScripts", "rapor.py");
 
-            if (!File.Exists(script))
-            {
-                MessageBox.Show($"Script bulunamadı:\n{script}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            //if (!File.Exists(script))
+            //{
+            //    MessageBox.Show($"Script bulunamadı:\n{script}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //}
 
-            var psi = new ProcessStartInfo(pythonExe, args)
-            {
-                UseShellExecute = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                CreateNoWindow = true
-            };
+            //var psi = new ProcessStartInfo(pythonExe, args)
+            //{
+            //    UseShellExecute = false,
+            //    RedirectStandardOutput = true,
+            //    RedirectStandardError = true,
+            //    CreateNoWindow = true
+            //};
 
-            try
-            {
-                using var proc = Process.Start(psi);
-                string output = proc.StandardOutput.ReadToEnd();
-                string error = proc.StandardError.ReadToEnd();
-                proc.WaitForExit();
+            //try
+            //{
+            //    using var proc = Process.Start(psi);
+            //    string output = proc.StandardOutput.ReadToEnd();
+            //    string error = proc.StandardError.ReadToEnd();
+            //    proc.WaitForExit();
 
-                if (!string.IsNullOrEmpty(error))
-                    MessageBox.Show($"Python hatası:\n{error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // else MessageBox.Show(output, "Bilgi");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Python çalıştırma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            //    if (!string.IsNullOrEmpty(error))
+            //        MessageBox.Show($"Python hatası:\n{error}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    // else MessageBox.Show(output, "Bilgi");
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Python çalıştırma hatası:\n{ex.Message}", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //}
         }
     }
 }
